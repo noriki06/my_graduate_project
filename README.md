@@ -117,3 +117,6 @@ rubocop
 
 ## 画面遷移図
 Figma：https://www.figma.com/design/2fyDZHj7s4qzsYMRrNJ5Sa/%E7%84%A1%E9%A1%8C?node-id=0-1&t=JrMMmqAsygso3mNI-1
+
+## ER図
+ER図URL:[![Image from Gyazo](https://i.gyazo.com/b932559890a8740ebdb0d69f88148281.png)](https://gyazo.com/b932559890a8740ebdb0d69f88148281)
