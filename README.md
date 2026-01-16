@@ -114,3 +114,6 @@ rspec-rails
 
 rubocop
 コード規約の統一および品質維持
+
+## 画面遷移図
+Figma：https://www.figma.com/design/2fyDZHj7s4qzsYMRrNJ5Sa/%E7%84%A1%E9%A1%8C?node-id=0-1&t=JrMMmqAsygso3mNI-1
