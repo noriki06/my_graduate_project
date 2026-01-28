@@ -13,3 +13,38 @@
  *= require_tree .
  *= require_self
  */
+.flash {
+  max-width: 960px;
+  margin: 16px auto;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* 成功（ログインなど） */
+.flash.notice {
+  background: #f0fdf4;
+  color: #166534;
+  border-left: 6px solid #22c55e;
+}
+
+/* エラー（ログイン失敗など） */
+.flash.alert {
+  background: #fef2f2;
+  color: #991b1b;
+  border-left: 6px solid #ef4444;
+}
+
+/* ふわっと出す */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
