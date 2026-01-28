@@ -56,3 +56,7 @@ group :test do
   gem "selenium-webdriver"
   gem "minitest", "< 6"
 end
+
+gem "devise", "~> 5.0"
+gem "devise-i18n"
+gem "rails-i18n"
