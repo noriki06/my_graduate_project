@@ -54,7 +54,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem "minitest", "< 6"
+  gem "minitest", "< 7"
 end
 
 gem "devise", "~> 5.0"
