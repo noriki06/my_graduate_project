@@ -2,12 +2,18 @@ require "test_helper"
 
 class WantsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get wants_new_url
+    sign_in users(:one)
+    get new_want_url
     assert_response :success
   end
 
-  test "should get create" do
-    get wants_create_url
-    assert_response :success
+  test "should create want" do
+    sign_in users(:one)
+
+    assert_difference("Want.count", 1) do
+      post wants_url, params: { want: { title: "テスト", memo: "メモ", deadline: Date.today } }
+    end
+
+    assert_redirected_to root_url
   end
 end

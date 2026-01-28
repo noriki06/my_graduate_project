@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :wants, only: [:new, :create]
+  resources :wants, only: [ :new, :create ]
   devise_for :users
   get "pages/top"
   root "pages#top"
