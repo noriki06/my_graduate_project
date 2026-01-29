@@ -3,7 +3,9 @@
 <% if @wants.any? %>
   <ul>
     <% @wants.each do |want| %>
-      <li><%= want.title %></li>
+      <li>
+        <%= want.title %>
+        <%= link_to "編集", edit_want_path(want) %></li>
     <% end %>
   </ul>
 <% else %>

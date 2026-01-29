@@ -1,0 +1,22 @@
+<h1>やりたいこと編集</h1>
+
+<%= form_with model: @want, local: true do |f| %>
+  <div>
+    <%= f.label :title, "やりたいこと" %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :memo, "メモ" %><br>
+    <%= f.text_area :memo %>
+  </div>
+
+  <div>
+    <%= f.label :deadline, "期限" %><br>
+    <%= f.date_field :deadline %>
+  </div>
+
+  <div>
+    <%= f.submit "更新" %>
+  </div>
+<% end %>
