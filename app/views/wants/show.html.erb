@@ -1,0 +1,17 @@
+<h1><%= @want.title %></h1>
+
+<p>
+  <strong>メモ</strong><br>
+  <%= simple_format(@want.memo) %>
+</p>
+
+<p>
+  <strong>期限</strong>
+  <%= @want.deadline.present? ? l(@want.deadline) : "未設定" %>
+</p>
+
+<hr>
+
+<%= link_to "一覧に戻る", wants_path %>
+<%= link_to "編集", edit_want_path(@want) %>
+<%= link_to "削除", want_path(@want), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>

@@ -1,9 +1,12 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_want, only: [ :edit, :update, :destroy ]
+  before_action :set_want, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @wants = current_user.wants.order(created_at: :desc)
+  end
+
+  def show
   end
 
   def new
