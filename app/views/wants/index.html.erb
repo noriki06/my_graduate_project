@@ -1,0 +1,11 @@
+<h1>やりたいこと一覧</h1>
+
+<% if @wants.any? %>
+  <ul>
+    <% @wants.each do |want| %>
+      <li><%= want.title %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>まだ登録がありません。</p>
+<% end %>
