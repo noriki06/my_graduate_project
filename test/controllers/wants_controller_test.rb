@@ -14,6 +14,6 @@ class WantsControllerTest < ActionDispatch::IntegrationTest
       post wants_url, params: { want: { title: "テスト", memo: "メモ", deadline: Date.today } }
     end
 
-    assert_redirected_to root_url
+    assert_redirected_to wants_url
   end
 end
