@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "pages#top"
   get "pages/top"
 
-  resources :wants, only: [ :index, :new, :create ]
+  resources :wants, only: [ :index, :new, :create, :edit, :update ]
 
   # health check
   get "up" => "rails/health#show", as: :rails_health_check

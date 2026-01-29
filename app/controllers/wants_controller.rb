@@ -1,5 +1,6 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_want, only: [ :edit, :update ]
 
   def index
     @wants = current_user.wants.order(created_at: :desc)
@@ -19,7 +20,23 @@ class WantsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @want.update(want_params)
+      redirect_to wants_path, notice: "更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  # 本人のWantしか取得できない（＝本人のみ操作可能）
+  def set_want
+    @want = current_user.wants.find(params[:id])
+  end
 
   def want_params
     params.require(:want).permit(:title, :memo, :deadline)
