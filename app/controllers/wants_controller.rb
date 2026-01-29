@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_want, only: [ :edit, :update ]
+  before_action :set_want, only: [ :edit, :update, :destroy ]
 
   def index
     @wants = current_user.wants.order(created_at: :desc)
@@ -29,6 +29,11 @@ class WantsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @want.destroy
+    redirect_to wants_path, notice: "削除しました"
   end
 
   private

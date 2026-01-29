@@ -5,7 +5,10 @@
     <% @wants.each do |want| %>
       <li>
         <%= want.title %>
-        <%= link_to "編集", edit_want_path(want) %></li>
+        <%= link_to "編集", edit_want_path(want) %>
+        <%= link_to "削除", want_path(want),
+              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+      </li>
     <% end %>
   </ul>
 <% else %>
