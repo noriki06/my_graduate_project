@@ -47,6 +47,6 @@ class WantsController < ApplicationController
   end
 
   def want_params
-    params.require(:want).permit(:title, :memo, :deadline)
+    params.require(:want).permit(:title, :memo, :target_date)
   end
 end
