@@ -11,7 +11,7 @@ class WantsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     assert_difference("Want.count", 1) do
-      post wants_url, params: { want: { title: "テスト", memo: "メモ", deadline: Date.today } }
+      post wants_url, params: { want: { title: "テスト", memo: "メモ", target_date: Date.today } }
     end
 
     assert_redirected_to wants_url
