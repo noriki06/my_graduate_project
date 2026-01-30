@@ -3,11 +3,11 @@
 one:
   title: MyString
   memo: MyText
-  deadline: 2026-01-28
+  target_date: 2026-01-28
   user: one
 
 two:
   title: MyString
   memo: MyText
-  deadline: 2026-01-28
+  target_date: 2026-01-28
   user: two
