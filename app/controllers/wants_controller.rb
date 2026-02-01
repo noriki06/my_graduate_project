@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_want, only: [:show, :edit, :update, :destroy, :achieve]
+  before_action :set_want, only: [ :show, :edit, :update, :destroy, :achieve_form, :achieve ]
 
   def index
     @wants = current_user.wants.order(achieved_at: :asc, created_at: :desc)
@@ -37,18 +37,19 @@ class WantsController < ApplicationController
     redirect_to wants_path, notice: "削除しました"
   end
 
+  # GET /wants/:id/achieve_form
+  def achieve_form
+    redirect_to @want, notice: "すでに達成済みです" if @want.achieved?
+  end
+
+  # PATCH /wants/:id/achieve
   def achieve
-    # 達成済みはGETでもPATCHでも弾く（URL直叩き対策）
     return redirect_to @want, notice: "すでに達成済みです" if @want.achieved?
 
-    # 入力画面（GET）は表示するだけ
-    return if request.get?
-
-    # 保存（PATCH）
     if @want.update(achieve_params.merge(achieved_at: achieved_at_from_params))
       redirect_to @want, notice: "達成を記録しました！"
     else
-      render :achieve, status: :unprocessable_entity
+      render :achieve_form, status: :unprocessable_entity
     end
   end
 

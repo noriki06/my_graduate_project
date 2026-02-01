@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   root "pages#top"
   get "pages/top"
 
-  resources :wants, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :wants, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     member do
-      get  :achieve
+      get  :achieve_form
       patch :achieve
     end
   end
