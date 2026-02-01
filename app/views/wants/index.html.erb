@@ -5,9 +5,21 @@
     <% @wants.each do |want| %>
       <li>
         <%= link_to want.title, want_path(want) %>
-        <%= link_to "編集", edit_want_path(want) %>
+
+        <% if want.achieved? %>
+          <span style="margin-left: 8px; padding: 2px 8px; background-color: #e5e7eb; border-radius: 9999px; font-size: 12px;">
+            ✅ 達成（<%= want.achieved_at.strftime("%Y/%m/%d") %>）
+          </span>
+        <% else %>
+          <span style="margin-left: 8px; padding: 2px 8px; background-color: #fef3c7; border-radius: 9999px; font-size: 12px;">
+            ⏳ 未達成
+          </span>
+        <% end %>
+
+        <%= link_to "編集", edit_want_path(want), style: "margin-left: 10px;" %>
         <%= link_to "削除", want_path(want),
-              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+              style: "margin-left: 6px;" %>
       </li>
     <% end %>
   </ul>
