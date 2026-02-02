@@ -12,6 +12,24 @@
 
 <hr>
 
+<% if @want.achieved? %>
+  <p>
+    <strong>達成日</strong><br>
+    <%= @want.achieved_at.strftime("%Y/%m/%d") %>
+  </p>
+
+  <% if @want.achievement_note.present? %>
+    <p>
+      <strong>達成メモ</strong><br>
+      <%= simple_format(@want.achievement_note) %>
+    </p>
+  <% end %>
+<% else %>
+  <%= link_to "達成した（記録を書く）", achieve_want_path(@want) %>
+<% end %>
+
+<hr>
+
 <%= link_to "一覧に戻る", wants_path %>
 <%= link_to "編集", edit_want_path(@want) %>
 <%= link_to "削除", want_path(@want), data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>

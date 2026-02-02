@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   root "pages#top"
   get "pages/top"
 
-  resources :wants, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
+  resources :wants, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
+    member do
+      get  :achieve_form
+      patch :achieve
+    end
+  end
 
   # health check
   get "up" => "rails/health#show", as: :rails_health_check
