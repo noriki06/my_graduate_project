@@ -3,6 +3,7 @@ class WantsController < ApplicationController
   before_action :set_want, only: [ :show, :edit, :update, :destroy, :achieve_form, :achieve ]
 
   def index
+    @life_progress_rate = current_user.life_progress_rate
     @wants = current_user.wants.order(achieved_at: :asc, created_at: :desc)
   end
 

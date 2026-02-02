@@ -1,3 +1,17 @@
+<div style="margin-bottom: 18px; padding: 14px; background-color: #f3f4f6; border-radius: 8px;">
+  <p style="margin: 0 0 8px; font-weight: bold;">ライフゲージ（人生進捗率）</p>
+
+  <% if @life_progress_rate %>
+    <p style="margin: 0 0 8px;">
+      進捗：<strong><%= @life_progress_rate %>%</strong>
+    </p>
+
+    <progress value="<%= @life_progress_rate %>" max="100" style="width: 100%; height: 16px;"></progress>
+  <% else %>
+    <p style="margin: 0;">生年月日が未登録です。</p>
+  <% end %>
+</div>
+
 <h1>やりたいこと一覧</h1>
 
 <% if @wants.any? %>
