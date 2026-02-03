@@ -1,51 +1,84 @@
-<!-- トップページのタイトル -->
-<h1 style="text-align:center; margin-top:50px;">ライフゲージ</h1>
-<h2 style="text-align:center; margin-top:50px;">-有限な人生を意識して、今この瞬間に行動する-</h2>
+<div class="top-container">
 
-<!-- サービス説明 -->
-<div style="text-align:center; margin:20px auto; padding:70px; background-color:#e0e0e0; width:70%; border-radius:8px; line-height:1.8;">
-  人生には限りがあります。<br>
-  このサービスは「今、自分が人生のどの地点にいるのか」を可視化し、<br>
-  やりたいことを後回しにしないためのきっかけを提供します。
-</div>
+  <!-- アイコン -->
+  <div class="top-icon">
+    ⏳
+  </div>
 
-<!-- ボタン -->
-<div style="text-align:center; margin-top:30px;">
-  <% if user_signed_in? %>
+  <!-- タイトル -->
+  <h1 class="top-title">ライフゲージ</h1>
 
-    <div style="margin-bottom:16px;">
-      <%= link_to "やりたいこと一覧へ",
-            wants_path,
-            style: "padding:12px 24px;
-                    background-color:#22c55e; color:white;
-                    border-radius:4px; text-decoration:none;
-                    display:inline-block;" %>
+  <!-- キャッチコピー -->
+  <p class="top-catch">
+    ― 限りある人生を意識し、今この瞬間を生きる ―
+  </p>
+
+  <!-- 説明 -->
+  <p class="top-description">
+    人生には限りがあります。<br>
+    このサービスは、<b>今の自分が人生のどこにいるのか</b>を可視化し、<br>
+    やりたいことを後回しにしないためのきっかけをつくります。
+  </p>
+
+  <!-- ボタン -->
+  <div class="top-actions">
+    <%= link_to "新規登録をはじめる", new_user_registration_path, class: "btn-primary" %>
+    <%= link_to "ログイン", new_user_session_path, class: "btn-secondary" %>
+  </div>
+
+  <!-- 引用 -->
+  <div class="top-quote">
+    <p class="quote-text">
+      「人生の最後に残るのは、<br>
+      集めたお金ではなく、積み上げた思い出だ」
+    </p>
+    <p class="quote-source">
+      書籍『DIE WITH ZERO』より
+    </p>
+  </div>
+
+  <!-- 機能紹介 -->
+  <h2 class="section-title">ライフゲージでできること</h2>
+
+  <div class="feature-list">
+    <div class="feature-card">
+      <div class="feature-icon">⏳</div>
+      <div class="feature-body">
+        <h3 class="feature-title">1. 人生の現在地を知る</h3>
+        <p class="feature-text">
+          生年月日を入力し、残された時間をリアルタイムに可視化。<br>
+          人生が永遠ではないことを実感し、「今」を意識できるようになります。
+        </p>
+      </div>
     </div>
 
-    <div>
-      <%= button_to "ログアウト",
-            destroy_user_session_path,
-            method: :delete,
-            style: "padding:10px 20px;
-                    background-color:#ef4444; color:white;
-                    border:none; border-radius:4px;" %>
+    <div class="feature-card">
+      <div class="feature-icon">✍️</div>
+      <div class="feature-body">
+        <h3 class="feature-title">2. やりたいことを書き出す</h3>
+        <p class="feature-text">
+          「いつかやりたい」をリスト化。<br>
+          バケットリスト機能で、経験したいことを管理します。
+        </p>
+      </div>
     </div>
 
-  <% else %>
-    <div style="margin-bottom:16px;">
-      <%= link_to "新規登録",
-            new_user_registration_path,
-            style: "padding:10px 20px;
-                    background-color:#3b82f6; color:white;
-                    border-radius:4px; text-decoration:none;
-                    display:inline-block;" %>
+    <div class="feature-card">
+      <div class="feature-icon">⚡️</div>
+      <div class="feature-body">
+        <h3 class="feature-title">3. 今、行動する</h3>
+        <p class="feature-text">
+          「いつか」を待たずに、<br>
+          この瞬間を、経験に変える一歩を踏み出します。
+        </p>
+      </div>
     </div>
+  </div>
 
-    <%= link_to "ログイン",
-          new_user_session_path,
-          style: "padding:10px 20px;
-                  border:1px solid #3b82f6; color:#3b82f6;
-                  border-radius:4px; text-decoration:none;
-                  display:inline-block;" %>
-  <% end %>
+
+  <!-- フッター補足 -->
+  <p class="top-footer">
+    このアプリは書籍『DIE WITH ZERO』の考え方を参考に制作されています。
+  </p>
+
 </div>

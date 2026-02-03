@@ -1,0 +1,116 @@
+.top-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.top-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.top-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.top-catch {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.top-description {
+  margin: 16px 0 24px;
+  color: #555;
+  font-size: 14px;
+}
+
+.top-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #1e90ff;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  border: 1px solid #ccc;
+  padding: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.top-quote {
+  margin: 32px 0;
+  padding: 16px;
+  background: #f5f9ff;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* できることセクション */
+.section-title {
+  margin: 44px 0 18px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* カードの縦並び */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* カード本体 */
+.feature-card {
+  display: flex;
+  gap: 12px;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(20, 40, 80, 0.06);
+}
+
+/* アイコン部分 */
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #f5f9ff;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex: 0 0 42px;
+}
+
+/* 右側本文 */
+.feature-title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.feature-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+
+.top-footer {
+  margin-top: 32px;
+  font-size: 12px;
+  color: #888;
+}
