@@ -24,70 +24,101 @@
       やりたいことを今すぐ叶えるための“魔法のツール”です。
     </p>
 
-    <!-- CTA -->
-    <div class="mt-6 flex flex-col gap-3">
-      <%= link_to "無料でスタート！",
-          new_user_registration_path,
-          class: "rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+    <!-- CTA（ログイン状態で切り替え） -->
+    <div class="mt-6 flex flex-col items-center gap-4">
 
-      <%= link_to "ログイン",
-          new_user_session_path,
-          class: "rounded-2xl border-2 border-[#111827] bg-white px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+      <% if user_signed_in? %>
+        <!-- やりたいことリスト -->
+        <%= link_to "やりたいことリストへ",
+              wants_path,
+              class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827]
+                     shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+
+        <!-- ログアウト -->
+        <%= button_to "ログアウト",
+              destroy_user_session_path,
+              method: :delete,
+              class: "w-full rounded-2xl border-2 border-[#111827] bg-[#FF6B6B] px-5 py-4 text-sm font-extrabold text-white
+                     shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+
+      <% else %>
+        <!-- 新規登録（主CTA） -->
+        <%= link_to "無料でスタート！",
+              new_user_registration_path,
+              class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827]
+                     shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+
+        <!-- ログイン（別色） -->
+        <%= link_to "ログイン",
+              new_user_session_path,
+              class: "w-full rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-5 py-4 text-sm font-extrabold text-[#111827]
+                     shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+      <% end %>
+
     </div>
 
     <!-- 引用 -->
-    <div class="relative mt-8 rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-5 py-4 text-left shadow-[6px_6px_0_#111827]">
-      <div class="absolute -left-2 -top-2" aria-hidden="true">🖤</div>
-      <p class="text-sm font-extrabold leading-7 text-[#111827]">
-        「人生の最後に残るのは、<br>
-        集めたお金ではなく、積み上げた思い出だ」
-      </p>
-      <p class="mt-2 text-xs text-[#374151]">
-        書籍『DIE WITH ZERO』より
-      </p>
+    <div class="relative mt-8 rounded-2xl border-2 border-[#111827] bg-[#FFFDF6] px-5 py-4 text-left shadow-[6px_6px_0_#111827]">
+      <div class="absolute -left-1 -top-1" aria-hidden="true">🖤</div>
+
+      <div class="border-l-4 border-[#FFE57A] pl-4">
+        <p class="text-sm font-extrabold leading-7 text-[#111827]">
+          「人生の最後に残るのは、<br>
+          集めたお金ではなく、積み上げた思い出だ」
+        </p>
+        <p class="mt-2 text-xs text-[#374151]">
+          書籍『DIE WITH ZERO』より
+        </p>
+      </div>
     </div>
 
-    <!-- セクション -->
+
+    <!-- 遊び方 -->
     <div class="mt-10 rounded-2xl border-2 border-dashed border-[#46D2C4] bg-white/60 px-5 py-6">
       <h2 class="text-xl font-extrabold text-[#111827]">
         Life Gauge の遊び方
       </h2>
       <div class="mx-auto mt-2 h-1 w-10 rounded-full bg-[#FFE57A]"></div>
 
-      <!-- カード -->
       <div class="mt-6 flex flex-col gap-4 text-left">
 
         <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
-          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#CFF7F2]" aria-hidden="true">🗺️</div>
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#CFF7F2]">🗺️</div>
           <div>
-            <h3 class="text-sm font-extrabold text-[#111827]">
-              1. 人生の地図を見る
-            </h3>
+            <h3 class="text-sm font-extrabold text-[#111827]">1. 人生の地図を見る</h3>
             <p class="mt-1 text-sm leading-6 text-[#374151]">
-              誕生日から「残された時間」を表示。<br>
-              今のあなたにしかできない冒険に気づけます。
+              誕生日から残り時間を表示。<br>
+              今しかできない体験に気づけます。
             </p>
           </div>
         </div>
 
         <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
-          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#FFE1E1]" aria-hidden="true">⭐️</div>
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#FFE1E1]">⭐️</div>
           <div>
-            <h3 class="text-sm font-extrabold text-[#111827]">
-              2. 夢のリストを作る
-            </h3>
+            <h3 class="text-sm font-extrabold text-[#111827]">2. 夢のリストを作る</h3>
             <p class="mt-1 text-sm leading-6 text-[#374151]">
-              「死ぬまでにやりたいこと」を全部書き出そう。<br>
-              バケットリストで夢をワクワク管理！
+              死ぬまでにやりたいことを全部書き出そう。
             </p>
           </div>
         </div>
 
         <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
-          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#DDEBFF]" aria-hidden="true">⚡️</div>
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#DDEBFF]">⚡️</div>
           <div>
-            <h3 class="text-sm font-extrabold text-[#111827]">
-              3. 今、楽しむ！
-            </h3>
+            <h3 class="text-sm font-extrabold text-[#111827]">3. 今、楽しむ！</h3>
             <p class="mt-1 text-sm leading-6 text-[#374151]">
-              健康なうちに時間とお金を最高の「体験」
+              健康なうちに最高の体験を。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs text-[#6B7280]">
+      © Life Gauge
+    </p>
+
+  </div>
+</div>

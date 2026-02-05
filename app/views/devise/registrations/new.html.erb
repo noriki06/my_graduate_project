@@ -1,45 +1,107 @@
-<h2>新規登録</h2>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10 text-center">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <!-- ロゴ -->
+    <div class="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-[#FF6B6B] shadow-[6px_6px_0_#111827]">
+      <span class="text-2xl" aria-hidden="true">🚀</span>
+    </div>
 
-  <div class="field">
-    <p><%= f.label :name, "名前" %></p>
-    <p><%= f.text_field :name, autocomplete: "name" %></p>
-  </div>
+    <h1 class="text-3xl font-extrabold tracking-wide text-[#FF6B6B]">
+      はじめる
+    </h1>
 
-  <div class="field">
-    <p><%= f.label :birthday, "生年月日（YYYYMMDD）" %></p>
-    <p>
-      <%= f.text_field :birthday,
-            placeholder: "20260101",
-            maxlength: 8,
-            pattern: "[0-9]{8}",
-            inputmode: "numeric" %>
-    </p>
-  </div>
+    <div class="mx-auto mt-4 w-fit rounded-2xl border-2 border-[#111827] bg-white px-5 py-3 shadow-[6px_6px_0_#111827]">
+      <p class="text-sm font-extrabold text-[#111827]">
+        30秒で登録完了。思い出づくりを始めよう！
+      </p>
+    </div>
 
-  <div class="field">
-    <p><%= f.label :email, "メールアドレス" %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <!-- エラー表示 -->
+    <div class="mt-6 text-left">
+      <%= render "devise/shared/error_messages", resource: resource %>
+    </div>
 
-  <div class="field">
-    <p><%= f.label :password, "パスワード" %></p>
-    <% if @minimum_password_length %>
-      <p><em>※<%= @minimum_password_length %>文字以上で入力してください</em></p>
-    <% end %>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-  </div>
+    <!-- フォーム -->
+    <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-6 text-left shadow-[6px_6px_0_#111827]">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation, "パスワード（確認用）" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
+        <!-- 名前 -->
+        <div>
+          <label class="text-sm font-extrabold text-[#111827]">
+            名前
+          </label>
+          <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+            <%= f.text_field :name,
+                  autocomplete: "name",
+                  placeholder: "例）大平 尭宜",
+                  class: "w-full bg-transparent text-sm font-semibold text-[#111827] placeholder:text-[#9CA3AF] outline-none" %>
+          </div>
+        </div>
 
-  <div class="actions">
-    <%= f.submit "登録する" %>
-  </div>
-<% end %>
+        <!-- メール -->
+        <div class="mt-5">
+          <label class="text-sm font-extrabold text-[#111827]">
+            メールアドレス
+          </label>
+          <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+            <%= f.email_field :email,
+                  autofocus: true,
+                  autocomplete: "email",
+                  placeholder: "example@mail.com",
+                  class: "w-full bg-transparent text-sm font-semibold text-[#111827] placeholder:text-[#9CA3AF] outline-none" %>
+          </div>
+        </div>
 
-<%= render "devise/shared/links" %>
+        <!-- パスワード -->
+        <div class="mt-5">
+          <label class="text-sm font-extrabold text-[#111827]">
+            パスワード
+          </label>
+
+          <% if @minimum_password_length %>
+            <p class="mt-1 text-xs text-[#374151]">
+              ※ <%= @minimum_password_length %>文字以上で入力してください
+            </p>
+          <% end %>
+
+          <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+            <%= f.password_field :password,
+                  autocomplete: "new-password",
+                  placeholder: "••••••••",
+                  class: "w-full bg-transparent text-sm font-semibold text-[#111827] placeholder:text-[#9CA3AF] outline-none" %>
+          </div>
+        </div>
+
+        <!-- パスワード確認 -->
+        <div class="mt-5">
+          <label class="text-sm font-extrabold text-[#111827]">
+            パスワード（確認用）
+          </label>
+          <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+            <%= f.password_field :password_confirmation,
+                  autocomplete: "new-password",
+                  placeholder: "••••••••",
+                  class: "w-full bg-transparent text-sm font-semibold text-[#111827] placeholder:text-[#9CA3AF] outline-none" %>
+          </div>
+        </div>
+
+        <!-- 送信 -->
+        <div class="mt-6">
+          <%= f.submit "登録する",
+                class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+        </div>
+
+      <% end %>
+    </div>
+
+    <!-- ログイン導線 -->
+    <div class="mt-6 flex flex-col items-center gap-4">
+      <p class="text-xs text-[#6B7280]">
+        すでにアカウントをお持ちですか？
+      </p>
+
+      <%= link_to "ログインする",
+            new_user_session_path,
+            class: "rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-6 py-3 text-sm font-extrabold text-[#111827]
+                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+    </div>
