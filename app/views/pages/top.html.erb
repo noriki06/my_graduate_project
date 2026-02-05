@@ -1,84 +1,93 @@
-<div class="top-container">
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10 text-center">
 
-  <!-- アイコン -->
-  <div class="top-icon">
-    ⏳
-  </div>
+    <!-- ロゴ -->
+    <div class="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-[#FF6B6B] shadow-[6px_6px_0_#111827]">
+      <span class="text-2xl" aria-hidden="true">🚀</span>
+    </div>
 
-  <!-- タイトル -->
-  <h1 class="top-title">ライフゲージ</h1>
+    <h1 class="text-3xl font-extrabold tracking-wide text-[#FF6B6B]">
+      ライフゲージ
+    </h1>
 
-  <!-- キャッチコピー -->
-  <p class="top-catch">
-    ― 限りある人生を意識し、今この瞬間を生きる ―
-  </p>
+    <!-- キャッチ -->
+    <div class="mx-auto mt-4 w-fit rounded-2xl border-2 border-[#111827] bg-white px-5 py-3 shadow-[6px_6px_0_#111827]">
+      <p class="text-sm font-extrabold text-[#111827]">
+        ― 限りある人生を、今すぐ遊びつくそう！ ―
+      </p>
+    </div>
 
-  <!-- 説明 -->
-  <p class="top-description">
-    人生には限りがあります。<br>
-    このサービスは、<b>今の自分が人生のどこにいるのか</b>を可視化し、<br>
-    やりたいことを後回しにしないためのきっかけをつくります。
-  </p>
-
-  <!-- ボタン -->
-  <div class="top-actions">
-    <%= link_to "新規登録をはじめる", new_user_registration_path, class: "btn-primary" %>
-    <%= link_to "ログイン", new_user_session_path, class: "btn-secondary" %>
-  </div>
-
-  <!-- 引用 -->
-  <div class="top-quote">
-    <p class="quote-text">
-      「人生の最後に残るのは、<br>
-      集めたお金ではなく、積み上げた思い出だ」
+    <!-- 説明 -->
+    <p class="mx-auto mt-6 max-w-[340px] text-sm leading-7 text-[#374151]">
+      人生には限りがあります。<br>
+      このアプリは、あなたの<strong>人生の現在地</strong>をワクワクする形で見える化し、
+      やりたいことを今すぐ叶えるための“魔法のツール”です。
     </p>
-    <p class="quote-source">
-      書籍『DIE WITH ZERO』より
-    </p>
-  </div>
 
-  <!-- 機能紹介 -->
-  <h2 class="section-title">ライフゲージでできること</h2>
+    <!-- CTA -->
+    <div class="mt-6 flex flex-col gap-3">
+      <%= link_to "無料でスタート！",
+          new_user_registration_path,
+          class: "rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
 
-  <div class="feature-list">
-    <div class="feature-card">
-      <div class="feature-icon">⏳</div>
-      <div class="feature-body">
-        <h3 class="feature-title">1. 人生の現在地を知る</h3>
-        <p class="feature-text">
-          生年月日を入力し、残された時間をリアルタイムに可視化。<br>
-          人生が永遠ではないことを実感し、「今」を意識できるようになります。
-        </p>
-      </div>
+      <%= link_to "ログイン",
+          new_user_session_path,
+          class: "rounded-2xl border-2 border-[#111827] bg-white px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">✍️</div>
-      <div class="feature-body">
-        <h3 class="feature-title">2. やりたいことを書き出す</h3>
-        <p class="feature-text">
-          「いつかやりたい」をリスト化。<br>
-          バケットリスト機能で、経験したいことを管理します。
-        </p>
-      </div>
+    <!-- 引用 -->
+    <div class="relative mt-8 rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-5 py-4 text-left shadow-[6px_6px_0_#111827]">
+      <div class="absolute -left-2 -top-2" aria-hidden="true">🖤</div>
+      <p class="text-sm font-extrabold leading-7 text-[#111827]">
+        「人生の最後に残るのは、<br>
+        集めたお金ではなく、積み上げた思い出だ」
+      </p>
+      <p class="mt-2 text-xs text-[#374151]">
+        書籍『DIE WITH ZERO』より
+      </p>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">⚡️</div>
-      <div class="feature-body">
-        <h3 class="feature-title">3. 今、行動する</h3>
-        <p class="feature-text">
-          「いつか」を待たずに、<br>
-          この瞬間を、経験に変える一歩を踏み出します。
-        </p>
-      </div>
-    </div>
-  </div>
+    <!-- セクション -->
+    <div class="mt-10 rounded-2xl border-2 border-dashed border-[#46D2C4] bg-white/60 px-5 py-6">
+      <h2 class="text-xl font-extrabold text-[#111827]">
+        Life Gauge の遊び方
+      </h2>
+      <div class="mx-auto mt-2 h-1 w-10 rounded-full bg-[#FFE57A]"></div>
 
+      <!-- カード -->
+      <div class="mt-6 flex flex-col gap-4 text-left">
 
-  <!-- フッター補足 -->
-  <p class="top-footer">
-    このアプリは書籍『DIE WITH ZERO』の考え方を参考に制作されています。
-  </p>
+        <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#CFF7F2]" aria-hidden="true">🗺️</div>
+          <div>
+            <h3 class="text-sm font-extrabold text-[#111827]">
+              1. 人生の地図を見る
+            </h3>
+            <p class="mt-1 text-sm leading-6 text-[#374151]">
+              誕生日から「残された時間」を表示。<br>
+              今のあなたにしかできない冒険に気づけます。
+            </p>
+          </div>
+        </div>
 
-</div>
+        <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#FFE1E1]" aria-hidden="true">⭐️</div>
+          <div>
+            <h3 class="text-sm font-extrabold text-[#111827]">
+              2. 夢のリストを作る
+            </h3>
+            <p class="mt-1 text-sm leading-6 text-[#374151]">
+              「死ぬまでにやりたいこと」を全部書き出そう。<br>
+              バケットリストで夢をワクワク管理！
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 rounded-2xl border-2 border-[#111827] bg-white px-4 py-4 shadow-[6px_6px_0_#111827]">
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-[#DDEBFF]" aria-hidden="true">⚡️</div>
+          <div>
+            <h3 class="text-sm font-extrabold text-[#111827]">
+              3. 今、楽しむ！
+            </h3>
+            <p class="mt-1 text-sm leading-6 text-[#374151]">
+              健康なうちに時間とお金を最高の「体験」
