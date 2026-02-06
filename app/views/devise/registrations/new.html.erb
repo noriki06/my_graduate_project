@@ -23,7 +23,7 @@
 
     <!-- フォーム -->
     <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-6 text-left shadow-[6px_6px_0_#111827]">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
 
         <!-- 名前 -->
         <div>
