@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
 
   root "pages#top"
   get "pages/top"
@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       patch :achieve
     end
   end
+
+  # 生年月日登録（オンボーディング）
+  resource :birthday, only: [ :edit, :update ]
 
   # health check
   get "up" => "rails/health#show", as: :rails_health_check

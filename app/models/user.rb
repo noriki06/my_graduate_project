@@ -5,12 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
-  validates :birthday, presence: true
-  validate :birthday_must_be_yyyymmdd
+
+  # 誕生日は「後で入力」なので update のときだけ必須にする
+  validates :birthday, presence: true, on: :update
+  validate :birthday_must_be_yyyymmdd, if: -> { birthday.present? }
 
   AVERAGE_LIFE_SPAN = 84.0
 
-  # 年齢を計算
   def age
     return nil if birthday.nil?
 
@@ -20,7 +21,6 @@ class User < ApplicationRecord
     age
   end
 
-  # 人生進捗率（%）
   def life_progress_rate
     return nil if age.nil?
 

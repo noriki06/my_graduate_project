@@ -1,0 +1,75 @@
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10">
+
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-[#111827] leading-tight">
+        あなたの誕生日を教えて
+      </h1>
+
+      <div class="mx-auto mt-5 w-fit rounded-2xl border-2 border-[#111827] bg-white px-5 py-3 shadow-[6px_6px_0_#111827]">
+        <p class="text-sm font-extrabold text-[#FF6B6B] leading-6">
+          生年月日を入力すると、<br>
+          あなたの人生の残り日数がわかるよ！
+        </p>
+      </div>
+    </div>
+
+    <% if current_user.errors.any? %>
+      <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-[#FFE1E1] px-5 py-4 shadow-[6px_6px_0_#111827]">
+        <p class="text-sm font-extrabold text-[#111827]">入力内容を確認してね 👀</p>
+        <ul class="mt-3 list-disc pl-5 text-sm font-semibold text-[#111827]">
+          <% current_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- 入力カード -->
+    <div class="mt-10 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-6 shadow-[6px_6px_0_#111827]">
+      <p class="text-xs font-extrabold tracking-widest text-[#111827]">BIRTHDAY</p>
+
+      <%= form_with model: current_user, url: birthday_path, method: :patch, data: { turbo: false } do |f| %>
+        <label class="mt-3 block text-sm font-extrabold text-[#111827]">
+          生年月日（YYYY/MM/DD）
+        </label>
+
+        <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+          <%= f.text_field :birthday,
+                value: (current_user.birthday.present? ? current_user.birthday.strftime("%Y/%m/%d") : ""),
+                placeholder: "1995/01/01",
+                inputmode: "numeric",
+                maxlength: 10,
+                class: "w-full bg-transparent text-2xl font-extrabold tracking-tight text-[#111827] placeholder:text-[#9CA3AF] outline-none",
+                id: "birthday_text" %>
+        </div>
+
+        <div class="mt-8">
+          <%= f.submit "次へ進む",
+                class: "w-full rounded-[32px] border-2 border-[#111827] bg-[#74C69D] px-5 py-5 text-xl font-extrabold text-white
+                        shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-10 text-center">
+      <%= link_to root_path, class: "inline-flex items-center gap-1 text-sm font-extrabold text-[#111827]" do %>
+        <span aria-hidden="true">‹</span> 戻る
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // 入力を「YYYY/MM/DD」に寄せる（数字だけ打っても整形）
+  const el = document.getElementById("birthday_text");
+  if (el) {
+    el.addEventListener("input", () => {
+      let v = el.value.replace(/[^\d]/g, "").slice(0, 8); // YYYYMMDD
+      if (v.length >= 5) v = v.slice(0,4) + "/" + v.slice(4);
+      if (v.length >= 8) v = v.slice(0,7) + "/" + v.slice(7);
+      el.value = v;
+    });
+  }
+</script>
