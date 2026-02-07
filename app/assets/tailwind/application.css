@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+/* Tailwind v4 用：source 宣言（必須） */
+@source "./app/views/**/*.{erb,html}";
+@source "./app/helpers/**/*.rb";
+@source "./app/javascript/**/*.js";
+
+@layer components {
+  .lg-panel {
+    @apply border-[3px] border-slate-900 bg-white rounded-3xl
+           shadow-[10px_10px_0_#0f172a];
+  }
+
+  .lg-panel-sm {
+    @apply border-[3px] border-slate-900 bg-white rounded-2xl
+           shadow-[6px_6px_0_#0f172a];
+  }
+
+  .lg-pill {
+    @apply border-[3px] border-slate-900 bg-white rounded-full
+           shadow-[6px_6px_0_#0f172a]
+           px-4 py-2 tracking-wide font-black;
+  }
+
+  .lg-btn {
+    @apply border-[3px] border-slate-900 bg-white rounded-2xl
+           shadow-[6px_6px_0_#0f172a]
+           px-6 py-4 text-center font-black text-slate-900;
+  }
+
+  .lg-btn-primary {
+    @apply bg-teal-300;
+  }
+
+  .lg-btn-ghost {
+    @apply bg-white/90;
+  }
+}

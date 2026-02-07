@@ -10,21 +10,44 @@ class User < ApplicationRecord
   validates :birthday, presence: true, on: :update
   validate :birthday_must_be_yyyymmdd, if: -> { birthday.present? }
 
-  AVERAGE_LIFE_SPAN = 84.0
+  AVERAGE_LIFE_SPAN_YEARS = 84.0
+  DAYS_IN_YEAR = 365.2425
 
+  # 年齢（表示用に残してOK）
   def age
     return nil if birthday.nil?
 
     today = Date.current
-    age = today.year - birthday.year
-    age -= 1 if today < birthday + age.years
-    age
+    a = today.year - birthday.year
+    a -= 1 if today < birthday + a.years
+    a
   end
 
-  def life_progress_rate
-    return nil if age.nil?
+  # 生きた日数（基礎データ）
+  def lived_days
+    return nil if birthday.nil?
+    (Date.current - birthday).to_i
+  end
 
-    ((age / AVERAGE_LIFE_SPAN) * 100).round(1)
+  # 想定総日数（84年）
+  def total_life_days
+    (AVERAGE_LIFE_SPAN_YEARS * DAYS_IN_YEAR).to_i
+  end
+
+  # 人生進捗率（%）※日数ベースで滑らか
+  def life_progress_rate
+    return nil if birthday.nil?
+
+    progress = (lived_days.to_f / total_life_days) * 100
+    progress.clamp(0, 100).round(1)
+  end
+
+  # 残り日数
+  def remaining_life_days
+    return nil if birthday.nil?
+
+    remaining = total_life_days - lived_days
+    [remaining, 0].max
   end
 
   private

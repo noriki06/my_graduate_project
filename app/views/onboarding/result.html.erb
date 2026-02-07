@@ -1,0 +1,78 @@
+<%# app/views/pages/result.html.erb %>
+
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-12">
+
+    <% progress = (current_user&.life_progress_rate || 0).to_f.clamp(0, 100) %>
+    <% remaining_days = (current_user&.remaining_life_days || 0).to_i %>
+
+    <header class="text-center">
+      <p class="text-3xl font-black tracking-widest text-[#FF6B6B]">ライフゲージ</p>
+
+      <div class="mt-4 flex justify-center">
+        <div class="lg-pill">限りある人生を、今すぐ遊びつくそう！</div>
+      </div>
+
+      <h1 class="mt-10 text-4xl font-black leading-tight text-slate-900">
+        いまのあなたの<br>
+        <span class="text-[#FF6B6B]">人生の現在地</span>
+      </h1>
+
+    </header>
+
+    <section class="lg-panel mt-10 overflow-hidden">
+      <div class="p-7">
+        <div class="flex items-end justify-between">
+          <p class="text-base font-black text-slate-900">消費した時間</p>
+          <p class="text-5xl font-black tracking-tight text-[#FF6B6B]">
+            <%= progress.round(1) %><span class="text-2xl">%</span>
+          </p>
+        </div>
+
+        <div class="mt-5">
+          <progress value="<%= progress.round(1) %>" max="100" class="life-progress"></progress>
+        </div>
+
+        <div class="my-7 border-t-2 border-dashed border-slate-900/25"></div>
+
+        <p class="text-base font-black text-slate-900">残り日数</p>
+
+        <div class="mt-3 flex items-end gap-2">
+          <p class="text-6xl font-black tracking-tight text-slate-900">
+            <%= number_with_delimiter(remaining_days) %>
+          </p>
+          <p class="pb-2 text-2xl font-black text-slate-900">日</p>
+        </div>
+
+        <div class="mt-4 flex items-center gap-2 text-sm font-bold text-slate-900/55">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v6l4 2"></path>
+          </svg>
+          <p>今も、少しずつ減っています。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-10">
+      <%= link_to wants_path,
+        class: "lg-btn lg-btn-primary w-full flex items-center justify-between gap-4 !rounded-3xl !shadow-[10px_10px_0_#0f172a] !border-[3px] px-7 py-6 text-left text-lg" do %>
+        <span class="text-center leading-tight">
+          これからの人生で<br>
+          やりたいことを書き出す
+        </span>
+        <span class="text-3xl font-black">→</span>
+      <% end %>
+
+      <div class="mt-6 text-center">
+        <%= link_to root_path,
+          class: "inline-flex items-center gap-2 text-sm font-black text-slate-900/40 hover:text-slate-900/60" do %>
+          <span>‹</span><span>戻る</span>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   # 生年月日登録（オンボーディング）
   resource :birthday, only: [ :edit, :update ]
 
+  # ★ 生年月日登録後の結果画面
+  get "onboarding/result", to: "onboarding#result", as: :onboarding_result
+
   # health check
   get "up" => "rails/health#show", as: :rails_health_check
 
