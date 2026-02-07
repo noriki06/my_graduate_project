@@ -7,7 +7,7 @@ class BirthdaysController < ApplicationController
 
   def update
     if current_user.update(birthday_params)
-      redirect_to wants_path, notice: "生年月日を登録しました！"
+      redirect_to onboarding_result_path, notice: "生年月日を登録しました！"
     else
       render :edit, status: :unprocessable_entity
     end
