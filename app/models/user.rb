@@ -47,7 +47,7 @@ class User < ApplicationRecord
     return nil if birthday.nil?
 
     remaining = total_life_days - lived_days
-    [remaining, 0].max
+    [ remaining, 0 ].max
   end
 
   private

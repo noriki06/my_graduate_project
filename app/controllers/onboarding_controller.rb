@@ -28,7 +28,7 @@ class OnboardingController < ApplicationController
     return 0 if user.birthday.blank?
 
     end_date = user.birthday + 84.years
-    [(end_date - Date.current).to_i, 0].max
+    [ (end_date - Date.current).to_i, 0 ].max
   end
 
   # 秒までの“刻一刻”用：今日の残り秒も加味してそれっぽく減るようにする
@@ -37,6 +37,6 @@ class OnboardingController < ApplicationController
 
     end_at = (user.birthday + 84.years).end_of_day
     seconds = (end_at.to_time - Time.current).to_i
-    [seconds, 0].max
+    [ seconds, 0 ].max
   end
 end
