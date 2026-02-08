@@ -1,22 +1,51 @@
-<h1>やりたいこと編集</h1>
+<!-- EDIT VIEW CHECK: wants/edit.html.erb -->
 
-<%= form_with model: @want, local: true do |f| %>
-  <div>
-    <%= f.label :title, "やりたいこと" %><br>
-    <%= f.text_field :title %>
-  </div>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-6">
 
-  <div>
-    <%= f.label :memo, "メモ" %><br>
-    <%= f.text_area :memo %>
-  </div>
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-extrabold text-[#111827]">やりたいこと編集</h1>
+      <%= link_to "戻る", wants_path, class: "text-sm font-bold underline text-[#6B7280]" %>
+    </div>
 
-  <div>
-    <%= f.label :target_date, "目標日" %><br>
-    <%= f.date_field :target_date %>
-  </div>
+    <section class="mt-5 rounded-2xl border border-[#111827]/20 bg-white p-5">
+      <%= form_with model: @want do |f| %>
 
-  <div>
-    <%= f.submit "更新" %>
+        <div>
+          <%= f.label :title, "やりたいこと", class: "text-sm font-bold text-[#6B7280]" %>
+          <%= f.text_field :title, class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-3 py-2" %>
+        </div>
+
+        <div class="mt-4">
+          <%= f.label :memo, "メモ", class: "text-sm font-bold text-[#6B7280]" %>
+          <%= f.text_area :memo, rows: 5, class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-3 py-2" %>
+        </div>
+
+        <div class="mt-4">
+          <%= f.label :target_date, "目標日", class: "text-sm font-bold text-[#6B7280]" %>
+          <%= f.date_field :target_date, class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-3 py-2" %>
+          <p class="mt-1 text-xs font-bold text-[#9CA3AF]">未設定でもOK</p>
+        </div>
+
+        <div class="mt-6 flex gap-3">
+          <button type="submit"
+                  class="flex-1 rounded-full bg-[#111827] px-4 py-3 text-sm font-extrabold text-white hover:opacity-90">
+            更新する
+          </button>
+
+          <%= link_to "キャンセル", wants_path,
+                class: "rounded-full border border-[#111827]/20 bg-white px-4 py-3 text-sm font-extrabold text-[#111827]" %>
+        </div>
+
+      <% end %>
+    </section>
+
+    <div class="mt-6 text-center">
+      <%= button_to "削除する", want_path(@want),
+            method: :delete,
+            data: { turbo_confirm: "削除しますか？" },
+            class: "text-sm font-extrabold text-[#EF4444] underline" %>
+    </div>
+
   </div>
-<% end %>
+</div>

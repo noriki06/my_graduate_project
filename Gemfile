@@ -62,3 +62,4 @@ gem "devise-i18n"
 gem "rails-i18n"
 
 gem "tailwindcss-rails", "~> 4.4"
+gem "kaminari"

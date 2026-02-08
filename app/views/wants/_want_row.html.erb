@@ -1,0 +1,65 @@
+<% achieved = want.achieved? %>
+
+<div class="rounded-2xl border border-[#111827]/20 bg-white px-5 py-4">
+  <div class="flex items-start justify-between gap-4">
+    <div class="min-w-0">
+      <!-- タイトル -->
+      <p class="text-lg font-extrabold text-[#111827]">
+        <%= want.title %>
+      </p>
+
+      <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-bold">
+        <% if achieved %>
+          <!-- 達成済み -->
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#111827]/20 bg-[#ECFDF5] px-3 py-1 text-[#065F46]">
+            🎉 達成
+          </span>
+
+          <span class="text-[#6B7280]">
+            達成日：<%= (want.achieved_at || Time.current).to_date.strftime("%Y/%m/%d") %>
+          </span>
+        <% else %>
+          <!-- 未達成 -->
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#111827]/20 bg-[#F3F4F6] px-3 py-1 text-[#111827]">
+            ⏳ 未達成
+          </span>
+
+          <span class="text-[#6B7280]">
+            達成目標日：
+            <% if want.target_date.present? %>
+              <%= want.target_date.strftime("%Y/%m/%d") %>
+            <% else %>
+              未定
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+
+      <!-- 達成メモ（再配当） -->
+      <% if achieved && want.achievement_note.present? %>
+        <p class="mt-2 text-sm text-[#6B7280] line-clamp-2">
+          <%= want.achievement_note %>
+        </p>
+      <% end %>
+    </div>
+
+    <!-- 右ボタン -->
+    <div class="shrink-0 flex items-center gap-2">
+      <% unless achieved %>
+        <%= link_to "達成",
+              achieve_form_want_path(want),
+              class: "rounded-full bg-[#1FA971] px-4 py-2 text-sm font-extrabold text-white hover:opacity-90" %>
+      <% end %>
+
+      <% if achieved %>
+        <%= link_to "思い出メモ",
+              achieve_form_want_path(want),
+              class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-extrabold text-[#111827]" %>
+      <% else %>
+        <%= link_to "編集",
+              edit_want_path(want),
+              class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-extrabold text-[#111827]" %>
+      <% end %>
+    </div>
+  </div>
+</div>

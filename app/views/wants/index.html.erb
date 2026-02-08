@@ -1,52 +1,113 @@
-<div style="margin-bottom: 18px; padding: 14px; background-color: #f3f4f6; border-radius: 8px;">
-  <p style="margin: 0 0 8px; font-weight: bold;">ライフゲージ（人生進捗率）</p>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[720px] px-5 py-8">
 
-  <% if @life_progress_rate %>
-    <p style="margin: 0 0 8px;">
-      進捗：<strong><%= @life_progress_rate %>%</strong>
-    </p>
+    <%# 進捗値（リザルトページの式を流用） %>
+    <% progress = (current_user&.life_progress_rate || 0).to_f.clamp(0, 100) %>
+    <% remaining_days = (current_user&.remaining_life_days || 0).to_i %>
 
-    <progress value="<%= @life_progress_rate %>" max="100" style="width: 100%; height: 16px;"></progress>
-  <% else %>
-    <p style="margin: 0;">生年月日が未登録です。</p>
-  <% end %>
-</div>
+    <!-- ヘッダー -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-extrabold text-[#111827]">ライフゲージ</h1>
 
-<h1>やりたいこと一覧</h1>
-
-<% if @wants.any? %>
-  <ul>
-    <% @wants.each do |want| %>
-      <li>
-        <%= link_to want.title, want_path(want) %>
-
-        <% if want.achieved? %>
-          <span style="margin-left: 8px; padding: 2px 8px; background-color: #e5e7eb; border-radius: 9999px; font-size: 12px;">
-            ✅ 達成（<%= want.achieved_at.strftime("%Y/%m/%d") %>）
-          </span>
-        <% else %>
-          <span style="margin-left: 8px; padding: 2px 8px; background-color: #fef3c7; border-radius: 9999px; font-size: 12px;">
-            ⏳ 未達成
-          </span>
+      <div class="flex items-center gap-3">
+        <%= link_to root_path,
+              class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+          🏠 トップ
         <% end %>
 
-        <%= link_to "編集", edit_want_path(want), style: "margin-left: 10px;" %>
-        <%= link_to "削除", want_path(want),
-              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-              style: "margin-left: 6px;" %>
-      </li>
+        <%= link_to new_want_path,
+              class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+          ＋ やりたいことを追加
+        <% end %>
+      </div>
+    </div>
+
+
+    <%# フラッシュ（枠なしで軽く） %>
+    <% if notice.present? %>
+      <p class="mt-3 text-sm font-bold text-[#1FA971]"><%= notice %></p>
     <% end %>
-  </ul>
 
-<% else %>
-  <div style="text-align:center; margin-top:30px; padding:30px; background-color:#f3f4f6; border-radius:8px;">
-    <p style="font-size:18px; margin-bottom:8px;">まだ登録がありません。</p>
-    <p style="color:#6b7280; margin-bottom:16px;">今思い浮かぶ小さなことから書いてみましょう。</p>
-    <p style="color:#6b7280; font-size:14px; margin-bottom:20px;">例：温泉旅行に行く / 映画を10本見る</p>
+    <!-- 人生進捗率カード（棒グラフあり） -->
+    <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-5">
+      <p class="text-base font-extrabold text-[#6B7280]">人生進捗率</p>
 
-    <%= link_to "＋ やりたいことを追加する",
-          new_want_path,
-          style: "padding:12px 24px; background-color:#3b82f6; color:white;
-                  border-radius:4px; text-decoration:none; display:inline-block;" %>
+      <div class="mt-3 flex items-end justify-between gap-4">
+        <div>
+          <div class="flex items-baseline gap-2">
+            <p class="text-6xl font-extrabold text-[#111827]"><%= number_with_precision(progress, precision: 1) %></p>
+            <span class="text-2xl font-extrabold text-[#111827]">%</span>
+          </div>
+
+          <p class="mt-1 text-sm font-bold text-[#6B7280]">
+            残り <%= number_with_delimiter(remaining_days) %> 日
+          </p>
+        </div>
+      </div>
+
+
+      <!-- 棒グラフ -->
+      <div class="mt-4 h-3 w-full rounded-full bg-[#E9EEF5]">
+        <div class="h-3 rounded-full bg-[#1FA971]" style="width:<%= progress %>%"></div>
+      </div>
+    </section>
+
+    <!-- やりたいこと -->
+    <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white">
+      <div class="flex items-center justify-between px-5 py-4">
+        <h2 class="text-2xl font-extrabold text-[#111827]">やりたいこと</h2>
+      </div>
+
+      <div class="border-t border-[#111827]/10"></div>
+
+      <div class="px-5 py-4 space-y-3">
+        <% if @wants.any? %>
+          <% @wants.each do |want| %>
+            <%= render "wants/want_row", want: want %>
+          <% end %>
+
+          <div class="mt-4 flex justify-center">
+            <%= paginate @wants %>
+          </div>
+        <% else %>
+          <div class="space-y-3">
+            <p class="text-sm font-bold text-[#6B7280]">
+              まずは例を参考に、1つ登録してみましょう
+            </p>
+
+            <% sample_wants = [
+              { title: "海外旅行に行く", target: "2026/06/01" },
+              { title: "フルマラソン完走", target: "未定" },
+              { title: "両親と旅行する", target: "未定" }
+            ] %>
+
+            <% sample_wants.each do |sample| %>
+              <div class="rounded-2xl border border-dashed border-[#111827]/25 bg-[#FBF6E9] px-5 py-4">
+                <p class="text-lg font-extrabold text-[#111827]">
+                  <%= sample[:title] %>
+                </p>
+
+                <p class="mt-2 text-sm font-bold text-[#6B7280]">
+                  達成目標日：<%= sample[:target] %>
+                </p>
+
+                <p class="mt-3 text-xs font-bold text-[#6B7280]">
+                  ※ これは例です（保存されません）
+                </p>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- ★常に表示する：下部追加ボタン -->
+        <div class="pt-2">
+          <%= link_to new_want_path,
+                class: "w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#111827] px-5 py-3 text-base font-extrabold text-white hover:opacity-90" do %>
+            ＋ やりたいことを追加
+          <% end %>
+        </div>
+      </div>
+    </section>
+
   </div>
-<% end %>
+</div>
