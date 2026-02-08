@@ -41,29 +41,29 @@ class WantsController < ApplicationController
 
   # GET /wants/:id/achieve_form
   # GET /wants/:id/achieve_form
-def achieve_form
-  # 達成済みでも「達成メモ編集」として開きたいのでリダイレクトしない
-end
+  def achieve_form
+    # 達成済みでも「達成メモ編集」として開きたいのでリダイレクトしない
+  end
 
-# PATCH /wants/:id/achieve
-def achieve
-  if @want.achieved?
-    # すでに達成済み：メモ（と任意の達成日入力）があれば更新
-    if @want.update(achieve_params.compact_blank)
-      redirect_to wants_path, notice: "思い出メモを更新しました！"
+  # PATCH /wants/:id/achieve
+  def achieve
+    if @want.achieved?
+      # すでに達成済み：メモ（と任意の達成日入力）があれば更新
+      if @want.update(achieve_params.compact_blank)
+        redirect_to wants_path, notice: "思い出メモを更新しました！"
+      else
+        render :achieve_form, status: :unprocessable_entity
+      end
+      return
+    end
+
+    # 未達成：達成として記録（達成日は未入力なら今日）
+    if @want.update(achieve_params.merge(achieved_at: achieved_at_from_params))
+      redirect_to wants_path, notice: "達成を記録しました！"
     else
       render :achieve_form, status: :unprocessable_entity
     end
-    return
   end
-
-  # 未達成：達成として記録（達成日は未入力なら今日）
-  if @want.update(achieve_params.merge(achieved_at: achieved_at_from_params))
-    redirect_to wants_path, notice: "達成を記録しました！"
-  else
-    render :achieve_form, status: :unprocessable_entity
-  end
-end
 
   private
 
