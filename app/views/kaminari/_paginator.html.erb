@@ -1,0 +1,15 @@
+<nav class="flex items-center justify-center gap-2" role="navigation" aria-label="Pagination">
+  <%= paginator.render do %>
+    <%= prev_page_tag unless current_page.first? %>
+
+    <% each_page do |page| %>
+      <% if page.left_outer? || page.right_outer? || page.inside_window? %>
+        <%= page_tag page %>
+      <% elsif page.gap? %>
+        <span class="px-2 text-gray-400">…</span>
+      <% end %>
+    <% end %>
+
+    <%= next_page_tag unless current_page.last? %>
+  <% end %>
+</nav>
