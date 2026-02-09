@@ -1,16 +1,44 @@
-<h2>パスワードをお忘れの方</h2>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10">
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="text-center">
+      <h1 class="text-2xl font-extrabold text-[#111827]">
+        パスワードをお忘れの方
+      </h1>
+      <p class="mt-4 text-sm font-semibold text-[#111827]/80">
+        登録したメールアドレスを入力してください
+      </p>
+    </div>
 
-  <div class="field">
-    <p><%= f.label :email, "メールアドレス" %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name),
+                 html: { method: :post, class: "mt-8" }) do |f| %>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-6 shadow-[6px_6px_0_#111827]">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">EMAIL</p>
+
+        <label class="mt-4 block text-sm font-extrabold text-[#111827]">
+          メールアドレス
+        </label>
+        <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+          <%= f.email_field :email,
+                autofocus: true,
+                autocomplete: "email",
+                class: "w-full bg-transparent text-lg font-extrabold text-[#111827] outline-none" %>
+        </div>
+
+        <div class="mt-8">
+          <%= f.submit "再設定メールを送信する",
+                class: "w-full rounded-[32px] border-2 border-[#111827] bg-[#74C69D] px-5 py-5 text-lg font-extrabold text-white
+                        shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mt-10 text-center">
+      <%= render "devise/shared/links" %>
+    </div>
+
   </div>
-
-  <div class="actions">
-    <%= f.submit "パスワード再設定メールを送信する" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
