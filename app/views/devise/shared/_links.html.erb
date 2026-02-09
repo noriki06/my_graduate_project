@@ -1,29 +1,42 @@
-<%- if controller_name != 'sessions' %>
-  <p><%= link_to "ログイン", new_session_path(resource_name) %></p>
-<% end %>
+<div class="mt-6 flex flex-col items-center gap-3 text-center">
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <p><%= link_to "新規登録", new_registration_path(resource_name) %></p>
-<% end %>
-
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <p><%= link_to "パスワードを忘れた方はこちら", new_password_path(resource_name) %></p>
-<% end %>
-
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <p><%= link_to "確認メールが届かない方はこちら", new_confirmation_path(resource_name) %></p>
-<% end %>
-
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <p><%= link_to "アカウントロック解除メールを再送する", new_unlock_path(resource_name) %></p>
-<% end %>
-
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <p>
-      <%= button_to "#{OmniAuth::Utils.camelize(provider)}でログイン",
-            omniauth_authorize_path(resource_name, provider),
-            data: { turbo: false } %>
-    </p>
+  <%- if controller_name != 'sessions' %>
+    <%= link_to "ログイン", new_session_path(resource_name),
+          class: "w-full rounded-2xl border-2 border-[#111827] bg-white px-6 py-3 text-sm font-extrabold text-[#111827]
+                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
   <% end %>
-<% end %>
+
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to "新規登録", new_registration_path(resource_name),
+          class: "w-full rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-6 py-3 text-sm font-extrabold text-[#111827]
+                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+  <% end %>
+
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to "パスワードを忘れた方はこちら", new_password_path(resource_name),
+          class: "text-sm font-extrabold text-[#111827] underline decoration-[#111827]/30 underline-offset-4 hover:decoration-[#111827]" %>
+  <% end %>
+
+  <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= link_to "確認メールが届かない方はこちら", new_confirmation_path(resource_name),
+          class: "text-sm font-extrabold text-[#111827] underline decoration-[#111827]/30 underline-offset-4 hover:decoration-[#111827]" %>
+  <% end %>
+
+  <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <%= link_to "アカウントロック解除メールを再送する", new_unlock_path(resource_name),
+          class: "text-sm font-extrabold text-[#111827] underline decoration-[#111827]/30 underline-offset-4 hover:decoration-[#111827]" %>
+  <% end %>
+
+  <%- if devise_mapping.omniauthable? %>
+    <div class="mt-2 w-full">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= button_to "#{OmniAuth::Utils.camelize(provider)}でログイン",
+              omniauth_authorize_path(resource_name, provider),
+              data: { turbo: false },
+              class: "mt-3 w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-6 py-3 text-sm font-extrabold text-[#111827]
+                      shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

@@ -1,12 +1,11 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation" data-turbo-temporary>
-    <h2>
-      <%= I18n.t("errors.messages.not_saved",
-                 count: resource.errors.count,
-                 resource: resource.class.model_name.human.downcase)
-       %>
-    </h2>
-    <ul>
+  <div class="mb-6 rounded-2xl border-2 border-[#111827] bg-[#FFE1E1] px-5 py-4 shadow-[6px_6px_0_#111827]"
+       data-turbo-temporary>
+    <p class="text-sm font-extrabold text-[#111827]">
+      入力内容を確認してください 👀
+    </p>
+
+    <ul class="mt-3 list-disc pl-5 text-sm font-semibold text-[#111827]">
       <% resource.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

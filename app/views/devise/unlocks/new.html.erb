@@ -1,16 +1,45 @@
-<h2>Resend unlock instructions</h2>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10 text-center">
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <h1 class="text-3xl font-extrabold tracking-wide text-[#111827]">
+      ロック解除メールを再送する
+    </h1>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
+    <div class="mx-auto mt-4 w-fit rounded-2xl border-2 border-[#111827] bg-white px-5 py-3 shadow-[6px_6px_0_#111827]">
+      <p class="text-sm font-extrabold text-[#111827]">
+        登録メールアドレスを入力してください
+      </p>
+    </div>
+
+    <div class="mt-6 text-left">
+      <%= render "devise/shared/error_messages", resource: resource %>
+    </div>
+
+    <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-6 text-left shadow-[6px_6px_0_#111827]">
+      <%= form_for(resource, as: resource_name, url: unlock_path(resource_name),
+                   html: { method: :post }, data: { turbo: false }) do |f| %>
+
+        <%= f.label :email, "メールアドレス",
+              class: "text-sm font-extrabold text-[#111827]" %>
+        <div class="mt-2 rounded-2xl border-2 border-[#111827] bg-white px-4 py-3 shadow-[4px_4px_0_#111827]">
+          <%= f.email_field :email,
+                autofocus: true,
+                autocomplete: "email",
+                placeholder: "example@mail.com",
+                class: "w-full bg-transparent text-sm font-semibold text-[#111827] placeholder:text-[#9CA3AF] outline-none" %>
+        </div>
+
+        <div class="mt-6">
+          <%= f.submit "再送する",
+                class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827]
+                        shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <%= render "devise/shared/links" %>
+    </div>
+
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
