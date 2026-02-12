@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "My Graduate Project" %></title>
+    <title><%= content_for(:title) || "ライフゲージ | 人生の現在地を可視化するアプリ" %></title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <!-- SEO -->
+    <meta name="description" content="あなたは人生を、何％生きましたか？人生の現在地を可視化するアプリ「ライフゲージ」。">
+
+    <!-- OGP -->
+    <meta property="og:title" content="ライフゲージ | 人生の現在地を可視化するアプリ">
+    <meta property="og:description" content="あなたは人生を、何％生きましたか？">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= image_url('ogp.png') %>">
+    <meta property="og:site_name" content="ライフゲージ">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ライフゲージ | 人生の現在地を可視化するアプリ">
+    <meta name="twitter:description" content="あなたは人生を、何％生きましたか？">
+    <meta name="twitter:image" content="<%= image_url('ogp.png') %>">
 
     <%= yield :head %>
 
@@ -13,6 +31,7 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
