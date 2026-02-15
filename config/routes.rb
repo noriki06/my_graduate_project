@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   # PWA
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  
+
   # Die With Zero紹介ページ
   get "die_with_zero", to: "pages#die_with_zero", as: :die_with_zero
 end
