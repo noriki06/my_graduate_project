@@ -1,0 +1,221 @@
+<%# app/views/pages/die_with_zero.html.erb %>
+
+<div class="min-h-screen bg-[#FBF2DF]">
+  <div class="mx-auto max-w-[420px] px-4 py-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <%= link_to root_path,
+            class: "grid h-10 w-10 place-items-center rounded-2xl text-[#FF7A1A] active:translate-x-[1px] active:translate-y-[1px]" do %>
+        <span class="text-xl" aria-hidden="true">←</span>
+      <% end %>
+
+      <p class="text-xs font-extrabold tracking-wide text-[#FF7A1A]">Die With Zeroの哲学</p>
+      <div class="w-10"></div>
+    </div>
+
+    <!-- Quote -->
+    <div class="relative mt-5">
+      <div class="pointer-events-none absolute -left-2 top-0 h-8 w-8 rounded-full bg-[#FFE6C7]"></div>
+      <div class="pointer-events-none absolute -right-1 top-10 h-10 w-10 rounded-full border-2 border-[#FFD2A3]"></div>
+
+      <div class="relative z-10 rounded-3xl bg-[#FFF8EC] px-6 py-7 text-center shadow-[0_14px_30px_rgba(0,0,0,0.10)]">
+        <p class="text-base font-extrabold leading-8 text-[#111827]">
+          「人生の最後に残るのは、<br>
+          集めたお金ではなく、<br>
+          <span class="text-[#FF7A1A]">積み上げた思い出</span>だ」
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 1: ゼロで死ぬ -->
+    <section class="mt-8 rounded-3xl bg-white px-5 py-6 shadow-[0_16px_30px_rgba(0,0,0,0.12)]">
+      <div class="flex items-center gap-3">
+        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#FFD6F0]">
+          <span class="text-xl" aria-hidden="true">🧠</span>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-[#111827]">1. ゼロで死ぬ</h2>
+          <p class="text-xs font-semibold text-[#6B7280]">資源を「経験」に回す</p>
+        </div>
+      </div>
+
+      <p class="mt-5 text-sm font-extrabold leading-7 text-[#111827]">
+        大事なのは、<span class="text-[#FF7A1A]">後悔が少ない配分</span>。
+      </p>
+
+      <p class="mt-2 text-sm leading-7 text-[#374151]">
+        お金・時間・健康は、価値ある経験に回すほど満足度が上がります。<br>
+        先延ばしが続くほど、できる経験は減りがちです。
+      </p>
+
+      <!-- 配分イメージ（1つだけに絞る） -->
+      <div class="mt-4 rounded-2xl bg-[#FFF6FB] px-4 py-4">
+        <div class="flex items-center justify-between">
+          <p class="text-[11px] font-extrabold text-[#111827]">資源の使い方による満足度</p>
+        </div>
+
+        <div class="mt-3">
+          <div class="flex justify-between text-[10px] text-[#6B7280]">
+            <span>体験に使う</span><span class="font-extrabold text-[#FF5FA2]">高い</span>
+          </div>
+          <div class="mt-1 h-3 w-full overflow-hidden rounded-full bg-white">
+            <div class="h-full w-[82%] rounded-full bg-[#FF5FA2]"></div>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <div class="flex justify-between text-[10px] text-[#6B7280]">
+            <span>使わず残す</span><span class="font-extrabold text-[#6B7280]">低い</span>
+          </div>
+          <div class="mt-1 h-3 w-full overflow-hidden rounded-full bg-white">
+            <div class="h-full w-[16%] rounded-full bg-[#9CA3AF]"></div>
+          </div>
+        </div>
+
+        <p class="mt-3 text-[10px] leading-5 text-[#6B7280]">
+          「何に使ったか」が、満足度をつくる。
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-2xl bg-[#F3F4F6] px-4 py-4">
+        <p class="text-[11px] font-extrabold text-[#111827]">✅ ライフゲージでできること</p>
+        <ul class="mt-2 space-y-2 text-[12px] leading-6 text-[#374151]">
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>人生の現在地を見える化して「今」を意識する</span></li>
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>やりたいことを登録して、行動のきっかけを作る</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 2: 時間と健康 -->
+    <section class="mt-6 rounded-3xl bg-white px-5 py-6 shadow-[0_16px_30px_rgba(0,0,0,0.12)]">
+      <div class="flex items-center gap-3">
+        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#FFE57A]">
+          <span class="text-xl" aria-hidden="true">⏳</span>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-[#111827]">2. 時間と健康</h2>
+          <p class="text-xs font-semibold text-[#6B7280]">「今しかできない」がある</p>
+        </div>
+      </div>
+
+      <p class="mt-5 text-sm leading-7 text-[#374151]">
+        お金は増やせても、時間と健康は戻りません。<br>
+        体力と自由度があるほど、体験の選択肢は広がります。
+      </p>
+
+      <!-- ゲージは1つに絞る -->
+      <div class="mt-4 rounded-2xl bg-[#F8FAFC] px-4 py-4">
+        <p class="text-[11px] font-extrabold text-[#111827]">体験の“しやすさ”</p>
+
+        <div class="mt-3 space-y-3">
+          <div>
+            <div class="flex justify-between text-[10px] text-[#6B7280]">
+              <span>若いほど</span><span>高い</span>
+            </div>
+            <div class="mt-1 h-3 overflow-hidden rounded-full bg-white">
+              <div class="h-full w-[85%] rounded-full bg-[#46D2C4]"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[10px] text-[#6B7280]">
+              <span>年齢が上がるほど</span><span>下がりやすい</span>
+            </div>
+            <div class="mt-1 h-3 overflow-hidden rounded-full bg-white">
+              <div class="h-full w-[35%] rounded-full bg-[#FF7A1A]"></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-3 text-[10px] leading-5 text-[#6B7280]">
+          ※健康・自由度・回復力の影響を受ける。
+        </p>
+      </div>
+
+      <div class="mt-4 rounded-2xl bg-[#F3F4F6] px-4 py-4">
+        <p class="text-[11px] font-extrabold text-[#111827]">✅ ライフゲージでできること</p>
+        <ul class="mt-2 space-y-2 text-[12px] leading-6 text-[#374151]">
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>残り時間を「日数」で意識できる状態にする</span></li>
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>今やりたいことを、思い出せるようにする</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 3: 経験の配当 -->
+    <section class="mt-6 rounded-3xl bg-white px-5 py-6 shadow-[0_16px_30px_rgba(0,0,0,0.12)]">
+      <div class="flex items-center gap-3">
+        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#FFE6C7]">
+          <span class="text-xl" aria-hidden="true">📈</span>
+        </div>
+        <div>
+          <h2 class="text-base font-extrabold text-[#111827]">3. 経験の配当</h2>
+          <p class="text-xs font-semibold text-[#6B7280]">思い出は「何度も増える」</p>
+        </div>
+      </div>
+
+      <p class="mt-5 text-sm leading-7 text-[#374151]">
+        体験は一回でも、思い出は何度も味わえます。<br>
+        早く経験するほど、振り返る期間が長くなり“配当”が大きくなります。
+      </p>
+
+      <!-- グラフは残す（短め） -->
+      <div class="mt-4 rounded-2xl bg-[#F8FAFC] px-4 py-4">
+        <div class="flex items-center justify-between">
+          <p class="text-[11px] font-extrabold text-[#111827]">思い出の配当期間</p>
+        </div>
+
+        <div class="mt-3">
+          <div class="flex items-center justify-between text-[10px]">
+            <span class="font-extrabold text-[#374151]">20代の経験</span>
+            <span class="font-extrabold text-[#46D2C4]">長い</span>
+          </div>
+          <div class="mt-2 h-3 w-full overflow-hidden rounded-full bg-white">
+            <div class="h-full w-[90%] rounded-full bg-[#46D2C4]"></div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex items-center justify-between text-[10px]">
+            <span class="font-extrabold text-[#374151]">60代の経験</span>
+            <span class="font-extrabold text-[#FF7A1A]">短い</span>
+          </div>
+          <div class="mt-2 h-3 w-full overflow-hidden rounded-full bg-white">
+            <div class="h-full w-[30%] rounded-full bg-[#FF7A1A]"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-2xl bg-[#F3F4F6] px-4 py-4">
+        <p class="text-[11px] font-extrabold text-[#111827]">✅ ライフゲージでできること</p>
+        <ul class="mt-2 space-y-2 text-[12px] leading-6 text-[#374151]">
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>達成メモを残して、経験を振り返れるようにする</span></li>
+          <li class="flex gap-2"><span aria-hidden="true">•</span><span>やりたいことを積み上げて、経験を増やす</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="mt-8 text-center">
+        <p class="text-sm font-extrabold text-[#111827]">
+            思想を読むだけで終わらせない。
+        </p>
+        <p class="mt-1 text-xs text-[#6B7280]">
+            あなたの「やりたいこと」を、今日ひとつ書き出そう。
+        </p>
+
+        <%= link_to "やりたいことリストへ",
+                wants_path,
+                class: "mt-5 inline-block w-full rounded-2xl bg-[#46D2C4] px-6 py-4 text-sm font-extrabold text-[#111827]
+                    shadow-[0_18px_28px_rgba(70,210,196,0.35)] text-center active:translate-x-[1px] active:translate-y-[1px]" %>
+        </div>
+    <!-- Footer -->
+    <div class="mt-8 text-center">
+      <%= link_to "トップへ戻る",
+            root_path,
+            class: "inline-block w-full rounded-2xl bg-[#FF7A1A] px-6 py-4 text-sm font-extrabold text-white
+                  shadow-[0_18px_28px_rgba(255,122,26,0.35)] active:translate-x-[1px] active:translate-y-[1px]" %>
+      <p class="mt-4 text-[10px] text-[#6B7280]">LIFE GAUGE PHILOSOPHY v1.0</p>
+    </div>
+
+  </div>
+</div>
