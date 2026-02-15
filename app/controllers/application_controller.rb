@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :birthday ])
   end
 
-  def after_sign_in_path_for(_resource)
-    wants_path
+  def after_sign_in_path_for(resource)
+    resource.birthday.present? ? wants_path : edit_birthday_path
   end
 
   private

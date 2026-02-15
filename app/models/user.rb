@@ -6,14 +6,11 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
-  # 誕生日は「後で入力」なので update のときだけ必須にする
-  validates :birthday, presence: true, on: :update
-  validate :birthday_must_be_yyyymmdd, if: -> { birthday.present? }
-
-  AVERAGE_LIFE_SPAN_YEARS = 84.0
+  AVERAGE_LIFE_SPAN_YEARS = 84
   DAYS_IN_YEAR = 365.2425
 
-  # 年齢（表示用に残してOK）
+  validate :birthday_cannot_be_in_future, if: -> { birthday.present? }
+
   def age
     return nil if birthday.nil?
 
@@ -23,42 +20,40 @@ class User < ApplicationRecord
     a
   end
 
-  # 生きた日数（基礎データ）
   def lived_days
     return nil if birthday.nil?
     (Date.current - birthday).to_i
   end
 
-  # 想定総日数（84年）
   def total_life_days
     (AVERAGE_LIFE_SPAN_YEARS * DAYS_IN_YEAR).to_i
   end
 
-  # 人生進捗率（%）※日数ベースで滑らか
   def life_progress_rate
     return nil if birthday.nil?
-
     progress = (lived_days.to_f / total_life_days) * 100
     progress.clamp(0, 100).round(1)
   end
 
-  # 残り日数
-  def remaining_life_days
+  def life_end_date
     return nil if birthday.nil?
+    birthday + AVERAGE_LIFE_SPAN_YEARS.years
+  end
 
-    remaining = total_life_days - lived_days
-    [ remaining, 0 ].max
+  def remaining_life_days
+    return 0 if birthday.nil?
+    [ (life_end_date - Date.current).to_i, 0 ].max
+  end
+
+  def remaining_life_seconds
+    return 0 if birthday.nil?
+    end_at = life_end_date.end_of_day.in_time_zone
+    [ (end_at - Time.current).to_i, 0 ].max
   end
 
   private
 
-  def birthday_must_be_yyyymmdd
-    return if birthday.is_a?(Date)
-
-    begin
-      self.birthday = Date.strptime(birthday.to_s, "%Y%m%d")
-    rescue ArgumentError, TypeError
-      errors.add(:birthday, "はYYYYMMDD形式で入力してください")
-    end
+  def birthday_cannot_be_in_future
+    errors.add(:birthday, "は未来の日付にできません") if birthday > Date.current
   end
 end
