@@ -1,11 +1,15 @@
 <div class="min-h-screen bg-[#FBF6E9]">
   <div class="mx-auto max-w-[720px] px-5 py-8">
 
-    <%# 進捗値（リザルトページの式を流用） %>
+    <%# ===== 数値定義 ===== %>
     <% progress = (current_user&.life_progress_rate || 0).to_f.clamp(0, 100) %>
     <% remaining_days = (current_user&.remaining_life_days || 0).to_i %>
 
-    <!-- ヘッダー -->
+    <% achieve_rate = (@achieve_rate || 0).to_f.clamp(0, 100) %>
+    <% achieved_count = (@achieved_wants_count || 0).to_i %>
+    <% total_count = (@total_wants_count || 0).to_i %>
+
+    <!-- ===== ヘッダー ===== -->
     <div class="flex items-center justify-between">
       <h1 class="text-3xl font-extrabold text-[#111827]">ライフゲージ</h1>
 
@@ -27,30 +31,54 @@
       </div>
     </div>
 
-    <!-- 人生進捗率カード（棒グラフあり） -->
+    <!-- ===== ライフゲージカード ===== -->
     <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-5">
-      <p class="text-base font-extrabold text-[#6B7280]">人生進捗率</p>
 
-      <div class="mt-3 flex items-end justify-between gap-4">
-        <div>
-          <div class="flex items-baseline gap-2">
-            <p class="text-6xl font-extrabold text-[#111827]"><%= number_with_precision(progress, precision: 1) %></p>
-            <span class="text-2xl font-extrabold text-[#111827]">%</span>
-          </div>
+      <div class="flex items-center justify-between">
+        <p class="text-base font-extrabold text-[#6B7280]">ライフゲージ</p>
+      </div>
 
-          <p class="mt-1 text-2xl font-bold text-[#6B7280]">
-            残り <%= remaining_ymd_text(remaining_days) %>
+      <!-- ===== 人生進捗率 ===== -->
+      <div class="mt-4">
+        <div class="flex items-end justify-between">
+          <p class="text-sm font-extrabold text-[#111827]">人生進捗率</p>
+          <p class="text-2xl font-extrabold text-[#111827]">
+            <%= number_with_precision(progress, precision: 1) %><span class="text-sm">%</span>
           </p>
+        </div>
+
+        <p class="mt-1 text-xs font-bold text-[#6B7280]">
+          残り <%= remaining_ymd_text(remaining_days) %>
+        </p>
+
+        <!-- 修正版バー -->
+        <div class="mt-3 h-3 w-full rounded-full overflow-hidden" style="background:#E9EEF5;">
+          <div style="width: <%= progress %>%; height: 100%; background:#FF5C5C;"></div>
         </div>
       </div>
 
-      <!-- 棒グラフ -->
-      <div class="mt-4 h-3 w-full rounded-full bg-[#E9EEF5]">
-        <div class="h-3 rounded-full bg-[#1FA971]" style="width:<%= progress %>%"></div>
+      <!-- ===== 思い出の達成率 ===== -->
+      <div class="mt-6">
+        <div class="flex items-end justify-between">
+          <p class="text-sm font-extrabold text-[#111827]">思い出の達成率</p>
+          <p class="text-2xl font-extrabold text-[#111827]">
+            <%= number_with_precision(achieve_rate, precision: 1) %><span class="text-sm">%</span>
+          </p>
+        </div>
+
+        <p class="mt-1 text-xs font-bold text-[#6B7280]">
+          <%= total_count.positive? ? "#{achieved_count} / #{total_count} 達成" : "まずは「やりたいこと」を登録してみましょう" %>
+        </p>
+
+        <!-- 修正版バー -->
+        <div class="mt-3 h-3 w-full rounded-full bg-[#E9EEF5] overflow-hidden">
+          <div class="h-full bg-[#1FA971]" style="width: <%= achieve_rate %>%;"></div>
+        </div>
       </div>
+
     </section>
 
-    <!-- DIE WITH ZERO 引用 -->
+    <!-- ===== DIE WITH ZERO ===== -->
     <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-5">
       <div class="border-l-4 border-[#FFE57A] pl-4">
         <p class="text-sm font-extrabold leading-7 text-[#111827]">
@@ -63,7 +91,7 @@
       </div>
     </section>
 
-    <!-- やりたいこと -->
+    <!-- ===== やりたいこと ===== -->
     <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white">
       <div class="flex items-center justify-between px-5 py-4">
         <h2 class="text-2xl font-extrabold text-[#111827]">やりたいこと</h2>
@@ -74,6 +102,7 @@
       <div class="px-5 py-4 space-y-2">
         <% if @wants_by_bucket.present? %>
           <% @wants_by_bucket.each_with_index do |(bucket, wants), idx| %>
+
             <div class="py-3">
               <div class="flex items-center justify-between">
                 <h3 class="text-base font-extrabold text-[#111827]">
@@ -82,7 +111,7 @@
 
                 <div class="flex items-center gap-3">
                   <%= link_to new_want_path(time_bucket: bucket),
-                        class: "text-xs font-extrabold text-[#1FA971] hover:opacity-80 whitespace-nowrap" do %>
+                        class: "text-xs font-extrabold text-[#1FA971] hover:opacity-80" do %>
                     ＋追加
                   <% end %>
 
@@ -106,69 +135,14 @@
             <% unless idx == @wants_by_bucket.size - 1 %>
               <div class="border-t border-[#111827]/10"></div>
             <% end %>
+
           <% end %>
-
-          <% if @unbucketed_wants.present? %>
-            <div class="mt-4 border-t border-[#111827]/10"></div>
-
-            <div class="py-3">
-              <div class="flex items-center justify-between">
-                <h3 class="text-base font-extrabold text-[#111827]">
-                  未分類（目標日未設定）
-                </h3>
-
-                <div class="flex items-center gap-3">
-                  <%= link_to new_want_path,
-                        class: "text-xs font-extrabold text-[#1FA971] hover:opacity-80 whitespace-nowrap" do %>
-                    ＋目標日を設定
-                  <% end %>
-
-                  <span class="text-xs font-bold text-[#6B7280]"><%= @unbucketed_wants.size %>件</span>
-                </div>
-              </div>
-
-              <div class="mt-2 space-y-3">
-                <% @unbucketed_wants.each do |want| %>
-                  <%= render "wants/want_row", want: want %>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-
-        <% else %>
-          <div class="space-y-3">
-            <p class="text-sm font-bold text-[#6B7280]">
-              まずは例を参考に、1つ登録してみましょう
-            </p>
-
-            <% sample_wants = [
-              { title: "海外旅行に行く", target: "2026/06/01" },
-              { title: "フルマラソン完走", target: "未定" },
-              { title: "両親と旅行する", target: "未定" }
-            ] %>
-
-            <% sample_wants.each do |sample| %>
-              <div class="rounded-2xl border border-dashed border-[#111827]/25 bg-[#FBF6E9] px-5 py-4">
-                <p class="text-lg font-extrabold text-[#111827]">
-                  <%= sample[:title] %>
-                </p>
-
-                <p class="mt-2 text-sm font-bold text-[#6B7280]">
-                  達成目標日：<%= sample[:target] %>
-                </p>
-
-                <p class="mt-3 text-xs font-bold text-[#6B7280]">
-                  ※ これは例です（保存されません）
-                </p>
-              </div>
-            <% end %>
-          </div>
         <% end %>
 
-        <!-- ★常に表示する：下部追加ボタン -->
+        <!-- 下部追加ボタン -->
         <div class="pt-2">
           <%= link_to new_want_path,
-                class: "w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#111827] px-5 py-3 text-base font-extrabold text-white hover:opacity-90" do %>
+                class: "w-full inline-flex items-center justify-center rounded-full bg-[#111827] px-5 py-3 text-base font-extrabold text-white hover:opacity-90" do %>
             ＋ やりたいことを追加
           <% end %>
         </div>
