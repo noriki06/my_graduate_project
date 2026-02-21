@@ -3,7 +3,7 @@ class Want < ApplicationRecord
 
   validates :title, presence: true
 
-  TIME_BUCKET_SPAN = 5
+  TIME_BUCKET_SPAN = 10
   before_validation :set_time_bucket, if: :should_set_time_bucket?
 
   scope :for_list, -> {
@@ -27,13 +27,25 @@ class Want < ApplicationRecord
     end
   end
 
-  # 例）27 -> "25-29"
   def self.time_bucket_for_age(age, span: TIME_BUCKET_SPAN)
     return nil if age.nil?
 
     start_age = (age / span) * span
-    end_age = start_age + (span - 1)
+    end_age   = start_age + (span - 1)
     "#{start_age}-#{end_age}"
+  end
+
+  # 例）27 -> "25-29"
+  def self.time_buckets_between(from_age:, to_age:, span: TIME_BUCKET_SPAN)
+    return [] if from_age.nil? || to_age.nil?
+    return [] if to_age < from_age
+
+    start = (from_age / span) * span
+    last  = (to_age / span) * span
+
+    (start..last).step(span).map do |s|
+      "#{s}-#{s + (span - 1)}"
+    end
   end
 
   private

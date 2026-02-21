@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    attributes:
+      want:
+        title: やりたいこと
+        memo: メモ
+        target_date: 目標日
+        
