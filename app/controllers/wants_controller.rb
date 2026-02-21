@@ -6,6 +6,17 @@ class WantsController < ApplicationController
     @life_progress_rate = current_user.life_progress_rate || 0
 
     wants = current_user.wants.for_list
+
+    # ✅ 追加：達成率（思い出の達成率）
+    @total_wants_count = wants.size
+    @achieved_wants_count = wants.count(&:achieved?)
+    @achieve_rate =
+      if @total_wants_count.zero?
+        0.0
+      else
+        (@achieved_wants_count.to_f / @total_wants_count * 100).clamp(0, 100)
+      end
+
     grouped = wants.group_by(&:time_bucket)
 
     max_age = 89
@@ -16,7 +27,7 @@ class WantsController < ApplicationController
         current_age = ((Date.current - birthday.to_date).to_i / 365.25).floor
         Want.time_buckets_between(from_age: current_age, to_age: max_age)
       else
-        [] # もしくは Want.time_buckets_between(from_age: 20, to_age: max_age)
+        []
       end
 
     @wants_by_bucket = all_buckets.index_with { [] }
