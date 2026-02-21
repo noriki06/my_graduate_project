@@ -14,6 +14,7 @@
               class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
           👤 プロフィール
         <% end %>
+
         <%= link_to root_path,
               class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
           🏠 トップ
@@ -43,7 +44,6 @@
         </div>
       </div>
 
-
       <!-- 棒グラフ -->
       <div class="mt-4 h-3 w-full rounded-full bg-[#E9EEF5]">
         <div class="h-3 rounded-full bg-[#1FA971]" style="width:<%= progress %>%"></div>
@@ -71,15 +71,70 @@
 
       <div class="border-t border-[#111827]/10"></div>
 
-      <div class="px-5 py-4 space-y-3">
-        <% if @wants.any? %>
-          <% @wants.each do |want| %>
-            <%= render "wants/want_row", want: want %>
+      <div class="px-5 py-4 space-y-2">
+        <% if @wants_by_bucket.present? %>
+          <% @wants_by_bucket.each_with_index do |(bucket, wants), idx| %>
+            <div class="py-3">
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-extrabold text-[#111827]">
+                  <%= "#{bucket}歳（#{bucket_subname(bucket)}）" %>
+                </h3>
+
+                <div class="flex items-center gap-3">
+                  <%= link_to new_want_path(time_bucket: bucket),
+                        class: "text-xs font-extrabold text-[#1FA971] hover:opacity-80 whitespace-nowrap" do %>
+                    ＋追加
+                  <% end %>
+
+                  <% if wants.size.positive? %>
+                    <span class="text-xs font-bold text-[#6B7280]"><%= wants.size %>件</span>
+                  <% end %>
+                </div>
+              </div>
+
+              <% if wants.empty? %>
+                <p class="mt-1 text-xs font-bold text-[#6B7280]">未登録</p>
+              <% else %>
+                <div class="mt-2 space-y-3">
+                  <% wants.each do |want| %>
+                    <%= render "wants/want_row", want: want %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <% unless idx == @wants_by_bucket.size - 1 %>
+              <div class="border-t border-[#111827]/10"></div>
+            <% end %>
           <% end %>
 
-          <div class="mt-4 flex justify-center">
-            <%= paginate @wants %>
-          </div>
+          <% if @unbucketed_wants.present? %>
+            <div class="mt-4 border-t border-[#111827]/10"></div>
+
+            <div class="py-3">
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-extrabold text-[#111827]">
+                  未分類（目標日未設定）
+                </h3>
+
+                <div class="flex items-center gap-3">
+                  <%= link_to new_want_path,
+                        class: "text-xs font-extrabold text-[#1FA971] hover:opacity-80 whitespace-nowrap" do %>
+                    ＋目標日を設定
+                  <% end %>
+
+                  <span class="text-xs font-bold text-[#6B7280]"><%= @unbucketed_wants.size %>件</span>
+                </div>
+              </div>
+
+              <div class="mt-2 space-y-3">
+                <% @unbucketed_wants.each do |want| %>
+                  <%= render "wants/want_row", want: want %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
         <% else %>
           <div class="space-y-3">
             <p class="text-sm font-bold text-[#6B7280]">
