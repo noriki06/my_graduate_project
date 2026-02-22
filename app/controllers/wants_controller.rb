@@ -82,9 +82,13 @@ class WantsController < ApplicationController
   def achieve
     already_achieved = @want.achieved?
 
+    if achieve_params[:achieved_image].present?
+      @want.achieved_image.attach(achieve_params[:achieved_image])
+    end
+
     if @want.achieve(
-      achievement_note: params.dig(:want, :achievement_note),
-      achieved_at_input: params.dig(:want, :achieved_at),
+      achievement_note: achieve_params[:achievement_note],
+      achieved_at_input: achieve_params[:achieved_at],
       now: Time.current
     )
       notice = already_achieved ? "思い出メモを更新しました！" : "達成を記録しました！"
@@ -102,6 +106,10 @@ class WantsController < ApplicationController
 
   def want_params
     params.require(:want).permit(:title, :memo, :target_date, :picture)
+  end
+
+  def achieve_params
+    params.require(:want).permit(:achievement_note, :achieved_at, :achieved_image)
   end
 
   # 年齢が入力されたときだけ target_date を計算してセットする
