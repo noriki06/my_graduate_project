@@ -101,7 +101,7 @@ class WantsController < ApplicationController
   end
 
   def want_params
-    params.require(:want).permit(:title, :memo, :target_date)
+    params.require(:want).permit(:title, :memo, :target_date, :picture)
   end
 
   # 年齢が入力されたときだけ target_date を計算してセットする

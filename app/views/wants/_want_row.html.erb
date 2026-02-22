@@ -1,6 +1,15 @@
 <% achieved = want.achieved? %>
 
 <div class="rounded-2xl border border-[#111827]/20 bg-white px-5 py-4">
+  <!-- サムネイル画像 -->
+  <% if want.picture.attached? %>
+    <%= link_to want_path(want) do %>
+      <%= image_tag want.picture.variant(resize_to_limit: [520, 260]),
+            alt: want.title,
+            class: "mb-3 w-full rounded-xl object-cover max-h-40" %>
+    <% end %>
+  <% end %>
+
   <div class="flex items-start justify-between gap-4">
     <div class="min-w-0">
       <!-- タイトル -->
