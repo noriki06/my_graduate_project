@@ -1,6 +1,7 @@
 class Want < ApplicationRecord
   belongs_to :user
   has_one_attached :picture
+  has_one_attached :achieved_image
 
   validates :title, presence: true
 
