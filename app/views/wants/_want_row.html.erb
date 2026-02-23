@@ -58,7 +58,7 @@
     <div class="shrink-0 flex items-start gap-3">
       <!-- 画像枠：常に確保（No Imageは表示しない） -->
       <%= link_to detail_path, class: "block" do %>
-        <div class="h-14 w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] flex items-center justify-center overflow-hidden">
+        <div class="h-12 w-16 sm:h-14 sm:w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] flex items-center justify-center overflow-hidden">
           <% if achieved && want.achieved_image.attached? %>
             <%= image_tag want.achieved_image.variant(resize_to_limit: [160, 112]),
                   alt: want.title,
@@ -73,7 +73,7 @@
 
       <!-- ボタン（幅固定＋子をblockにして幅を効かせる） -->
       <% unless public_view %>
-        <div class="flex flex-col items-stretch gap-2 w-36">
+        <div class="flex flex-col items-stretch gap-2 w-24 sm:w-36">
           <% if achieved %>
             <%= link_to "思い出メモ",
                   achieve_form_want_path(want),
