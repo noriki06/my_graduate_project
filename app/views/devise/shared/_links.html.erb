@@ -12,14 +12,10 @@
                   shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
   <% end %>
 
-  <%# MVPでは無効化（本番メール未対応のため） %>
-  <%# - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%#   <p><%= link_to "パスワードを忘れた方はこちら", new_password_path(resource_name) %></p>
-  <%# end %>
-
-  <p class="text-xs font-bold text-[#6B7280]">
-    ※ 現在、パスワード再設定機能は開発中です
-  </p>
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to "パスワードをお忘れの方はこちら", new_password_path(resource_name),
+          class: "text-sm font-bold text-[#6B7280] underline decoration-[#6B7280]/40 underline-offset-4 hover:decoration-[#6B7280]" %>
+  <% end %>
 
   <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
     <%= link_to "確認メールが届かない方はこちら", new_confirmation_path(resource_name),
