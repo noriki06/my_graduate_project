@@ -44,20 +44,23 @@ class WantsController < ApplicationController
   # 公開Want一覧：達成済み（ログイン必須）
   def public_index
     @wants = Want.public_achieved_list
-                 .includes(:user, achieved_image_attachment: :blob)
+                 .includes(:user, :likes, :comments, achieved_image_attachment: :blob)
                  .page(params[:page]).per(10)
   end
 
   # 公開Want一覧：未達成ウィッシュリスト（ログイン必須）
   def public_wishlist_index
     @wants = Want.public_wishlist
-                 .includes(:user, picture_attachment: :blob)
+                 .includes(:user, :likes, :comments, picture_attachment: :blob)
                  .page(params[:page]).per(10)
   end
 
   # 公開Want詳細（達成・未達成両対応、ログイン必須）
   def public_show
-    @want = Want.public_list.includes(:user).find(params[:id])
+    @want = Want.public_list
+                .includes(:user, :likes, comments: :user)
+                .find(params[:id])
+    @comment = Comment.new
   end
 
   def show; end

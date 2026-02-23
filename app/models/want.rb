@@ -2,6 +2,8 @@ class Want < ApplicationRecord
   belongs_to :user
   has_one_attached :picture
   has_one_attached :achieved_image
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true
 
