@@ -4,7 +4,16 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [ :google_oauth2, :twitter2, :github ]
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email    = auth.info.email.presence || "#{auth.uid}@#{auth.provider}.placeholder"
+      user.name     = auth.info.name.presence || auth.info.nickname || "ユーザー"
+      user.password = Devise.friendly_token[0, 20]
+    end
+  end
 
   validates :name, presence: true
 
@@ -51,6 +60,12 @@ class User < ApplicationRecord
     return 0 if birthday.nil?
     end_at = life_end_date.end_of_day.in_time_zone
     [ (end_at - Time.current).to_i, 0 ].max
+  end
+
+  protected
+
+  def password_required?
+    provider.blank? ? super : false
   end
 
   private
