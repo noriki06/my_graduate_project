@@ -40,4 +40,8 @@ Rails.application.routes.draw do
 
   # Die With Zero紹介ページ
   get "die_with_zero", to: "pages#die_with_zero", as: :die_with_zero
+
+  # 利用規約・プライバシーポリシー
+  get "terms",   to: "pages#terms",   as: :terms
+  get "privacy", to: "pages#privacy", as: :privacy
 end

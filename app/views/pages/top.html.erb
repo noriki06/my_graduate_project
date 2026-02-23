@@ -120,9 +120,14 @@
       </div>
     </div>
 
-    <p class="mt-10 text-xs text-[#6B7280]">
-      © Life Gauge
-    </p>
+    <div class="mt-10 flex flex-col items-center gap-2">
+      <div class="flex gap-4 text-xs text-[#6B7280]">
+        <%= link_to "利用規約", terms_path, class: "underline hover:text-[#111827]" %>
+        <span>|</span>
+        <%= link_to "プライバシーポリシー", privacy_path, class: "underline hover:text-[#111827]" %>
+      </div>
+      <p class="text-xs text-[#6B7280]">© Life Gauge</p>
+    </div>
 
   </div>
 </div>
