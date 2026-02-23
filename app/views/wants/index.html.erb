@@ -14,6 +14,16 @@
       <h1 class="text-3xl font-extrabold text-[#111827]">ライフゲージ</h1>
 
       <div class="flex items-center gap-3">
+        <%= link_to public_wants_path,
+              class: "inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+          🏆 みんなの達成
+        <% end %>
+
+        <%= link_to public_wishlist_path,
+              class: "inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+          🌍 みんなのやりたいこと
+        <% end %>
+
         <%= link_to edit_user_registration_path,
               class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
           👤 プロフィール

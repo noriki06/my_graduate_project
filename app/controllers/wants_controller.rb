@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_want, only: %i[show edit update destroy achieve_form achieve]
+  before_action :set_want, only: %i[show edit update destroy achieve_form achieve toggle_publish]
 
   def index
     @life_progress_rate = current_user.life_progress_rate || 0
@@ -39,6 +39,25 @@ class WantsController < ApplicationController
     end
 
     @unbucketed_wants = grouped[nil] || []
+  end
+
+  # 公開Want一覧：達成済み（ログイン必須）
+  def public_index
+    @wants = Want.public_achieved_list
+                 .includes(:user, achieved_image_attachment: :blob)
+                 .page(params[:page]).per(10)
+  end
+
+  # 公開Want一覧：未達成ウィッシュリスト（ログイン必須）
+  def public_wishlist_index
+    @wants = Want.public_wishlist
+                 .includes(:user, picture_attachment: :blob)
+                 .page(params[:page]).per(10)
+  end
+
+  # 公開Want詳細（達成・未達成両対応、ログイン必須）
+  def public_show
+    @want = Want.public_list.includes(:user).find(params[:id])
   end
 
   def show; end
@@ -95,6 +114,16 @@ class WantsController < ApplicationController
       redirect_to wants_path, notice: notice
     else
       render :achieve_form, status: :unprocessable_entity
+    end
+  end
+
+  # 公開/非公開切り替え
+  def toggle_publish
+    if @want.user == current_user
+      @want.update(published: !@want.published?)
+      redirect_to wants_path, notice: @want.published? ? "公開しました" : "非公開にしました"
+    else
+      redirect_to wants_path, alert: "権限がありません"
     end
   end
 

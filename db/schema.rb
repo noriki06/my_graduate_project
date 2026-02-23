@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_22_055455) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_23_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_22_055455) do
     t.datetime "achieved_at"
     t.text "achievement_note"
     t.string "time_bucket"
+    t.boolean "published", default: false, null: false
+    t.index ["published"], name: "index_wants_on_published"
     t.index ["user_id"], name: "index_wants_on_user_id"
   end
 

@@ -13,6 +13,23 @@ class Want < ApplicationRecord
       .order(achieved_at: :desc, created_at: :desc)
   }
 
+  # 公開されたWantのみを取得するスコープ（達成問わず）
+  scope :public_list, -> {
+    where(published: true)
+  }
+
+  # 達成済み公開Want
+  scope :public_achieved_list, -> {
+    where(published: true).where.not(achieved_at: nil)
+      .order(achieved_at: :desc)
+  }
+
+  # 未達成公開Want（ウィッシュリスト）
+  scope :public_wishlist, -> {
+    where(published: true, achieved_at: nil)
+      .order(created_at: :desc)
+  }
+
   def achieved?
     achieved_at.present?
   end
