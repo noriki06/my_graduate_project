@@ -1,12 +1,12 @@
 <div class="min-h-screen bg-[#FBF6E9]">
   <div class="mx-auto max-w-[720px] px-5 py-8">
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <h1 class="text-3xl font-extrabold text-[#111827]">みんなのやりたいこと</h1>
-      <div class="flex items-center gap-2">
-        <%= link_to public_wants_path, class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+      <div class="flex flex-wrap items-center gap-2">
+        <%= link_to public_wants_path, class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
           🏆 みんなの達成
         <% end %>
-        <%= link_to wants_path, class: "inline-flex items-center gap-2 rounded-full border border-[#111827]/25 bg-white px-5 py-2 text-base font-bold" do %>
+        <%= link_to wants_path, class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
           🏠 マイページ
         <% end %>
       </div>
