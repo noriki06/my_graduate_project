@@ -43,6 +43,10 @@ group :development, :test do
   gem "factory_bot_rails"
 end
 
+group :development do
+  gem "letter_opener"
+end
+
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
