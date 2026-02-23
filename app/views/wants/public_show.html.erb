@@ -1,0 +1,90 @@
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[520px] px-5 py-10">
+
+    <!-- ヘッダー -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-extrabold text-[#111827]">
+        <%= @want.title %>
+      </h1>
+
+      <%= link_to public_wants_path,
+            class: "text-sm font-bold text-[#6B7280] hover:underline" do %>
+        戻る
+      <% end %>
+    </div>
+
+    <!-- 投稿者 -->
+    <p class="mt-2 text-sm font-bold text-[#6B7280]">
+      👤 <%= @want.user.name.presence || @want.user.email %>
+    </p>
+
+    <!-- メインカード -->
+    <div class="mt-4 rounded-2xl border border-[#111827]/20 bg-white p-6">
+
+      <!-- 写真 -->
+      <% if @want.picture.attached? %>
+        <div class="mb-5">
+          <%= image_tag @want.picture.variant(resize_to_limit: [520, 520]),
+                alt: @want.title,
+                class: "w-full rounded-xl object-cover" %>
+        </div>
+      <% end %>
+
+      <!-- メモ -->
+      <% if @want.memo.present? %>
+        <div>
+          <p class="text-sm font-extrabold text-[#6B7280]">メモ</p>
+          <p class="mt-1 text-base text-[#111827]">
+            <%= simple_format(h(@want.memo)) %>
+          </p>
+        </div>
+      <% end %>
+
+      <hr class="my-5 border-[#111827]/10">
+
+      <% if @want.achieved? %>
+        <!-- 達成情報 -->
+        <div>
+          <p class="text-sm font-extrabold text-[#6B7280]">達成日</p>
+          <p class="mt-1 text-base font-bold text-[#111827]">
+            <%= @want.achieved_at.strftime("%Y/%m/%d") %>
+          </p>
+        </div>
+
+        <% if @want.achieved_image.attached? %>
+          <div class="mt-4">
+            <p class="text-sm font-extrabold text-[#6B7280]">達成の写真</p>
+            <div class="mt-2">
+              <%= image_tag @want.achieved_image.variant(resize_to_limit: [520, 520]),
+                    alt: "達成写真",
+                    class: "w-full rounded-xl object-cover" %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @want.achievement_note.present? %>
+          <div class="mt-4">
+            <p class="text-sm font-extrabold text-[#6B7280]">達成メモ</p>
+            <div class="mt-1 text-base text-[#111827]">
+              <%= simple_format(h(@want.achievement_note)) %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- 未達成：目標日 -->
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#111827]/20 bg-[#F3F4F6] px-3 py-1 text-sm font-bold text-[#111827]">
+            ⏳ 未達成
+          </span>
+          <% if @want.target_date.present? %>
+            <p class="mt-2 text-sm font-bold text-[#6B7280]">
+              達成目標日：<%= @want.target_date.strftime("%Y/%m/%d") %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+
+  </div>
+</div>

@@ -4,10 +4,16 @@ Rails.application.routes.draw do
   root "pages#top"
   get "pages/top"
 
+  # 公開Want一覧・詳細ページ
+  get "public_wants",      to: "wants#public_index",         as: :public_wants
+  get "public_wishlist",   to: "wants#public_wishlist_index", as: :public_wishlist
+  get "public_wants/:id",  to: "wants#public_show",          as: :public_want
+
   resources :wants, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     member do
       get  :achieve_form
       patch :achieve
+      patch :toggle_publish
     end
   end
 
