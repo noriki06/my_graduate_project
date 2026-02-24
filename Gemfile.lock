@@ -115,6 +115,10 @@ GEM
       devise (>= 4.9.0)
       rails-i18n
     diff-lcs (1.6.2)
+    dotenv (3.2.0)
+    dotenv-rails (3.2.0)
+      dotenv (= 3.2.0)
+      railties (>= 6.1)
     drb (2.2.3)
     erb (6.0.1)
     erubi (1.13.1)
@@ -154,7 +158,7 @@ GEM
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     json (2.18.0)
-    jwt (3.1.2)
+    jwt (2.9.3)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -429,10 +433,12 @@ DEPENDENCIES
   debug
   devise (~> 5.0)
   devise-i18n
+  dotenv-rails
   factory_bot_rails
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  jwt (~> 2.9.2)
   kaminari
   letter_opener
   omniauth

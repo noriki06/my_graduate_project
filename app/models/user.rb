@@ -2,17 +2,36 @@ class User < ApplicationRecord
   has_many :wants, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :identities, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [ :google_oauth2, :twitter2, :github ]
+         :omniauthable, omniauth_providers: [ :google_oauth2, :github ]
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email    = auth.info.email.presence || "#{auth.uid}@#{auth.provider}.placeholder"
-      user.name     = auth.info.name.presence || auth.info.nickname || "ユーザー"
-      user.password = Devise.friendly_token[0, 20]
+    provider = auth.provider
+    uid      = auth.uid.to_s
+    email    = auth.info.email&.downcase
+
+    # ① すでにこのSNS(provider+uid)で紐づいている user がいるならそれ
+    if (identity = Identity.find_by(provider: provider, uid: uid))
+      return identity.user
     end
+
+    # ② emailが取れるなら email一致ユーザーを探す（既存ユーザーにSNSを追加）
+    user = email.present? ? User.find_by(email: email) : nil
+
+    # ③ いなければ新規作成
+    user ||= User.create! do |u|
+      u.email    = email.presence || "#{uid}@#{provider}.placeholder"
+      u.name     = auth.info.name.presence || auth.info.nickname.presence || "ユーザー"
+      u.password = Devise.friendly_token[0, 20]
+    end
+
+    # ④ SNSアカウントを紐付け
+    user.identities.create!(provider: provider, uid: uid)
+
+    user
   end
 
   validates :name, presence: true
@@ -65,7 +84,7 @@ class User < ApplicationRecord
   protected
 
   def password_required?
-    provider.blank? ? super : false
+    identities.empty? ? super : false
   end
 
   private

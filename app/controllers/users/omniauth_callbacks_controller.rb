@@ -3,10 +3,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_auth("Google")
   end
 
-  def twitter2
-    handle_auth("X")
-  end
-
   def github
     handle_auth("GitHub")
   end

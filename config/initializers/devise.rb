@@ -320,11 +320,6 @@ Devise.setup do |config|
     ENV.fetch("GOOGLE_CLIENT_SECRET", "dummy"),
     scope: "email,profile"
 
-  config.omniauth :twitter2,
-    ENV.fetch("TWITTER_CLIENT_ID", "dummy"),
-    ENV.fetch("TWITTER_CLIENT_SECRET", "dummy"),
-    scope: "tweet.read users.read"
-
   config.omniauth :github,
     ENV.fetch("GITHUB_CLIENT_ID", "dummy"),
     ENV.fetch("GITHUB_CLIENT_SECRET", "dummy"),
