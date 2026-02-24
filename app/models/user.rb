@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :identities, dependent: :destroy
+  has_many :daily_action_suggestions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -35,6 +36,11 @@ class User < ApplicationRecord
   end
 
   validates :name, presence: true
+
+  NOTIFICATION_FREQUENCIES = %w[daily weekly].freeze
+  validates :notification_frequency, inclusion: { in: NOTIFICATION_FREQUENCIES }
+  validates :notification_hour, inclusion: { in: 0..23 }
+  validates :notification_day_of_week, inclusion: { in: 0..6 }
 
   AVERAGE_LIFE_SPAN_YEARS = 84
   DAYS_IN_YEAR = 365.2425
@@ -79,6 +85,16 @@ class User < ApplicationRecord
     return 0 if birthday.nil?
     end_at = life_end_date.end_of_day.in_time_zone
     [ (end_at - Time.current).to_i, 0 ].max
+  end
+
+  def line_linked?
+    line_user_id.present?
+  end
+
+  def generate_line_link_token!
+    token = format("%06d", rand(1_000_000))
+    update!(line_link_token: token)
+    token
   end
 
   protected

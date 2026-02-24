@@ -4,6 +4,7 @@ class Want < ApplicationRecord
   has_one_attached :achieved_image
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :daily_action_suggestions, dependent: :destroy
 
   validates :title, presence: true
 

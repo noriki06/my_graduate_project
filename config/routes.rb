@@ -28,6 +28,20 @@ Rails.application.routes.draw do
     end
   end
 
+  # AI 5分行動提案
+  resource :ai_suggestion, only: [ :create ]
+
+  # 通知設定
+  resource :notification_setting, only: [ :edit, :update ] do
+    collection do
+      patch :generate_line_link_token
+      patch :unlink_line
+    end
+  end
+
+  # LINE Webhook
+  post "line_webhook", to: "line_webhooks#callback"
+
   # 生年月日登録（オンボーディング）
   resource :birthday, only: [ :edit, :update ]
 

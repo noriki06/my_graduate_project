@@ -1,0 +1,154 @@
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[420px] px-4 py-10">
+
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-extrabold text-[#111827]">通知設定</h1>
+      <%= link_to "戻る", wants_path, class: "text-sm font-bold underline text-[#6B7280]" %>
+    </div>
+
+    <% if notice %>
+      <div class="mt-5 rounded-2xl border-2 border-[#111827] bg-[#ECFDF5] px-5 py-3 shadow-[4px_4px_0_#111827]">
+        <p class="text-sm font-extrabold text-[#065F46]"><%= notice %></p>
+      </div>
+    <% end %>
+
+    <%= form_with model: current_user, url: notification_setting_path, method: :patch, data: { turbo: false } do |f| %>
+
+      <!-- 通知オン/オフ -->
+      <div class="mt-8 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">NOTIFICATION</p>
+        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知を受け取る</h2>
+
+        <div class="mt-4 flex items-center justify-between">
+          <span class="text-sm font-bold text-[#6B7280]">AI行動提案の通知</span>
+          <label class="relative inline-flex cursor-pointer items-center">
+            <%= f.check_box :notification_enabled, class: "sr-only peer", id: "notification_enabled" %>
+            <div class="peer h-6 w-11 rounded-full bg-[#E5E7EB] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#1FA971] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 頻度 -->
+      <div class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">FREQUENCY</p>
+        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知頻度</h2>
+
+        <div class="mt-4 space-y-3">
+          <label class="flex cursor-pointer items-center gap-3">
+            <%= f.radio_button :notification_frequency, "daily", id: "freq_daily",
+                  class: "h-4 w-4 accent-[#1FA971]" %>
+            <div>
+              <span class="text-sm font-extrabold text-[#111827]">毎日</span>
+              <p class="text-xs font-bold text-[#6B7280]">設定した時間に毎日届く</p>
+            </div>
+          </label>
+          <label class="flex cursor-pointer items-center gap-3">
+            <%= f.radio_button :notification_frequency, "weekly", id: "freq_weekly",
+                  class: "h-4 w-4 accent-[#1FA971]" %>
+            <div>
+              <span class="text-sm font-extrabold text-[#111827]">週1回</span>
+              <p class="text-xs font-bold text-[#6B7280]">設定した曜日・時間に届く</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 時間 -->
+      <div class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">TIME</p>
+        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知時間</h2>
+
+        <div class="mt-3">
+          <%= f.select :notification_hour,
+                [["朝 6時", 6], ["朝 9時", 9], ["昼 12時", 12], ["夜 18時", 18], ["夜 21時", 21]],
+                {},
+                class: "w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#111827] shadow-[4px_4px_0_#111827]" %>
+        </div>
+      </div>
+
+      <!-- 曜日（週1のときだけ表示） -->
+      <div id="day_of_week_section"
+           class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827] <%= current_user.notification_frequency == 'weekly' ? '' : 'hidden' %>">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">DAY</p>
+        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知する曜日</h2>
+
+        <div class="mt-3">
+          <%= f.select :notification_day_of_week,
+                [["月曜日", 1], ["火曜日", 2], ["水曜日", 3], ["木曜日", 4], ["金曜日", 5], ["土曜日", 6], ["日曜日", 0]],
+                {},
+                class: "w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#111827] shadow-[4px_4px_0_#111827]" %>
+        </div>
+      </div>
+
+      <!-- 保存ボタン -->
+      <div class="mt-8">
+        <%= f.submit "設定を保存する",
+              class: "w-full rounded-[32px] border-2 border-[#111827] bg-[#1FA971] px-5 py-5 text-xl font-extrabold text-white shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer" %>
+      </div>
+
+    <% end %>
+
+    <!-- LINE 連携 -->
+    <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
+      <p class="text-xs font-extrabold tracking-widest text-[#111827]">LINE</p>
+      <h2 class="mt-2 text-base font-extrabold text-[#111827]">LINE アカウント連携</h2>
+
+      <% if current_user.line_linked? %>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="inline-flex items-center gap-1 rounded-full border-2 border-[#1FA971] bg-[#ECFDF5] px-3 py-1 text-sm font-extrabold text-[#065F46]">
+            ✓ LINE連携済み
+          </span>
+        </div>
+        <%= button_to "連携解除", unlink_line_notification_setting_path, method: :patch,
+              data: { turbo: false, confirm: "LINE連携を解除しますか？" },
+              class: "mt-4 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#6B7280] shadow-[4px_4px_0_#111827] cursor-pointer" %>
+      <% else %>
+        <p class="mt-3 text-sm font-bold text-[#6B7280]">
+          LINEと連携すると、設定した時間に通知が届きます。
+        </p>
+
+        <% if current_user.line_link_token.present? %>
+          <div class="mt-4 rounded-xl border-2 border-[#1FA971] bg-[#ECFDF5] px-4 py-4">
+            <p class="text-xs font-extrabold text-[#065F46]">リンクコード（有効）</p>
+            <p class="mt-1 text-3xl font-extrabold tracking-widest text-[#111827]">
+              <%= current_user.line_link_token %>
+            </p>
+            <p class="mt-2 text-xs font-bold text-[#6B7280]">
+              LINE公式アカウントにこのコードを送ってください
+            </p>
+          </div>
+        <% end %>
+
+        <%= button_to current_user.line_link_token.present? ? "コードを再発行する" : "LINEと連携する",
+              generate_line_link_token_notification_setting_path, method: :patch,
+              data: { turbo: false },
+              class: "mt-4 w-full rounded-[32px] border-2 border-[#111827] bg-[#111827] px-5 py-4 text-base font-extrabold text-white shadow-[6px_6px_0_#6B7280] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <div class="mt-8 text-center">
+      <%= link_to wants_path, class: "inline-flex items-center gap-1 text-sm font-extrabold text-[#111827]" do %>
+        <span aria-hidden="true">‹</span> やりたいこと一覧へ
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var radios = document.querySelectorAll('input[name="user[notification_frequency]"]');
+    var daySection = document.getElementById("day_of_week_section");
+
+    function toggleDay() {
+      var checked = document.querySelector('input[name="user[notification_frequency]"]:checked');
+      if (checked && checked.value === "weekly") {
+        daySection.classList.remove("hidden");
+      } else {
+        daySection.classList.add("hidden");
+      }
+    }
+
+    radios.forEach(function (r) { r.addEventListener("change", toggleDay); });
+  });
+</script>
