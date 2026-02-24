@@ -24,6 +24,11 @@
           🌍 みんなのやりたいこと
         <% end %>
 
+        <%= link_to edit_notification_setting_path,
+              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+          🔔 通知設定
+        <% end %>
+
         <%= link_to edit_user_registration_path,
               class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
           👤 プロフィール
@@ -86,6 +91,17 @@
         </div>
       </div>
 
+    </section>
+
+    <!-- ===== AI 5分行動提案 ===== -->
+    <section class="mt-6 rounded-2xl border-2 border-[#111827] bg-white shadow-[6px_6px_0_#111827]">
+      <div class="px-5 py-5">
+        <p class="text-xs font-extrabold tracking-widest text-[#111827]">AI ACTION</p>
+        <h2 class="mt-1 text-base font-extrabold text-[#111827]">⚡ 今日の5分行動</h2>
+        <turbo-frame id="ai-suggestion" class="block mt-4">
+          <%= render "ai_suggestions/card", daily: nil %>
+        </turbo-frame>
+      </div>
     </section>
 
     <!-- ===== DIE WITH ZERO ===== -->

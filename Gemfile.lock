@@ -76,6 +76,9 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
+    anthropic (1.23.0)
+      cgi
+      connection_pool
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.21)
@@ -179,6 +182,9 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
+    line-bot-api (2.6.1)
+      base64 (~> 0.2)
+      multipart-post (~> 2.4)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.25.0)
@@ -199,6 +205,7 @@ GEM
     msgpack (1.8.0)
     multi_xml (0.8.1)
       bigdecimal (>= 3.1, < 5)
+    multipart-post (2.4.1)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.2)
@@ -427,6 +434,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  anthropic
   bootsnap
   brakeman (>= 8.0)
   capybara
@@ -441,6 +449,7 @@ DEPENDENCIES
   jwt (~> 2.9.2)
   kaminari
   letter_opener
+  line-bot-api
   omniauth
   omniauth-github (~> 1.4)
   omniauth-google-oauth2
