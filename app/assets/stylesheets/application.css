@@ -75,3 +75,7 @@ progress.life-progress::-moz-progress-bar {
   background: #ff6b6b;
   border-radius: 9999px;
 }
+
+/* 横スクロールナビのスクロールバー非表示 */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }

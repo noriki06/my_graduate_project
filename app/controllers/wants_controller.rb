@@ -4,17 +4,26 @@ class WantsController < ApplicationController
 
   def index
     @life_progress_rate = current_user.life_progress_rate || 0
+    @current_tab = params[:tab] # nil = やりたいこと / 'achieved' = 達成
 
-    wants = current_user.wants.for_list
+    all_wants = current_user.wants.for_list
 
-    # ✅ 追加：達成率（思い出の達成率）
-    @total_wants_count = wants.size
-    @achieved_wants_count = wants.count(&:achieved?)
+    # 達成率は全件で計算
+    @total_wants_count    = all_wants.size
+    @achieved_wants_count = all_wants.count(&:achieved?)
     @achieve_rate =
       if @total_wants_count.zero?
         0.0
       else
         (@achieved_wants_count.to_f / @total_wants_count * 100).clamp(0, 100)
+      end
+
+    # サブタブで表示対象を切り替え
+    wants =
+      if @current_tab == "achieved"
+        all_wants.select(&:achieved?)
+      else
+        all_wants.reject(&:achieved?)
       end
 
     grouped = wants.group_by(&:time_bucket)

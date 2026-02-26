@@ -33,7 +33,9 @@
               method: :post,
               data: { turbo: false },
               class: "group w-full rounded-2xl border-2 border-[#111827] bg-white px-4 py-5 shadow-[4px_4px_0_#111827]
-                      transition hover:-translate-y-[1px] active:translate-x-[1px] active:translate-y-[1px]" do %>
+                      transition-all duration-150
+                      hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[6px_6px_0_#111827] hover:bg-gray-50
+                      active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0_#111827]" do %>
           <div class="flex flex-col items-center justify-center">
             <svg class="h-16 w-16" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -50,7 +52,9 @@
               method: :post,
               data: { turbo: false },
               class: "group w-full rounded-2xl border-2 border-[#111827] bg-white px-4 py-5 shadow-[4px_4px_0_#111827]
-                      transition hover:-translate-y-[1px] active:translate-x-[1px] active:translate-y-[1px]" do %>
+                      transition-all duration-150
+                      hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[6px_6px_0_#111827] hover:bg-gray-50
+                      active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0_#111827]" do %>
           <div class="flex flex-col items-center justify-center">
             <!-- 黒い丸 + 白いGitHub -->
             <div class="flex h-16 w-16 items-center justify-center rounded-full bg-black">
@@ -135,7 +139,10 @@
         <!-- 送信 -->
         <div class="mt-6">
           <%= f.submit "登録する",
-                class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827] shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+                class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827]
+                        shadow-[6px_6px_0_#111827] transition-all duration-150
+                        hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:brightness-110
+                        active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
         </div>
 
       <% end %>
@@ -150,5 +157,7 @@
       <%= link_to "ログインする",
             new_user_session_path,
             class: "rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-6 py-3 text-sm font-extrabold text-[#111827]
-                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+                    shadow-[6px_6px_0_#111827] transition-all duration-150
+                    hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:brightness-110
+                    active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
     </div>

@@ -41,6 +41,80 @@
       <div class="flash <%= type %>"><%= message %></div>
     <% end %>
 
+    <% if user_signed_in? %>
+      <%# ===== 主ナビ定義（3項目 + active ラムダ） ===== %>
+      <% nav_items = [
+        {
+          label:  "👤 マイページ",
+          url:    wants_path,
+          active: (controller_name == "wants" && action_name == "index")
+        },
+        {
+          label:  "🌍 みんな",
+          url:    public_wants_path,
+          active: (current_page?(public_wants_path) || current_page?(public_wishlist_path))
+        },
+        {
+          label:  "🔔 通知",
+          url:    edit_notification_setting_path,
+          active: current_page?(edit_notification_setting_path)
+        },
+      ] %>
+
+      <%# ===== ヘッダー: 主ナビ行 ＋ コンテキスト別サブナビ行 ===== %>
+      <header class="sticky top-0 z-50 bg-[#FBF6E9]/90 backdrop-blur border-b border-[#111827]/10">
+
+        <%# ── 主ナビ行 ── %>
+        <div class="mx-auto max-w-[720px] px-4 py-3 flex items-center justify-between gap-3">
+
+          <%# 左: ロゴ %>
+          <%= link_to wants_path,
+                class: "shrink-0 text-lg font-extrabold text-[#111827] cursor-pointer rounded
+                        focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
+            ライフゲージ
+          <% end %>
+
+          <%# 中: チップナビ（横スクロール）%>
+          <nav class="flex-1 min-w-0 overflow-hidden" aria-label="グローバルナビゲーション">
+            <div class="flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-none">
+              <% nav_items.each do |item| %>
+                <% if item[:active] %>
+                  <span class="inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold
+                               bg-[#111827] text-white border-transparent">
+                    <%= item[:label] %>
+                  </span>
+                <% else %>
+                  <%= link_to item[:label], item[:url],
+                        class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
+                                bg-white border-[#111827]/25 hover:bg-[#F9FAFB] hover:shadow-sm hover:-translate-y-0.5
+                                focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
+                <% end %>
+              <% end %>
+            </div>
+          </nav>
+
+          <%# 右: CTA %>
+          <%= link_to new_want_path,
+                class: "shrink-0 inline-flex items-center rounded-full bg-[#111827] px-4 py-2 text-sm font-extrabold text-white cursor-pointer
+                        hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 transition duration-150
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
+            ＋<span class="hidden sm:inline"> 追加</span>
+          <% end %>
+
+        </div>
+
+        <%# ── サブナビ行（ページ別・content_for :subnav で注入）── %>
+        <% if content_for?(:subnav) %>
+          <div class="border-t border-[#111827]/10">
+            <div class="mx-auto max-w-[720px] px-4 py-2">
+              <%= yield :subnav %>
+            </div>
+          </div>
+        <% end %>
+
+      </header>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
