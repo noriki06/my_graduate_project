@@ -2,13 +2,13 @@
   <div class="mx-auto max-w-[520px] px-5 py-10">
 
     <!-- ヘッダー -->
-    <div class="flex items-center justify-between">
-      <h1 class="text-3xl font-extrabold text-[#111827]">
+    <div class="flex items-start justify-between gap-4">
+      <h1 class="min-w-0 flex-1 text-2xl sm:text-3xl font-extrabold text-[#111827] break-words">
         <%= @want.title %>
       </h1>
 
       <%= link_to wants_path,
-            class: "text-sm font-bold text-[#6B7280] hover:underline" do %>
+            class: "shrink-0 text-sm font-bold text-[#6B7280] hover:underline" do %>
         戻る
       <% end %>
     </div>

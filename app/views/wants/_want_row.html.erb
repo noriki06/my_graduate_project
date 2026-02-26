@@ -4,7 +4,7 @@
 <% detail_path = public_view ? public_want_path(want) : want_path(want) %>
 
 <div class="rounded-2xl border border-[#111827]/20 bg-white px-5 py-4">
-  <div class="flex items-start justify-between gap-6">
+  <div class="flex items-start justify-between gap-3 sm:gap-6">
     <!-- 左側：テキスト -->
     <div class="min-w-0 flex-1">
       <!-- タイトル -->
@@ -58,7 +58,7 @@
     <div class="shrink-0 flex items-start gap-3">
       <!-- 画像枠：常に確保（No Imageは表示しない） -->
       <%= link_to detail_path, class: "block" do %>
-        <div class="h-12 w-16 sm:h-14 sm:w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] flex items-center justify-center overflow-hidden">
+        <div class="h-10 w-14 sm:h-14 sm:w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] flex items-center justify-center overflow-hidden">
           <% if achieved && want.achieved_image.attached? %>
             <%= image_tag want.achieved_image.variant(resize_to_limit: [160, 112]),
                   alt: want.title,
@@ -73,19 +73,19 @@
 
       <!-- ボタン（幅固定＋子をblockにして幅を効かせる） -->
       <% unless public_view %>
-        <div class="flex flex-col items-stretch gap-2 w-24 sm:w-36">
+        <div class="flex flex-col items-stretch gap-2 w-[72px] sm:w-36">
           <% if achieved %>
             <%= link_to "思い出メモ",
                   achieve_form_want_path(want),
-                  class: "block w-full rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-extrabold text-[#111827] text-center" %>
+                  class: "block w-full rounded-full border border-[#111827]/20 bg-white px-1 py-2 sm:px-4 text-xs sm:text-sm font-extrabold text-[#111827] text-center" %>
           <% else %>
             <%= link_to "達成",
                   achieve_form_want_path(want),
-                  class: "block w-full rounded-full bg-[#1FA971] px-4 py-2 text-sm font-extrabold text-white hover:opacity-90 text-center" %>
+                  class: "block w-full rounded-full bg-[#1FA971] px-1 py-2 sm:px-4 text-xs sm:text-sm font-extrabold text-white hover:opacity-90 text-center" %>
 
             <%= link_to "編集",
                   edit_want_path(want),
-                  class: "block w-full rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-extrabold text-[#111827] text-center" %>
+                  class: "block w-full rounded-full border border-[#111827]/20 bg-white px-1 py-2 sm:px-4 text-xs sm:text-sm font-extrabold text-[#111827] text-center" %>
           <% end %>
         </div>
       <% end %>

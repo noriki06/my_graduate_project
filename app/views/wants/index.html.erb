@@ -10,37 +10,52 @@
     <% total_count = (@total_wants_count || 0).to_i %>
 
     <!-- ===== ヘッダー ===== -->
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h1 class="text-3xl font-extrabold text-[#111827]">ライフゲージ</h1>
+    <div class="flex flex-col gap-2">
+      <!-- タイトル行：タイトル左、ハンバーガー右（モバイル） -->
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-extrabold text-[#111827]">ライフゲージ</h1>
 
-      <div class="flex flex-wrap items-center gap-2">
+        <!-- ハンバーガーボタン（モバイルのみ表示） -->
+        <button
+          class="sm:hidden inline-flex items-center rounded-full border border-[#111827]/25 bg-white p-2.5"
+          onclick="var n=document.getElementById('main-nav');n.classList.toggle('hidden');n.classList.toggle('flex');"
+          aria-label="メニューを開く"
+        >
+          <svg class="h-5 w-5 text-[#111827]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- ナビリンク：モバイルは折りたたみ（ハンバーガーで開閉）、デスクトップは常時表示 -->
+      <div id="main-nav" class="hidden sm:flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2">
         <%= link_to public_wants_path,
-              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           🏆 みんなの達成
         <% end %>
 
         <%= link_to public_wishlist_path,
-              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           🌍 みんなのやりたいこと
         <% end %>
 
         <%= link_to edit_notification_setting_path,
-              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           🔔 通知設定
         <% end %>
 
         <%= link_to edit_user_registration_path,
-              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           👤 プロフィール
         <% end %>
 
         <%= link_to root_path,
-              class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           🏠 トップ
         <% end %>
 
         <%= link_to new_want_path,
-          class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
+              class: "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base w-full sm:w-auto" do %>
           ＋ やりたいことを追加
         <% end %>
       </div>
