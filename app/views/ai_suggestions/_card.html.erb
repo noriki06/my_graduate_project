@@ -1,0 +1,27 @@
+<% if daily %>
+  <%# 提案済み表示 %>
+  <div class="space-y-3">
+    <div class="rounded-xl bg-[#F0FDF4] border border-[#1FA971]/30 px-4 py-3">
+      <p class="text-xs font-bold text-[#065F46]">対象のやりたいこと</p>
+      <p class="mt-1 text-sm font-extrabold text-[#111827]"><%= daily.want.title %></p>
+    </div>
+
+    <div class="rounded-xl bg-[#FFFBEB] border border-[#F59E0B]/30 px-4 py-3">
+      <p class="whitespace-pre-wrap text-sm text-[#111827] leading-relaxed"><%= daily.suggested_action %></p>
+    </div>
+
+    <p class="text-center text-xs font-bold text-[#6B7280]">✅ 今日の提案は済みです（明日また来てね）</p>
+  </div>
+<% else %>
+  <%# 未提案：ボタン表示 %>
+  <% if defined?(no_wants) && no_wants %>
+    <p class="text-sm font-bold text-[#6B7280] text-center py-2">
+      「AI通知に含める」がオンのやりたいこと（未達成）がありません。
+    </p>
+  <% else %>
+    <%= form_with url: ai_suggestion_path, method: :post, data: { turbo_frame: "ai-suggestion" } do |f| %>
+      <%= f.submit "⚡ 今日の5分行動を提案してもらう",
+            class: "w-full cursor-pointer rounded-full bg-[#111827] px-5 py-3 text-base font-extrabold text-white hover:opacity-90" %>
+    <% end %>
+  <% end %>
+<% end %>

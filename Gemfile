@@ -32,7 +32,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
@@ -40,7 +40,12 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails"
+  gem "dotenv-rails"
   gem "factory_bot_rails"
+end
+
+group :development do
+  gem "letter_opener"
 end
 
 group :test do
@@ -53,5 +58,13 @@ gem "devise", "~> 5.0"
 gem "devise-i18n"
 gem "rails-i18n"
 
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-twitter2"
+gem "omniauth-github", "~> 1.4"
+gem "omniauth-rails_csrf_protection"
+gem "jwt", "~> 2.9.2"
 gem "tailwindcss-rails", "~> 4.4"
 gem "kaminari"
+gem "anthropic"
+gem "line-bot-api"

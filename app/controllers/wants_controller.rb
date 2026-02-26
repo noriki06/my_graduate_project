@@ -1,20 +1,78 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_want, only: %i[show edit update destroy achieve_form achieve]
+  before_action :set_want, only: %i[show edit update destroy achieve_form achieve toggle_publish]
 
   def index
     @life_progress_rate = current_user.life_progress_rate || 0
-    @wants = current_user.wants.order(achieved_at: :asc, created_at: :desc).page(params[:page]).per(10)
+
+    wants = current_user.wants.for_list
+
+    # ✅ 追加：達成率（思い出の達成率）
+    @total_wants_count = wants.size
+    @achieved_wants_count = wants.count(&:achieved?)
+    @achieve_rate =
+      if @total_wants_count.zero?
+        0.0
+      else
+        (@achieved_wants_count.to_f / @total_wants_count * 100).clamp(0, 100)
+      end
+
+    grouped = wants.group_by(&:time_bucket)
+
+    max_age = 89
+    birthday = current_user.birthday
+
+    all_buckets =
+      if birthday.present?
+        current_age = ((Date.current - birthday.to_date).to_i / 365.25).floor
+        Want.time_buckets_between(from_age: current_age, to_age: max_age)
+      else
+        []
+      end
+
+    @wants_by_bucket = all_buckets.index_with { [] }
+
+    grouped.each do |bucket, bucket_wants|
+      next if bucket.blank?
+      @wants_by_bucket[bucket] ||= []
+      @wants_by_bucket[bucket].concat(bucket_wants)
+    end
+
+    @unbucketed_wants = grouped[nil] || []
+  end
+
+  # 公開Want一覧：達成済み（ログイン必須）
+  def public_index
+    @wants = Want.public_achieved_list
+                 .includes(:user, :likes, :comments, achieved_image_attachment: :blob)
+                 .page(params[:page]).per(10)
+  end
+
+  # 公開Want一覧：未達成ウィッシュリスト（ログイン必須）
+  def public_wishlist_index
+    @wants = Want.public_wishlist
+                 .includes(:user, :likes, :comments, picture_attachment: :blob)
+                 .page(params[:page]).per(10)
+  end
+
+  # 公開Want詳細（達成・未達成両対応、ログイン必須）
+  def public_show
+    @want = Want.public_list
+                .includes(:user, :likes, comments: :user)
+                .find(params[:id])
+    @comment = Comment.new
   end
 
   def show; end
 
   def new
     @want = current_user.wants.new
+    @prefill_time_bucket = params[:time_bucket]
   end
 
   def create
     @want = current_user.wants.new(want_params)
+    apply_target_age!(@want)
 
     if @want.save
       redirect_to wants_path, notice: "登録しました"
@@ -26,7 +84,10 @@ class WantsController < ApplicationController
   def edit; end
 
   def update
-    if @want.update(want_params)
+    @want.assign_attributes(want_params)
+    apply_target_age!(@want)
+
+    if @want.save
       redirect_to wants_path, notice: "更新しました"
     else
       render :edit, status: :unprocessable_entity
@@ -38,21 +99,34 @@ class WantsController < ApplicationController
     redirect_to wants_path, notice: "削除しました"
   end
 
-  def achieve_form
-  end
+  def achieve_form; end
 
   def achieve
     already_achieved = @want.achieved?
 
+    if achieve_params[:achieved_image].present?
+      @want.achieved_image.attach(achieve_params[:achieved_image])
+    end
+
     if @want.achieve(
-        achievement_note: params.dig(:want, :achievement_note),
-        achieved_at_input: params.dig(:want, :achieved_at),
-        now: Time.current
-      )
+      achievement_note: achieve_params[:achievement_note],
+      achieved_at_input: achieve_params[:achieved_at],
+      now: Time.current
+    )
       notice = already_achieved ? "思い出メモを更新しました！" : "達成を記録しました！"
       redirect_to wants_path, notice: notice
     else
       render :achieve_form, status: :unprocessable_entity
+    end
+  end
+
+  # 公開/非公開切り替え
+  def toggle_publish
+    if @want.user == current_user
+      @want.update(published: !@want.published?)
+      redirect_to wants_path, notice: @want.published? ? "公開しました" : "非公開にしました"
+    else
+      redirect_to wants_path, alert: "権限がありません"
     end
   end
 
@@ -63,6 +137,24 @@ class WantsController < ApplicationController
   end
 
   def want_params
-    params.require(:want).permit(:title, :memo, :target_date)
+    params.require(:want).permit(:title, :memo, :target_date, :picture, :notify_enabled)
+  end
+
+  def achieve_params
+    params.require(:want).permit(:achievement_note, :achieved_at, :achieved_image)
+  end
+
+  # 年齢が入力されたときだけ target_date を計算してセットする
+  # （日付入力がある場合はそれを尊重する）
+  def apply_target_age!(want)
+    age_str = params[:target_age].presence
+    return if age_str.blank?
+    return if want.target_date.present? # ← 日付入力が優先
+    return if current_user.birthday.blank?
+
+    age = age_str.to_i
+    return if age <= 0
+
+    want.target_date = current_user.birthday.to_date + age.years
   end
 end

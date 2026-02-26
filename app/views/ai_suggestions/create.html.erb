@@ -1,0 +1,7 @@
+<turbo-frame id="ai-suggestion">
+  <% if @daily %>
+    <%= render "ai_suggestions/card", daily: @daily %>
+  <% else %>
+    <%= render "ai_suggestions/card", daily: nil, no_wants: true %>
+  <% end %>
+</turbo-frame>

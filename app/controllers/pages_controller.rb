@@ -4,4 +4,10 @@ class PagesController < ApplicationController
 
   def die_with_zero
   end
+
+  def terms
+  end
+
+  def privacy
+  end
 end
