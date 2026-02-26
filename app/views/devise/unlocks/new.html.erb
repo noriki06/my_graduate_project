@@ -32,7 +32,9 @@
         <div class="mt-6">
           <%= f.submit "再送する",
                 class: "w-full rounded-2xl border-2 border-[#111827] bg-[#46D2C4] px-5 py-4 text-sm font-extrabold text-[#111827]
-                        shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+                        shadow-[6px_6px_0_#111827] transition-all duration-150
+                        hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:brightness-110
+                        active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
         </div>
       <% end %>
     </div>

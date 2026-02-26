@@ -3,13 +3,17 @@
   <%- if controller_name != 'sessions' %>
     <%= link_to "ログイン", new_session_path(resource_name),
           class: "w-full rounded-2xl border-2 border-[#111827] bg-white px-6 py-3 text-sm font-extrabold text-[#111827]
-                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+                  shadow-[6px_6px_0_#111827] transition-all duration-150
+                  hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:bg-gray-50
+                  active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
   <% end %>
 
   <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
     <%= link_to "新規登録", new_registration_path(resource_name),
           class: "w-full rounded-2xl border-2 border-[#111827] bg-[#FFE57A] px-6 py-3 text-sm font-extrabold text-[#111827]
-                  shadow-[6px_6px_0_#111827] active:translate-x-[1px] active:translate-y-[1px]" %>
+                  shadow-[6px_6px_0_#111827] transition-all duration-150
+                  hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:brightness-110
+                  active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
   <% end %>
 
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>

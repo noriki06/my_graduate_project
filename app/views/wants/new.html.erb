@@ -3,147 +3,171 @@
 
     <!-- ヘッダー -->
     <div class="flex items-center justify-between">
-      <h1 class="text-3xl font-extrabold text-[#111827]">
-        やりたいこと登録
-      </h1>
-
+      <h1 class="text-2xl font-extrabold text-[#111827]">やりたいことを追加</h1>
       <%= link_to wants_path,
-            class: "text-sm font-bold text-[#6B7280] hover:underline" do %>
-        戻る
+            class: "text-sm font-bold text-[#6B7280] cursor-pointer
+                    hover:text-[#111827] transition duration-150
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1 rounded" do %>
+        ← 戻る
       <% end %>
     </div>
 
+    <!-- バリデーションエラー -->
+    <% if @want.errors.any? %>
+      <div class="mt-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
+        <p class="text-sm font-extrabold text-red-700">入力内容を確認してください</p>
+        <ul class="mt-2 list-disc pl-5 text-sm font-bold text-red-700">
+          <% @want.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- 年代プリフィル通知 -->
+    <% if @prefill_time_bucket.present? %>
+      <div class="mt-4 rounded-xl border border-[#111827]/15 bg-[#F3F4F6] px-4 py-3">
+        <p class="text-sm font-bold text-[#111827]">
+          📅 <span class="font-extrabold"><%= @prefill_time_bucket %>歳</span> の年代に追加します
+        </p>
+      </div>
+    <% end %>
+
     <!-- フォームカード -->
-    <div class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-6">
+    <div class="mt-5 rounded-2xl border border-[#111827]/20 bg-white p-6">
       <%= form_with model: @want, local: true do |f| %>
-        <% if @prefill_time_bucket.present? %>
-          <div class="mb-5 rounded-2xl border border-[#111827]/20 bg-[#FBF6E9] px-5 py-4">
-            <p class="text-sm font-extrabold text-[#111827]">
-              選択中の年代：<%= @prefill_time_bucket %>歳
-            </p>
-            <p class="mt-1 text-xs font-bold text-[#6B7280]">
-              年齢（◯歳までに）または目標日を入力すると、自動でこの年代に振り分けられます
-            </p>
-          </div>
-        <% end %>
 
-        <% if @want.errors.any? %>
-          <div class="mb-5 rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
-            <p class="text-sm font-extrabold text-red-700">
-              入力内容を確認してください
-            </p>
-            <ul class="mt-2 list-disc pl-5 text-sm font-bold text-red-700">
-              <% @want.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-
-        <!-- やりたいこと -->
+        <%# ─── やりたいこと（必須）─── %>
         <div>
-          <%= f.label :title,
-                "やりたいこと",
-                class: "text-sm font-extrabold text-[#6B7280]" %>
-
+          <%= f.label :title, class: "block text-sm font-bold text-[#6B7280]" do %>
+            やりたいこと <span class="text-red-400 ml-0.5">*</span>
+          <% end %>
           <%= f.text_field :title,
-                placeholder: "例：海外旅行に行く",
-                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3 text-base font-bold text-[#111827] focus:border-[#1FA971] focus:outline-none" %>
+                placeholder: "海外旅行",
+                autofocus: true,
+                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                        text-base font-bold text-[#111827]
+                        focus:border-[#1FA971] focus:outline-none transition duration-150" %>
         </div>
 
-        <!-- メモ -->
+        <%# ─── メモ（任意）─── %>
         <div class="mt-5">
-          <%= f.label :memo,
-                "メモ",
-                class: "text-sm font-extrabold text-[#6B7280]" %>
-
+          <%= f.label :memo, class: "block text-sm font-bold text-[#6B7280]" do %>
+            メモ <span class="text-xs font-normal text-[#9CA3AF] ml-1">任意</span>
+          <% end %>
           <%= f.text_area :memo,
-                rows: 5,
+                rows: 3,
                 placeholder: "なぜやりたいか、きっかけなど",
-                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3 text-base text-[#111827] focus:border-[#1FA971] focus:outline-none" %>
+                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                        text-base text-[#111827] resize-none
+                        focus:border-[#1FA971] focus:outline-none transition duration-150" %>
         </div>
 
-        <!-- 写真 -->
-        <div class="mt-5">
-          <%= f.label :picture,
-                "写真",
-                class: "text-sm font-extrabold text-[#6B7280]" %>
+        <%# ─── 目標（ラジオ → 入力切り替え）─── %>
+        <div class="mt-5" data-controller="goal-type">
+          <p class="text-sm font-bold text-[#6B7280]">
+            目標 <span class="text-xs font-normal text-[#9CA3AF] ml-1">任意</span>
+          </p>
 
+          <!-- ラジオ3択 -->
+          <div class="mt-3 flex flex-col gap-2">
+
+            <!-- 目標なし（default） -->
+            <label class="flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition duration-150
+                          border-[#111827]/15 bg-white
+                          has-[:checked]:border-[#111827] has-[:checked]:bg-[#F3F4F6]">
+              <input type="radio" name="goal_type" value="none"
+                     checked
+                     class="h-4 w-4 accent-[#111827] cursor-pointer"
+                     data-action="change->goal-type#toggle">
+              <span class="text-sm font-bold text-[#111827]">目標なし</span>
+            </label>
+
+            <!-- 年齢で設定 -->
+            <label class="flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition duration-150
+                          border-[#111827]/15 bg-white
+                          has-[:checked]:border-[#111827] has-[:checked]:bg-[#F3F4F6]">
+              <input type="radio" name="goal_type" value="age"
+                     class="h-4 w-4 accent-[#111827] cursor-pointer"
+                     data-action="change->goal-type#toggle">
+              <span class="text-sm font-bold text-[#111827]">◯歳までに</span>
+            </label>
+
+            <!-- 日付で設定 -->
+            <label class="flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition duration-150
+                          border-[#111827]/15 bg-white
+                          has-[:checked]:border-[#111827] has-[:checked]:bg-[#F3F4F6]">
+              <input type="radio" name="goal_type" value="date"
+                     class="h-4 w-4 accent-[#111827] cursor-pointer"
+                     data-action="change->goal-type#toggle">
+              <span class="text-sm font-bold text-[#111827]">日付で設定</span>
+            </label>
+
+          </div>
+
+          <!-- 年齢入力（初期 hidden）-->
+          <div class="hidden mt-3" data-goal-type-target="ageSection">
+            <%= number_field_tag :target_age,
+                  params[:target_age],
+                  min: 1, max: 120,
+                  placeholder: "例：60",
+                  data: { goal_type_target: "ageField" },
+                  class: "w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                          text-base font-bold text-[#111827]
+                          focus:border-[#1FA971] focus:outline-none transition duration-150" %>
+            <p class="mt-1 text-xs text-[#9CA3AF]">誕生日 + 入力年齢で目標日を自動計算</p>
+          </div>
+
+          <!-- 日付入力（初期 hidden）-->
+          <div class="hidden mt-3" data-goal-type-target="dateSection">
+            <%= f.date_field :target_date,
+                  data: { goal_type_target: "dateField" },
+                  class: "w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                          text-base font-bold text-[#111827]
+                          focus:border-[#1FA971] focus:outline-none transition duration-150" %>
+          </div>
+
+        </div>
+
+        <%# ─── 写真（任意）─── %>
+        <div class="mt-5">
+          <p class="text-sm font-bold text-[#6B7280]">
+            写真 <span class="text-xs font-normal text-[#9CA3AF] ml-1">任意</span>
+          </p>
           <div class="mt-2">
             <%= f.file_field :picture,
                   accept: "image/*",
-                  class: "w-full text-sm text-[#6B7280] file:mr-3 file:rounded-full file:border-0 file:bg-[#111827] file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:opacity-90",
+                  class: "w-full text-sm text-[#6B7280]
+                          file:mr-3 file:cursor-pointer file:rounded-full file:border-0
+                          file:bg-[#111827] file:px-4 file:py-2 file:text-sm file:font-bold file:text-white
+                          hover:file:opacity-90 transition duration-150",
                   data: { controller: "preview", preview_target: "input", action: "change->preview#show" } %>
           </div>
-
           <div class="mt-3 hidden" data-preview-target="wrapper">
-            <img src="" alt="プレビュー" class="max-h-60 w-full rounded-xl object-cover" data-preview-target="image">
+            <img src="" alt="プレビュー"
+                 class="max-h-48 w-full rounded-xl object-cover"
+                 data-preview-target="image">
           </div>
-
-          <p class="mt-1 text-xs font-bold text-[#6B7280]">
-            未設定でもOK
-          </p>
+          <p class="mt-1 text-xs text-[#9CA3AF]">※後から追加できます</p>
         </div>
 
-        <!-- 目標：年齢 or 日付 -->
-        <div class="mt-5">
-          <p class="text-sm font-extrabold text-[#6B7280]">目標</p>
-
-          <!-- 年齢入力 -->
-          <div class="mt-2">
-            <%= label_tag :target_age,
-                  "◯歳までに",
-                  class: "text-sm font-extrabold text-[#6B7280]" %>
-
-            <%= number_field_tag :target_age,
-                  params[:target_age],
-                  min: 0,
-                  max: 120,
-                  placeholder: "例：60",
-                  class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3 text-base font-bold text-[#111827] focus:border-[#1FA971] focus:outline-none" %>
-
-            <p class="mt-1 text-xs font-bold text-[#6B7280]">
-              入力すると「あなたの誕生日 + 年齢」で目標日を自動計算します
-            </p>
-          </div>
-
-          <!-- 区切り -->
-          <div class="my-4 flex items-center gap-3">
-            <div class="h-px flex-1 bg-[#111827]/10"></div>
-            <span class="text-xs font-bold text-[#6B7280]">または</span>
-            <div class="h-px flex-1 bg-[#111827]/10"></div>
-          </div>
-
-          <!-- 日付入力 -->
-          <div>
-            <%= f.label :target_date,
-                  "目標日",
-                  class: "text-sm font-extrabold text-[#6B7280]" %>
-
-            <%= f.date_field :target_date,
-                  class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3 text-base font-bold text-[#111827] focus:border-[#1FA971] focus:outline-none" %>
-
-            <p class="mt-1 text-xs font-bold text-[#6B7280]">
-              <% if @prefill_time_bucket.present? %>
-                ※この年代に入れたい場合は「◯歳までに」か「目標日」を入力してください
-              <% else %>
-                未設定でもOK
-              <% end %>
-            </p>
-          </div>
-        </div>
-
-        <!-- ボタン -->
+        <%# ─── ボタン ─── %>
         <div class="mt-8 flex gap-3">
           <%= f.submit "登録する",
-                class: "flex-1 rounded-full bg-[#111827] py-3 text-base font-extrabold text-white hover:opacity-90" %>
+                class: "flex-1 cursor-pointer rounded-full bg-[#111827] py-3
+                        text-base font-extrabold text-white
+                        hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 transition duration-150
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" %>
 
-          <%= link_to "キャンセル",
-                wants_path,
-                class: "flex-1 rounded-full border border-[#111827]/30 py-3 text-center text-base font-extrabold text-[#111827] hover:bg-[#FBF6E9]" %>
+          <%= link_to "キャンセル", wants_path,
+                class: "flex-1 cursor-pointer rounded-full border border-[#111827]/25 bg-white py-3
+                        text-center text-base font-extrabold text-[#111827]
+                        hover:bg-[#F9FAFB] hover:shadow-sm hover:-translate-y-0.5 transition duration-150
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
         </div>
 
       <% end %>
     </div>
+
   </div>
 </div>

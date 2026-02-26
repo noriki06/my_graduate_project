@@ -1,16 +1,20 @@
+<%# ── みんな サブナビ ── %>
+<% content_for :subnav do %>
+  <div class="flex flex-nowrap gap-1 overflow-x-auto scrollbar-none">
+    <span class="inline-flex items-center whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold bg-[#111827]/10 text-[#111827]">
+      みんなの達成
+    </span>
+    <%= link_to public_wishlist_path,
+          class: "inline-flex items-center whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold transition cursor-pointer
+                  text-[#6B7280] hover:text-[#111827] hover:bg-[#111827]/5" do %>
+      みんなのやりたいこと
+    <% end %>
+  </div>
+<% end %>
+
 <div class="min-h-screen bg-[#FBF6E9]">
   <div class="mx-auto max-w-[720px] px-5 py-8">
-    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h1 class="text-3xl font-extrabold text-[#111827]">みんなの達成</h1>
-      <div class="flex flex-wrap items-center gap-2">
-        <%= link_to public_wishlist_path, class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
-          🌍 やりたいこと
-        <% end %>
-        <%= link_to wants_path, class: "inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-[#111827]/25 bg-white px-3 py-1.5 text-sm font-bold sm:px-5 sm:py-2 sm:text-base" do %>
-          🏠 マイページ
-        <% end %>
-      </div>
-    </div>
+    <h1 class="mb-6 text-3xl font-extrabold text-[#111827]">みんなの達成</h1>
 
     <section class="rounded-2xl border border-[#111827]/20 bg-white p-5">
       <p class="text-base font-extrabold text-[#6B7280]">みんなの達成したやりたいこと</p>
@@ -27,20 +31,27 @@
 
             <!-- アクション帯 -->
             <div class="mb-3 mt-2 flex items-center gap-3 px-2">
+              <%# いいね判定: 投稿者かどうかに関係なく「current_userがいいねしているか」のみで判定 %>
               <% liked = want.likes.any? { |l| l.user_id == current_user.id } %>
               <% if liked %>
                 <%= button_to unlike_want_path(want), method: :delete,
-                      class: "rounded-full border border-[#1FA971] bg-[#ECFDF5] px-4 py-2 text-sm font-bold text-[#065F46]" do %>
+                      class: "rounded-full border border-[#1FA971] bg-[#E6F7EF] px-4 py-2 text-sm font-bold text-[#065F46] cursor-pointer
+                              hover:opacity-80 transition duration-150
+                              focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FA971] focus-visible:ring-offset-1" do %>
                   👍 <%= want.likes.size %>
                 <% end %>
               <% else %>
                 <%= button_to like_want_path(want), method: :post,
-                      class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-bold text-[#111827]" do %>
+                      class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-bold text-[#111827] cursor-pointer
+                              hover:bg-[#F9FAFB] hover:shadow-sm transition duration-150
+                              focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
                   👍 <%= want.likes.size %>
                 <% end %>
               <% end %>
               <%= link_to public_want_path(want),
-                    class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-bold text-[#111827]" do %>
+                    class: "rounded-full border border-[#111827]/20 bg-white px-4 py-2 text-sm font-bold text-[#111827] cursor-pointer
+                            hover:bg-[#F9FAFB] hover:shadow-sm transition duration-150
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
                 💬 <%= want.comments.size %>
               <% end %>
             </div>
