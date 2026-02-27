@@ -1,7 +1,30 @@
-<turbo-frame id="ai-suggestion">
-  <% if @daily %>
-    <%= render "ai_suggestions/card", daily: @daily %>
-  <% else %>
-    <%= render "ai_suggestions/card", daily: nil, no_wants: true %>
-  <% end %>
-</turbo-frame>
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[720px] px-5 py-8">
+
+    <!-- ヘッダー -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-extrabold text-[#111827]">今日の5分行動</h1>
+      <%= link_to wants_path,
+            class: "text-sm font-bold text-[#6B7280] cursor-pointer
+                    hover:text-[#111827] transition duration-150
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1 rounded" do %>
+        ← 戻る
+      <% end %>
+    </div>
+
+    <!-- AI Action カード -->
+    <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-5">
+      <p class="text-base font-extrabold text-[#6B7280]">AI Action</p>
+      <p class="mt-1 text-sm font-extrabold text-[#111827]">⚡ 今日の5分行動</p>
+
+      <turbo-frame id="ai-suggestion" class="block mt-4">
+        <% if @daily %>
+          <%= render "ai_suggestions/card", daily: @daily %>
+        <% else %>
+          <%= render "ai_suggestions/card", daily: nil, no_wants: true %>
+        <% end %>
+      </turbo-frame>
+    </section>
+
+  </div>
+</div>

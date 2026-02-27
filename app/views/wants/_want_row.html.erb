@@ -41,12 +41,21 @@
         <% end %>
       </div>
 
-      <%# メモ（静的テキスト）%>
-      <p class="mt-2 text-sm text-[#6B7280] line-clamp-1 min-h-[20px]">
-        <% if achieved && want.achievement_note.present? %>
-          <%= want.achievement_note %>
-        <% end %>
-      </p>
+      <%# メモ %>
+      <% if public_view && achieved && want.achievement_note.present? %>
+        <div class="mt-3 rounded-xl bg-green-50 px-4 py-3">
+          <p class="text-xs font-bold text-[#6B7280]">達成メモ</p>
+          <div class="mt-1 text-sm text-[#111827]">
+            <%= simple_format(h(want.achievement_note)) %>
+          </div>
+        </div>
+      <% elsif !public_view %>
+        <p class="mt-2 text-sm text-[#6B7280] line-clamp-1 min-h-[20px]">
+          <% if achieved && want.achievement_note.present? %>
+            <%= want.achievement_note %>
+          <% end %>
+        </p>
+      <% end %>
 
       <%# 公開/非公開トグルピル（現在状態を表示・hoverで次の状態をプレビュー）%>
       <% if !public_view && want.user == current_user %>

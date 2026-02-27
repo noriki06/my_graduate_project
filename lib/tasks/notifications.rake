@@ -22,13 +22,22 @@ namespace :notifications do
 
       next unless should_notify
 
-      wants = user.wants.where(notify_enabled: true).where(achieved_at: nil)
-      next if wants.empty?
+      all_wants = user.wants.where(achieved_at: nil)
+      next if all_wants.empty?
+
+      # notify_enabled: true の want を優先、なければ全件から選ぶ
+      priority_wants = all_wants.where(notify_enabled: true)
+      wants = priority_wants.any? ? priority_wants : all_wants
 
       # 今日の AI 提案があればそのアクション文、なければ want タイトルのみ
       suggestion = user.daily_action_suggestions.find_by(suggested_on: Date.current)
 
-      want = suggestion&.want || wants.sample
+      # 提案の want が優先対象に含まれていればそれを使う、なければ優先対象からランダム
+      want = if suggestion&.want && wants.exists?(id: suggestion.want_id)
+               suggestion.want
+             else
+               wants.sample
+             end
       next if want.nil?
 
       action_text =

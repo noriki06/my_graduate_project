@@ -1,160 +1,159 @@
 <div class="min-h-screen bg-[#FBF6E9]">
-  <div class="mx-auto max-w-[420px] px-4 py-10">
+  <div class="mx-auto max-w-[420px] px-4 py-8">
 
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-extrabold text-[#111827]">通知設定</h1>
-      <%= link_to "戻る", wants_path, class: "text-sm font-bold underline text-[#6B7280]" %>
+      <h1 class="text-xl font-extrabold text-[#111827]">LINEでの通知設定</h1>
+      <%= link_to "← 戻る", wants_path,
+            class: "text-sm font-bold text-[#6B7280] hover:text-[#111827] transition duration-150" %>
     </div>
 
     <% if notice %>
-      <div class="mt-5 rounded-2xl border-2 border-[#111827] bg-[#ECFDF5] px-5 py-3 shadow-[4px_4px_0_#111827]">
-        <p class="text-sm font-extrabold text-[#065F46]"><%= notice %></p>
+      <div class="mt-4 rounded-xl border border-[#1FA971]/40 bg-[#ECFDF5] px-4 py-2.5">
+        <p class="text-sm font-bold text-[#065F46]"><%= notice %></p>
       </div>
     <% end %>
 
-    <%= form_with model: current_user, url: notification_setting_path, method: :patch, data: { turbo: false } do |f| %>
+    <%# ── 通知設定フォーム ── %>
+    <%= form_with model: current_user, url: notification_setting_path, method: :patch,
+          data: { turbo: false, controller: "frequency", action: "change->frequency#change" } do |f| %>
 
-      <!-- 通知オン/オフ -->
-      <div class="mt-8 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
-        <p class="text-xs font-extrabold tracking-widest text-[#111827]">NOTIFICATION</p>
-        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知を受け取る</h2>
+      <div class="mt-5 rounded-2xl border-2 border-[#111827] bg-white px-5 py-6 shadow-[4px_4px_0_#111827]">
+        <p class="text-xs font-extrabold tracking-widest text-[#6B7280]">通知設定</p>
 
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-sm font-bold text-[#6B7280]">AI行動提案の通知</span>
+        <%# オン/オフ %>
+        <div class="mt-5 flex items-center justify-between">
+          <span class="text-sm font-extrabold text-[#111827]">AI行動提案を受け取る</span>
           <label class="relative inline-flex cursor-pointer items-center">
-            <%= f.check_box :notification_enabled, class: "sr-only peer", id: "notification_enabled" %>
-            <div class="peer h-6 w-11 rounded-full bg-[#E5E7EB] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#1FA971] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+            <%= f.check_box :notification_enabled, class: "sr-only peer" %>
+            <div class="peer h-6 w-11 rounded-full bg-[#E5E7EB]
+                        after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5
+                        after:rounded-full after:border after:border-gray-300 after:bg-white
+                        after:transition-all after:content-['']
+                        peer-checked:bg-[#1FA971] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
           </label>
         </div>
-      </div>
 
-      <!-- 頻度 -->
-      <div class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
-        <p class="text-xs font-extrabold tracking-widest text-[#111827]">FREQUENCY</p>
-        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知頻度</h2>
+        <div class="my-5 border-t border-[#111827]/10"></div>
 
-        <div class="mt-4 space-y-3">
-          <label class="flex cursor-pointer items-center gap-3">
-            <%= f.radio_button :notification_frequency, "daily", id: "freq_daily",
-                  class: "h-4 w-4 accent-[#1FA971]" %>
-            <div>
-              <span class="text-sm font-extrabold text-[#111827]">毎日</span>
-              <p class="text-xs font-bold text-[#6B7280]">設定した時間に毎日届く</p>
-            </div>
-          </label>
-          <label class="flex cursor-pointer items-center gap-3">
-            <%= f.radio_button :notification_frequency, "weekly", id: "freq_weekly",
-                  class: "h-4 w-4 accent-[#1FA971]" %>
-            <div>
-              <span class="text-sm font-extrabold text-[#111827]">週1回</span>
-              <p class="text-xs font-bold text-[#6B7280]">設定した曜日・時間に届く</p>
-            </div>
-          </label>
+        <%# 頻度 %>
+        <div class="flex items-center gap-4">
+          <span class="w-12 shrink-0 text-xs font-bold text-[#6B7280]">頻度</span>
+          <div class="flex gap-5">
+            <label class="flex cursor-pointer items-center gap-2">
+              <%= f.radio_button :notification_frequency, "daily",
+                    class: "h-4 w-4 accent-[#1FA971]" %>
+              <span class="text-sm font-bold text-[#111827]">毎日</span>
+            </label>
+            <label class="flex cursor-pointer items-center gap-2">
+              <%= f.radio_button :notification_frequency, "weekly",
+                    class: "h-4 w-4 accent-[#1FA971]" %>
+              <span class="text-sm font-bold text-[#111827]">週1回</span>
+            </label>
+          </div>
         </div>
-      </div>
 
-      <!-- 時間 -->
-      <div class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
-        <p class="text-xs font-extrabold tracking-widest text-[#111827]">TIME</p>
-        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知時間</h2>
-
-        <div class="mt-3">
+        <%# 時間 %>
+        <div class="mt-5 flex items-center gap-4">
+          <span class="w-12 shrink-0 text-xs font-bold text-[#6B7280]">時間</span>
           <%= f.select :notification_hour,
                 [["朝 6時", 6], ["朝 9時", 9], ["昼 12時", 12], ["夜 18時", 18], ["夜 21時", 21]],
                 {},
-                class: "w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#111827] shadow-[4px_4px_0_#111827]" %>
+                class: "flex-1 rounded-lg border border-[#111827]/20 bg-white px-3 py-2.5 text-sm font-bold text-[#111827]" %>
         </div>
-      </div>
 
-      <!-- 曜日（週1のときだけ表示） -->
-      <div id="day_of_week_section"
-           class="mt-4 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827] <%= current_user.notification_frequency == 'weekly' ? '' : 'hidden' %>">
-        <p class="text-xs font-extrabold tracking-widest text-[#111827]">DAY</p>
-        <h2 class="mt-2 text-base font-extrabold text-[#111827]">通知する曜日</h2>
-
-        <div class="mt-3">
+        <%# 曜日（週1のみ）— 毎日選択時は非表示 %>
+        <div data-frequency-target="daySection"
+             class="mt-5 flex items-center gap-4 <%= current_user.notification_frequency == 'weekly' ? '' : 'hidden' %>">
+          <span class="w-12 shrink-0 text-xs font-bold text-[#6B7280]">曜日</span>
           <%= f.select :notification_day_of_week,
                 [["月曜日", 1], ["火曜日", 2], ["水曜日", 3], ["木曜日", 4], ["金曜日", 5], ["土曜日", 6], ["日曜日", 0]],
                 {},
-                class: "w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#111827] shadow-[4px_4px_0_#111827]" %>
+                class: "flex-1 rounded-lg border border-[#111827]/20 bg-white px-3 py-2.5 text-sm font-bold text-[#111827]",
+                data: { frequency_target: "daySelect" } %>
         </div>
       </div>
 
-      <!-- 保存ボタン -->
-      <div class="mt-8">
-        <%= f.submit "設定を保存する",
-              class: "w-full rounded-[32px] border-2 border-[#111827] bg-[#1FA971] px-5 py-5 text-xl font-extrabold text-white
-                      shadow-[6px_6px_0_#111827] transition-all duration-150 cursor-pointer
-                      hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#111827] hover:brightness-110
-                      active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#111827]" %>
+      <%# メインCTA：保存ボタン %>
+      <div class="mt-4">
+        <%= f.submit "保存する",
+              class: "w-full cursor-pointer rounded-2xl border-2 border-[#111827] bg-[#111827]
+                      px-5 py-4 text-base font-extrabold text-white
+                      shadow-[4px_4px_0_#6B7280] transition-all duration-150
+                      hover:opacity-90 active:translate-y-[1px] active:shadow-[2px_2px_0_#6B7280]" %>
       </div>
 
     <% end %>
 
-    <!-- LINE 連携 -->
-    <div class="mt-6 rounded-2xl border-2 border-[#111827] bg-white/70 px-5 py-5 shadow-[6px_6px_0_#111827]">
-      <p class="text-xs font-extrabold tracking-widest text-[#111827]">LINE</p>
-      <h2 class="mt-2 text-base font-extrabold text-[#111827]">LINE アカウント連携</h2>
+    <%# ── LINE連携 ── %>
+    <div class="mt-5 rounded-2xl border-2 border-[#111827] bg-white px-5 py-4 shadow-[4px_4px_0_#111827]">
+
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-extrabold tracking-widest text-[#6B7280]">LINE連携</p>
+        <% if current_user.line_linked? %>
+          <span class="inline-flex items-center gap-1 rounded-full border border-[#1FA971]/50
+                       bg-[#ECFDF5] px-2.5 py-0.5 text-xs font-extrabold text-[#065F46]">
+            ✓ 連携済み
+          </span>
+        <% else %>
+          <span class="rounded-full bg-[#F3F4F6] px-2.5 py-0.5 text-xs font-bold text-[#6B7280]">
+            未連携
+          </span>
+        <% end %>
+      </div>
 
       <% if current_user.line_linked? %>
-        <div class="mt-4 flex items-center gap-2">
-          <span class="inline-flex items-center gap-1 rounded-full border-2 border-[#1FA971] bg-[#ECFDF5] px-3 py-1 text-sm font-extrabold text-[#065F46]">
-            ✓ LINE連携済み
-          </span>
-        </div>
-        <%= button_to "連携解除", unlink_line_notification_setting_path, method: :patch,
+        <%# ── 連携済み：QR・コードは非表示 ── %>
+        <p class="mt-2 text-xs text-[#6B7280]">LINEアカウントと連携中です。</p>
+        <%= button_to "連携を解除する", unlink_line_notification_setting_path, method: :patch,
               data: { turbo: false, confirm: "LINE連携を解除しますか？" },
-              class: "mt-4 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 text-sm font-extrabold text-[#6B7280] shadow-[4px_4px_0_#111827] cursor-pointer transition-all duration-150 hover:bg-gray-50" %>
-      <% else %>
-        <p class="mt-3 text-sm font-bold text-[#6B7280]">
-          LINEと連携すると、設定した時間に通知が届きます。
-        </p>
+              class: "mt-3 cursor-pointer rounded-full border border-red-200 bg-red-50 px-4 py-1.5
+                      text-xs font-bold text-red-600
+                      hover:bg-red-100 transition duration-150" %>
 
-        <% if current_user.line_link_token.present? %>
-          <div class="mt-4 rounded-xl border-2 border-[#1FA971] bg-[#ECFDF5] px-4 py-4">
-            <p class="text-xs font-extrabold text-[#065F46]">リンクコード（有効）</p>
-            <p class="mt-1 text-3xl font-extrabold tracking-widest text-[#111827]">
-              <%= current_user.line_link_token %>
-            </p>
-            <p class="mt-2 text-xs font-bold text-[#6B7280]">
-              LINE公式アカウントにこのコードを送ってください
-            </p>
+      <% else %>
+        <%# ── 未連携：QR + コード表示 ── %>
+
+        <%# ステップ説明 %>
+        <ol class="mt-3 space-y-1 text-xs font-bold text-[#6B7280]">
+          <li>① QRを読み取って友だち追加</li>
+          <li>② 表示されるコードをLINEに送信</li>
+        </ol>
+
+        <%# QRコード %>
+        <% qr_uri = line_qr_src %>
+        <% if qr_uri %>
+          <div class="mt-3 flex justify-center">
+            <img src="<%= qr_uri %>" alt="LINE友だち追加QR" class="w-32 h-32 rounded-xl border border-[#111827]/10" />
           </div>
+        <% elsif ENV["LINE_ADD_FRIEND_URL"].blank? %>
+          <p class="mt-3 text-xs text-[#9CA3AF]">（LINE_ADD_FRIEND_URL 未設定）</p>
         <% end %>
 
-        <%= button_to current_user.line_link_token.present? ? "コードを再発行する" : "LINEと連携する",
-              generate_line_link_token_notification_setting_path, method: :patch,
-              data: { turbo: false },
-              class: "mt-4 w-full rounded-[32px] border-2 border-[#111827] bg-[#111827] px-5 py-4 text-base font-extrabold text-white
-                      shadow-[6px_6px_0_#6B7280] transition-all duration-150 cursor-pointer
-                      hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0_#6B7280] hover:brightness-110
-                      active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#6B7280]" %>
-      <% end %>
-    </div>
+        <%# リンクコード %>
+        <% if current_user.line_link_token.present? %>
+          <div class="mt-3 rounded-xl bg-[#ECFDF5] px-4 py-3">
+            <p class="text-xs font-bold text-[#065F46]">LINEにこのコードを送信してください</p>
+            <p class="mt-1 text-3xl font-extrabold tracking-[0.2em] text-[#111827]">
+              <%= current_user.line_link_token %>
+            </p>
+          </div>
+          <%= button_to "コードを再発行する", generate_line_link_token_notification_setting_path, method: :patch,
+                data: { turbo: false },
+                class: "mt-2 cursor-pointer rounded-full border border-[#111827]/25 bg-white px-4 py-1.5
+                        text-xs font-bold text-[#6B7280]
+                        hover:bg-[#F3F4F6] transition duration-150" %>
+        <% else %>
+          <p class="mt-3 text-xs text-[#6B7280]">コードを発行してLINEに送ると連携できます。</p>
+          <%= button_to "LINEと連携する", generate_line_link_token_notification_setting_path, method: :patch,
+                data: { turbo: false },
+                class: "mt-3 w-full cursor-pointer rounded-xl border-2 border-[#111827] bg-[#111827]
+                        px-4 py-3 text-sm font-extrabold text-white
+                        shadow-[3px_3px_0_#6B7280] transition-all duration-150
+                        hover:opacity-90 active:translate-y-[1px]" %>
+        <% end %>
 
-    <div class="mt-8 text-center">
-      <%= link_to wants_path, class: "inline-flex items-center gap-1 text-sm font-extrabold text-[#111827]" do %>
-        <span aria-hidden="true">‹</span> やりたいこと一覧へ
       <% end %>
     </div>
 
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var radios = document.querySelectorAll('input[name="user[notification_frequency]"]');
-    var daySection = document.getElementById("day_of_week_section");
-
-    function toggleDay() {
-      var checked = document.querySelector('input[name="user[notification_frequency]"]:checked');
-      if (checked && checked.value === "weekly") {
-        daySection.classList.remove("hidden");
-      } else {
-        daySection.classList.add("hidden");
-      }
-    }
-
-    radios.forEach(function (r) { r.addEventListener("change", toggleDay); });
-  });
-</script>

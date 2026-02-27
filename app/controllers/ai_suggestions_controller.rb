@@ -2,18 +2,14 @@ class AiSuggestionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @daily = current_user.daily_action_suggestions.find_by(suggested_on: Date.current)
-
-    unless @daily
-      @want = select_want
-      if @want
-        suggestion_text = AiSuggestionService.call(@want, current_user)
-        @daily = current_user.daily_action_suggestions.create!(
-          want: @want,
-          suggested_action: suggestion_text,
-          suggested_on: Date.current
-        )
-      end
+    @want = select_want
+    if @want
+      suggestion_text = AiSuggestionService.call(@want, current_user)
+      @daily = current_user.daily_action_suggestions.create!(
+        want: @want,
+        suggested_action: suggestion_text,
+        suggested_on: Date.current
+      )
     end
   end
 

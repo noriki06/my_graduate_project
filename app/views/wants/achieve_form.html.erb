@@ -3,7 +3,7 @@
 
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-extrabold text-[#111827]">達成の記録</h1>
-      <%= link_to "戻る", wants_path, class: "text-sm font-bold underline text-[#6B7280]" %>
+      <%= link_to "← 戻る", wants_path, class: "text-sm font-bold text-[#6B7280] cursor-pointer hover:text-[#111827] transition duration-150" %>
     </div>
 
     <section class="mt-5 rounded-2xl border border-[#111827]/20 bg-white p-5">
@@ -65,7 +65,9 @@
                 class: "flex-1 rounded-full bg-[#1FA971] px-4 py-3 text-sm font-extrabold text-white hover:opacity-90" %>
 
           <%= link_to "キャンセル", wants_path,
-                class: "rounded-full border border-[#111827]/20 bg-white px-4 py-3 text-sm font-extrabold text-[#111827]" %>
+                class: "cursor-pointer rounded-full border border-[#111827]/20 bg-white px-4 py-3
+                        text-sm font-extrabold text-[#111827] text-center
+                        hover:bg-[#F3F4F6] transition duration-150" %>
         </div>
 
       <% end %>

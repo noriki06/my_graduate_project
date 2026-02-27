@@ -45,6 +45,11 @@
       <%# ===== 主ナビ定義（3項目 + active ラムダ） ===== %>
       <% nav_items = [
         {
+          label:  "🏠 トップ",
+          url:    root_path,
+          active: current_page?(root_path)
+        },
+        {
           label:  "👤 マイページ",
           url:    wants_path,
           active: (controller_name == "wants" && action_name == "index")
@@ -86,7 +91,7 @@
                 <% else %>
                   <%= link_to item[:label], item[:url],
                         class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
-                                bg-white border-[#111827]/25 hover:bg-[#F9FAFB] hover:shadow-sm hover:-translate-y-0.5
+                                bg-white border-[#111827]/25 shadow-sm hover:bg-[#F3F4F6] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
                                 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
                 <% end %>
               <% end %>
@@ -96,7 +101,7 @@
           <%# 右: CTA %>
           <%= link_to new_want_path,
                 class: "shrink-0 inline-flex items-center rounded-full bg-[#111827] px-4 py-2 text-sm font-extrabold text-white cursor-pointer
-                        hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 transition duration-150
+                        shadow-md hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition duration-150
                         focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
             ＋<span class="hidden sm:inline"> 追加</span>
           <% end %>

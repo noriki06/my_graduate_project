@@ -4,7 +4,10 @@ class NotificationSettingsController < ApplicationController
   def edit; end
 
   def update
-    if current_user.update(notification_setting_params)
+    attrs = notification_setting_params.to_h
+    attrs[:notification_day_of_week] = nil if attrs[:notification_frequency] == "daily"
+
+    if current_user.update(attrs)
       redirect_to edit_notification_setting_path, notice: "通知設定を保存しました"
     else
       render :edit, status: :unprocessable_entity

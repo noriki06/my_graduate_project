@@ -30,7 +30,7 @@
             <%= render "wants/want_row", want: want, public_view: true %>
 
             <!-- アクション帯 -->
-            <div class="mb-3 mt-2 flex items-center gap-3 px-2">
+            <div class="mb-6 mt-2 flex items-center gap-3 px-2">
               <%# いいね判定: 投稿者かどうかに関係なく「current_userがいいねしているか」のみで判定 %>
               <% liked = want.likes.any? { |l| l.user_id == current_user.id } %>
               <% if liked %>
@@ -56,17 +56,6 @@
               <% end %>
             </div>
 
-            <%# 達成メモ（あれば） %>
-            <% if want.achieved? && want.achievement_note.present? %>
-              <div class="mt-2 mb-6 rounded-xl border border-[#1FA971]/20 bg-[#ECFDF5] px-4 py-3">
-                <p class="text-xs font-bold text-[#065F46]">達成メモ</p>
-                <div class="text-sm text-[#065F46]">
-                  <%= simple_format(h(want.achievement_note)) %>
-                </div>
-              </div>
-            <% else %>
-              <div class="mb-4"></div>
-            <% end %>
           <% end %>
 
           <div class="mt-4 flex justify-center">

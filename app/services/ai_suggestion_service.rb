@@ -1,17 +1,16 @@
 class AiSuggestionService
-  MOCK = "【5分行動】\nメモ帳を開き、この目標をなぜ叶えたいのか1文だけ書く。\n\n【なぜ効果的か】\n理由を言語化することで脳が行動へのスイッチを入れる。"
-  MODEL = ENV.fetch("ANTHROPIC_MODEL", "claude-3-5-haiku-latest")
+  MOCK  = "【5分行動】\nメモ帳を開き、この目標をなぜ叶えたいのか1文だけ書く。\n\n【なぜ効果的か】\n理由を言語化することで脳が行動へのスイッチを入れる。"
+  MODEL = ENV.fetch("OPENAI_MODEL", "gpt-4.1-mini")
 
   def self.call(want, user)
-    return MOCK unless ENV["ANTHROPIC_API_KEY"].present?
+    return MOCK unless ENV["OPENAI_API_KEY"].present?
 
-    client = Anthropic::Client.new(api_key: ENV["ANTHROPIC_API_KEY"])
-    response = client.messages(
+    client = OpenAI::Client.new(api_key: ENV["OPENAI_API_KEY"])
+    res = client.responses.create(
       model: MODEL,
-      max_tokens: 300,
-      messages: [ { role: "user", content: build_prompt(want, user) } ]
+      input: build_prompt(want, user)
     )
-    response.content.first.text
+    res.output_text
   rescue => e
     Rails.logger.error("AiSuggestionService error: #{e.message}")
     MOCK

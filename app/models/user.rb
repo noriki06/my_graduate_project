@@ -65,6 +65,19 @@ class User < ApplicationRecord
     (AVERAGE_LIFE_SPAN_YEARS * DAYS_IN_YEAR).to_i
   end
 
+  def wants_count
+    wants.count
+  end
+
+  def achieved_count
+    wants.where.not(achieved_at: nil).count
+  end
+
+  def achievement_rate
+    return 0 if wants_count.zero?
+    (achieved_count.to_f / wants_count * 100).round
+  end
+
   def life_progress_rate
     return nil if birthday.nil?
     progress = (lived_days.to_f / total_life_days) * 100
