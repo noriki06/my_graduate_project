@@ -70,18 +70,19 @@
       <header class="sticky top-0 z-50 bg-[#FBF6E9]/90 backdrop-blur border-b border-[#111827]/10">
 
         <%# ── 主ナビ行 ── %>
-        <div class="mx-auto max-w-[720px] px-4 py-3 flex items-center justify-between gap-3">
+        <%# モバイル: 行1=ロゴ+CTAボタン / 行2=ナビチップ、sm以上: 1行まとめ %>
+        <div class="mx-auto max-w-[720px] px-4 flex flex-wrap items-center justify-center gap-x-3">
 
           <%# 左: ロゴ %>
           <%= link_to wants_path,
-                class: "shrink-0 text-lg font-extrabold text-[#111827] cursor-pointer rounded
+                class: "shrink-0 py-3 text-lg font-extrabold text-[#111827] cursor-pointer rounded
                         focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
             ライフゲージ
           <% end %>
 
-          <%# 中: チップナビ（横スクロール）%>
-          <nav class="flex-1 min-w-0 overflow-hidden" aria-label="グローバルナビゲーション">
-            <div class="flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-none">
+          <%# 中: チップナビ（モバイルでは2行目・全幅、sm以上で1行目・flex-1）%>
+          <nav class="order-last w-full pb-2 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:overflow-hidden sm:py-3" aria-label="グローバルナビゲーション">
+            <div class="flex flex-nowrap justify-center sm:justify-start items-center gap-2 overflow-x-auto scrollbar-none">
               <% nav_items.each do |item| %>
                 <% if item[:active] %>
                   <span class="inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold
@@ -98,7 +99,7 @@
             </div>
           </nav>
 
-          <%# 右: CTA %>
+          <%# 右: CTA（モバイルでロゴの右端に配置）%>
           <%= link_to new_want_path,
                 class: "shrink-0 inline-flex items-center rounded-full bg-[#111827] px-4 py-2 text-sm font-extrabold text-white cursor-pointer
                         shadow-md hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition duration-150

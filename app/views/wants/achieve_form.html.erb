@@ -35,7 +35,9 @@
 
         <!-- 達成写真 -->
         <div class="mt-4">
-          <%= f.label :achieved_image, "達成の写真", class: "text-sm font-bold text-[#6B7280]" %>
+          <p class="text-sm font-bold text-[#6B7280]">
+            達成の写真 <span class="ml-1 text-xs font-normal text-[#9CA3AF]">任意</span>
+          </p>
 
           <% if @want.achieved_image.attached? %>
             <div class="mt-2">
@@ -45,18 +47,14 @@
             </div>
           <% end %>
 
-          <div class="mt-2">
-            <%= f.file_field :achieved_image,
-                  accept: "image/*",
-                  class: "w-full text-sm text-[#6B7280] file:mr-3 file:rounded-full file:border-0 file:bg-[#1FA971] file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:opacity-90",
-                  data: { controller: "preview", preview_target: "input", action: "change->preview#show" } %>
-          </div>
+          <%= f.file_field :achieved_image, accept: "image/*", class: "hidden", id: "want_achieved_image_field" %>
 
-          <div class="mt-3 hidden" data-preview-target="wrapper">
-            <img src="" alt="プレビュー" class="max-h-48 w-full rounded-xl object-cover" data-preview-target="image">
-          </div>
-
-          <p class="mt-1 text-xs font-bold text-[#9CA3AF]">未設定でもOK</p>
+          <label for="want_achieved_image_field"
+                 class="mt-2 inline-block cursor-pointer rounded-full border border-[#111827]/25 bg-white px-6 py-2.5
+                        text-sm font-bold text-[#111827]
+                        hover:bg-[#F3F4F6] transition duration-150">
+            <%= @want.achieved_image.attached? ? "写真を変更する" : "写真を選択する" %>
+          </label>
         </div>
 
         <div class="mt-5 flex gap-3">
