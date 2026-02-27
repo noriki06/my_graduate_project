@@ -1,0 +1,80 @@
+<div class="min-h-screen bg-[#FBF6E9]">
+  <div class="mx-auto max-w-[520px] px-5 py-10">
+
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-extrabold text-[#111827]">プロフィール編集</h1>
+      <%= link_to wants_path,
+            class: "text-sm font-bold text-[#6B7280] cursor-pointer
+                    hover:text-[#111827] transition duration-150" do %>
+        ← 戻る
+      <% end %>
+    </div>
+
+    <% if current_user.errors.any? %>
+      <div class="mt-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
+        <p class="text-sm font-extrabold text-red-700">入力内容を確認してください</p>
+        <ul class="mt-2 list-disc pl-5 text-sm font-bold text-red-700">
+          <% current_user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: current_user, url: profile_path, method: :patch, local: true do |f| %>
+
+      <div class="mt-5 rounded-2xl border border-[#111827]/20 bg-white p-5 space-y-5">
+
+        <%# 名前 %>
+        <div>
+          <%= f.label :name, class: "block text-sm font-bold text-[#6B7280]" do %>
+            名前 <span class="ml-0.5 text-red-400">*</span>
+          <% end %>
+          <%= f.text_field :name,
+                placeholder: "例：山田 太郎",
+                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                        text-base font-bold text-[#111827]
+                        focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+        </div>
+
+        <%# メールアドレス %>
+        <div>
+          <%= f.label :email, class: "block text-sm font-bold text-[#6B7280]" do %>
+            メールアドレス <span class="ml-0.5 text-red-400">*</span>
+          <% end %>
+          <%= f.email_field :email,
+                placeholder: "example@mail.com",
+                class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                        text-base text-[#111827]
+                        focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+        </div>
+
+        <%# 誕生日 %>
+        <div class="overflow-hidden">
+          <%= f.label :birthday, class: "block text-sm font-bold text-[#6B7280]" do %>
+            誕生日
+          <% end %>
+          <%= f.date_field :birthday,
+                class: "mt-2 w-full max-w-full rounded-xl border border-[#111827]/20 px-3 py-3
+                        text-base text-[#111827]
+                        focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+          <p class="mt-1 text-xs text-[#9CA3AF]">ライフゲージの計算に使用します</p>
+        </div>
+
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <%= f.submit "保存する",
+              class: "flex-1 cursor-pointer rounded-full bg-[#111827] py-3
+                      text-base font-extrabold text-white
+                      hover:opacity-90 transition duration-150" %>
+        <%= link_to "キャンセル", wants_path,
+              class: "flex-1 cursor-pointer rounded-full border border-[#111827]/25 bg-white py-3
+                      text-center text-base font-extrabold text-[#111827]
+                      hover:bg-[#F3F4F6] transition duration-150" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

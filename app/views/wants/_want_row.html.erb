@@ -97,10 +97,12 @@
           <% if achieved && want.achieved_image.attached? %>
             <%= image_tag want.achieved_image.variant(resize_to_fill: [160, 112]),
                   alt: want.title,
+                  loading: "lazy",
                   class: "w-full h-full object-cover" %>
           <% elsif want.picture.attached? %>
             <%= image_tag want.picture.variant(resize_to_fill: [160, 112]),
                   alt: want.title,
+                  loading: "lazy",
                   class: "w-full h-full object-cover" %>
           <% end %>
         </div>

@@ -9,7 +9,7 @@ class WantsController < ApplicationController
 
     @total_wants_count    = current_user.wants_count
     @achieved_wants_count = current_user.achieved_count
-    @achieve_rate         = current_user.achievement_rate
+    @achieve_rate         = @total_wants_count.zero? ? 0 : (@achieved_wants_count.to_f / @total_wants_count * 100).round
 
     all_wants = current_user.wants.for_list
 
