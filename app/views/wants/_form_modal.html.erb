@@ -1,0 +1,129 @@
+<%# locals: none — uses @want, @goal_type, @target_age from controller %>
+<% is_edit = @want.persisted? %>
+<% has_existing_picture = is_edit && @want.picture.attached? %>
+
+<%= form_with model: @want, local: true do |f| %>
+
+  <%# ─── やりたいこと（必須）─── %>
+  <div>
+    <%= f.label :title, class: "block text-sm font-bold text-[#6B7280]" do %>
+      やりたいこと <span class="ml-0.5 text-red-400">*</span>
+    <% end %>
+    <%= f.text_field :title,
+          placeholder: "例：海外旅行に行く",
+          autofocus: !is_edit,
+          class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                  text-base font-bold text-[#111827]
+                  focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+  </div>
+
+  <%# ─── メモ（任意）─── %>
+  <div class="mt-5">
+    <%= f.label :memo, class: "block text-sm font-bold text-[#6B7280]" do %>
+      メモ <span class="ml-1 text-xs font-normal text-[#9CA3AF]">任意</span>
+    <% end %>
+    <%= f.text_area :memo,
+          rows: 3,
+          placeholder: "なぜやりたいか、きっかけなど",
+          class: "mt-2 w-full resize-none rounded-xl border border-[#111827]/20 px-4 py-3
+                  text-base text-[#111827]
+                  focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+  </div>
+
+  <%# ─── 目標日（どちらか入力、未入力なら目標なし）─── %>
+  <div class="mt-5">
+    <p class="text-sm font-bold text-[#6B7280]">
+      目標日 <span class="ml-1 text-xs font-normal text-[#9CA3AF]">任意・未入力なら目標なし</span>
+    </p>
+
+    <div class="mt-3 flex flex-col gap-3">
+
+      <%# 年齢で設定 %>
+      <div>
+        <label class="block text-sm font-bold text-[#6B7280]">年齢で設定</label>
+        <%= number_field_tag :target_age,
+              @target_age,
+              min: 1, max: 120,
+              placeholder: "例：35",
+              class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                      text-base font-bold text-[#111827]
+                      focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+        <p class="mt-1 text-xs text-[#9CA3AF]">半角数字（1〜120）・誕生日から目標日を自動計算</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="h-px flex-1 bg-[#111827]/10"></div>
+        <span class="text-xs font-bold text-[#9CA3AF]">または</span>
+        <div class="h-px flex-1 bg-[#111827]/10"></div>
+      </div>
+
+      <%# 日付で設定 %>
+      <div>
+        <label class="block text-sm font-bold text-[#6B7280]">日付で設定</label>
+        <%= f.date_field :target_date,
+              class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+                      text-base font-bold text-[#111827]
+                      focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+        <p class="mt-1 text-xs text-[#9CA3AF]">過去の日付は設定できません</p>
+      </div>
+
+    </div>
+  </div>
+
+  <%# ─── 写真（任意）─── %>
+  <div class="mt-5">
+    <p class="text-sm font-bold text-[#6B7280]">
+      写真 <span class="ml-1 text-xs font-normal text-[#9CA3AF]">任意</span>
+    </p>
+
+    <%= f.file_field :picture, accept: "image/*", class: "hidden", id: "want_picture_field" %>
+
+    <label for="want_picture_field"
+           class="mt-2 inline-block cursor-pointer rounded-full border border-[#111827]/25 bg-white px-6 py-2.5
+                  text-sm font-bold text-[#111827]
+                  hover:bg-[#F3F4F6] transition duration-150">
+      <%= has_existing_picture ? "写真を変更する" : "写真を選択する" %>
+    </label>
+  </div>
+
+  <%# ─── AI通知の優先設定 ─── %>
+  <div class="mt-5">
+    <p class="text-sm font-bold text-[#6B7280]">AI通知の優先対象</p>
+    <label class="mt-2 flex cursor-pointer items-center gap-3
+                  rounded-xl border border-[#111827]/20 bg-white px-4 py-3">
+      <%= f.check_box :notify_enabled, class: "h-4 w-4 accent-[#1FA971]" %>
+      <div>
+        <span class="text-sm font-bold text-[#111827]">優先して提案する</span>
+        <p class="text-xs text-[#9CA3AF]">LINEで5分行動を提案するとき優先的に選ばれます</p>
+      </div>
+    </label>
+  </div>
+
+  <%# ─── 公開設定 ─── %>
+  <div class="mt-5">
+    <p class="text-sm font-bold text-[#6B7280]">公開設定</p>
+    <label class="mt-2 flex cursor-pointer items-center gap-3
+                  rounded-xl border border-[#111827]/20 bg-white px-4 py-3">
+      <%= f.check_box :published, class: "h-4 w-4 accent-[#1FA971]" %>
+      <div>
+        <span class="text-sm font-bold text-[#111827]">この投稿を公開する</span>
+        <p class="text-xs text-[#9CA3AF]">公開するとみんなの一覧に表示されます</p>
+      </div>
+    </label>
+  </div>
+
+  <%# ─── ボタン ─── %>
+  <div class="mt-8 flex gap-3">
+    <%= f.submit is_edit ? "更新する" : "登録する",
+          class: "flex-1 cursor-pointer rounded-full bg-[#111827] py-3
+                  text-base font-extrabold text-white
+                  hover:opacity-90 transition duration-150
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" %>
+    <%= link_to "キャンセル", wants_path,
+          class: "flex-1 cursor-pointer rounded-full border border-[#111827]/25 bg-white py-3
+                  text-center text-base font-extrabold text-[#111827]
+                  hover:bg-[#F3F4F6] transition duration-150
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
+  </div>
+
+<% end %>

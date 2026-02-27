@@ -5,7 +5,7 @@
     <% progress = (current_user&.life_progress_rate || 0).to_f.clamp(0, 100) %>
     <% remaining_days = (current_user&.remaining_life_days || 0).to_i %>
 
-    <% achieve_rate = (@achieve_rate || 0).to_f.clamp(0, 100) %>
+    <% achieve_rate = (@achieve_rate || 0).to_i.clamp(0, 100) %>
     <% achieved_count = (@achieved_wants_count || 0).to_i %>
     <% total_count = (@total_wants_count || 0).to_i %>
 
@@ -37,7 +37,7 @@
         <div class="flex items-end justify-between">
           <p class="text-sm font-extrabold text-[#111827]">思い出の達成率</p>
           <p class="text-2xl font-extrabold text-[#111827]">
-            <%= number_with_precision(achieve_rate, precision: 1) %><span class="text-sm">%</span>
+            <%= achieve_rate %><span class="text-sm">%</span>
           </p>
         </div>
         <p class="mt-1 text-xs font-bold text-[#6B7280]">
@@ -51,13 +51,15 @@
     </section>
 
     <!-- ===== AI 5分行動提案 ===== -->
-    <section class="mt-6 rounded-2xl border-2 border-[#111827] bg-white shadow-[6px_6px_0_#111827]">
-      <div class="px-5 py-5">
-        <p class="text-xs font-extrabold tracking-widest text-[#111827]">AI ACTION</p>
-        <h2 class="mt-1 text-base font-extrabold text-[#111827]">⚡ 今日の5分行動</h2>
-        <turbo-frame id="ai-suggestion" class="block mt-4">
-          <%= render "ai_suggestions/card", daily: nil %>
-        </turbo-frame>
+    <section class="mt-6 rounded-2xl border border-[#111827]/20 bg-white p-5">
+      <p class="text-base font-extrabold text-[#6B7280]">AI Action</p>
+      <p class="mt-1 text-sm font-extrabold text-[#111827]">⚡ 今日の5分行動</p>
+      <div class="mt-4">
+        <%= form_with url: ai_suggestion_path, method: :post do |f| %>
+          <%= f.submit "⚡ 今日の5分行動を提案してもらう",
+                data: { turbo_submits_with: "⏳ AIが考えています..." },
+                class: "w-full cursor-pointer rounded-full bg-[#111827] px-5 py-3 text-base font-extrabold text-white hover:opacity-90 disabled:opacity-60" %>
+        <% end %>
       </div>
     </section>
 
@@ -126,10 +128,11 @@
 
                 <div class="flex items-center gap-3">
                   <%= link_to new_want_path(time_bucket: bucket),
-                        class: "text-xs font-extrabold text-[#1FA971] cursor-pointer
-                                hover:opacity-70 transition duration-150
-                                focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FA971] focus-visible:ring-offset-1 rounded" do %>
-                    ＋追加
+                        class: "inline-flex items-center rounded-full border border-[#1FA971]/50 bg-[#ECFDF5]
+                                px-3 py-1 text-xs font-extrabold text-[#1FA971] cursor-pointer
+                                hover:bg-[#1FA971] hover:text-white transition duration-150
+                                focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FA971] focus-visible:ring-offset-1" do %>
+                    ＋ 追加
                   <% end %>
 
                   <% if wants.size.positive? %>
@@ -158,6 +161,24 @@
           <p class="py-6 text-center text-sm font-bold text-[#6B7280]">
             <%= @current_tab == "achieved" ? "まだ達成した思い出がありません" : "やりたいことを登録してみましょう" %>
           </p>
+        <% end %>
+
+        <%# ===== 時期未設定 ===== %>
+        <% if @unbucketed_wants.present? %>
+          <% if @wants_by_bucket.present? %>
+            <div class="border-t border-[#111827]/10"></div>
+          <% end %>
+          <div class="py-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-extrabold text-[#111827]">時期未設定</h3>
+              <span class="text-xs font-bold text-[#6B7280]"><%= @unbucketed_wants.size %>件</span>
+            </div>
+            <div class="mt-2 space-y-3">
+              <% @unbucketed_wants.each do |want| %>
+                <%= render "wants/want_row", want: want %>
+              <% end %>
+            </div>
+          </div>
         <% end %>
 
         <!-- 下部追加ボタン（達成タブでは非表示）-->

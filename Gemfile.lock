@@ -76,9 +76,6 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
-    anthropic (1.23.0)
-      cgi
-      connection_pool
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.21)
@@ -101,6 +98,7 @@ GEM
     cgi (0.5.1)
     childprocess (5.1.0)
       logger (~> 1.5)
+    chunky_png (1.4.0)
     concurrent-ruby (1.3.6)
     connection_pool (3.0.2)
     crass (1.0.6)
@@ -251,6 +249,10 @@ GEM
     omniauth-twitter2 (1.0.0)
       omniauth
       omniauth-oauth2 (~> 1.0)
+    openai (0.51.0)
+      base64
+      cgi
+      connection_pool
     orm_adapter (0.5.0)
     parallel (1.27.0)
     parser (3.3.10.1)
@@ -325,6 +327,10 @@ GEM
       actionpack (>= 7.0)
       railties (>= 7.0)
     rexml (3.4.4)
+    rqrcode (3.2.0)
+      chunky_png (~> 1.0)
+      rqrcode_core (~> 2.0)
+    rqrcode_core (2.1.0)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -434,7 +440,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  anthropic
   bootsnap
   brakeman (>= 8.0)
   capybara
@@ -455,10 +460,12 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   omniauth-twitter2
+  openai
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.2.3)
   rails-i18n
+  rqrcode
   rspec-rails
   rubocop-rails-omakase
   selenium-webdriver
