@@ -93,15 +93,15 @@
       <%= link_to detail_path,
             class: "block cursor-pointer hover:opacity-75 transition duration-150
                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1 rounded-lg" do %>
-        <div class="h-10 w-14 sm:h-14 sm:w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] flex items-center justify-center overflow-hidden">
+        <div class="h-10 w-14 sm:h-14 sm:w-20 rounded-lg border border-[#111827]/10 bg-[#F9FAFB] overflow-hidden">
           <% if achieved && want.achieved_image.attached? %>
-            <%= image_tag want.achieved_image.variant(resize_to_limit: [160, 112]),
+            <%= image_tag want.achieved_image.variant(resize_to_fill: [160, 112]),
                   alt: want.title,
-                  class: "max-h-12 max-w-[72px] object-contain" %>
+                  class: "w-full h-full object-cover" %>
           <% elsif want.picture.attached? %>
-            <%= image_tag want.picture.variant(resize_to_limit: [160, 112]),
+            <%= image_tag want.picture.variant(resize_to_fill: [160, 112]),
                   alt: want.title,
-                  class: "max-h-12 max-w-[72px] object-contain" %>
+                  class: "w-full h-full object-cover" %>
           <% end %>
         </div>
       <% end %>
