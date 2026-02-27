@@ -1,12 +1,15 @@
 <%# ── みんな サブナビ ── %>
 <% content_for :subnav do %>
-  <div class="flex flex-nowrap gap-1 overflow-x-auto scrollbar-none">
+  <div class="flex items-center gap-2">
     <%= link_to public_wants_path,
-          class: "inline-flex items-center whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold transition cursor-pointer
-                  text-[#6B7280] hover:text-[#111827] hover:bg-[#111827]/5" do %>
+          class: "inline-flex items-center whitespace-nowrap rounded-full border border-[#111827]/25 bg-white
+                  px-4 py-1.5 text-sm font-bold text-[#111827] cursor-pointer
+                  hover:bg-[#F9FAFB] hover:shadow-sm hover:-translate-y-0.5 transition duration-150
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
       みんなの達成
     <% end %>
-    <span class="inline-flex items-center whitespace-nowrap rounded-full px-3 py-1 text-sm font-bold bg-[#111827]/10 text-[#111827]">
+    <span class="inline-flex items-center whitespace-nowrap rounded-full border border-transparent
+                 bg-[#111827] text-white px-4 py-1.5 text-sm font-bold">
       みんなのやりたいこと
     </span>
   </div>
@@ -53,6 +56,12 @@
                             hover:bg-[#F9FAFB] hover:shadow-sm transition duration-150
                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
                 💬 <%= want.comments.size %>
+              <% end %>
+              <% if want.user == current_user %>
+                <%= link_to "達成", achieve_form_want_path(want),
+                      class: "rounded-full bg-[#1FA971] px-4 py-2 text-sm font-bold text-white cursor-pointer
+                              hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 transition duration-150
+                              focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1FA971] focus-visible:ring-offset-1" %>
               <% end %>
             </div>
 
