@@ -74,15 +74,15 @@
         <div class="mx-auto max-w-[720px] px-4 flex flex-wrap items-center justify-center gap-x-3">
 
           <%# 左: ロゴ %>
-          <%= link_to wants_path,
+          <%= link_to root_path,
                 class: "shrink-0 py-3 text-lg font-extrabold text-[#111827] cursor-pointer rounded
                         focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
             ライフゲージ
           <% end %>
 
           <%# 中: チップナビ（モバイルでは2行目・全幅、sm以上で1行目・flex-1）%>
-          <nav class="order-last w-full pb-2 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:overflow-hidden sm:py-3" aria-label="グローバルナビゲーション">
-            <div class="flex flex-nowrap justify-center sm:justify-start items-center gap-2 overflow-x-auto scrollbar-none">
+          <nav class="order-last w-full pt-2 pb-3 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:overflow-hidden sm:py-3" aria-label="グローバルナビゲーション">
+            <div class="flex flex-nowrap justify-center sm:justify-start items-center gap-3 overflow-x-auto scrollbar-none">
               <% nav_items.each do |item| %>
                 <% if item[:active] %>
                   <span class="inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold
@@ -101,10 +101,10 @@
 
           <%# 右: CTA（モバイルでロゴの右端に配置）%>
           <%= link_to new_want_path,
-                class: "shrink-0 inline-flex items-center rounded-full bg-[#111827] px-4 py-2 text-sm font-extrabold text-white cursor-pointer
-                        shadow-md hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-sm transition duration-150
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
-            ＋<span class="hidden sm:inline"> 追加</span>
+                class: "shrink-0 mt-2 inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold text-white cursor-pointer
+                        bg-[#111827] border-transparent shadow-sm hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition duration-150
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
+            やりたいことを追加
           <% end %>
 
         </div>
