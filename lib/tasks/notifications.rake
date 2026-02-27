@@ -35,9 +35,9 @@ namespace :notifications do
       # 提案の want が優先対象に含まれていればそれを使う、なければ優先対象からランダム
       want = if suggestion&.want && wants.exists?(id: suggestion.want_id)
                suggestion.want
-             else
+      else
                wants.sample
-             end
+      end
       next if want.nil?
 
       action_text =
