@@ -46,8 +46,8 @@
       <% nav_items = [
         {
           label:  "🏠 トップ",
-          url:    root_path,
-          active: current_page?(root_path)
+          url:    pages_top_path,
+          active: current_page?(pages_top_path) || current_page?(root_path)
         },
         {
           label:  "👤 マイページ",
@@ -64,6 +64,11 @@
           url:    edit_notification_setting_path,
           active: current_page?(edit_notification_setting_path)
         },
+        {
+          label:  "⚙️ プロフィール",
+          url:    edit_profile_path,
+          active: current_page?(edit_profile_path)
+        },
       ] %>
 
       <%# ===== ヘッダー: 主ナビ行 ＋ コンテキスト別サブナビ行 ===== %>
@@ -74,7 +79,7 @@
         <div class="mx-auto max-w-[720px] px-4 flex flex-wrap items-center justify-center gap-x-3">
 
           <%# 左: ロゴ %>
-          <%= link_to root_path,
+          <%= link_to pages_top_path,
                 class: "shrink-0 py-3 text-lg font-extrabold text-[#111827] cursor-pointer rounded
                         focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
             ライフゲージ

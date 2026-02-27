@@ -12,7 +12,8 @@ class Want < ApplicationRecord
   before_validation :set_time_bucket, if: :should_set_time_bucket?
 
   scope :for_list, -> {
-    order(Arel.sql("achieved_at IS NOT NULL ASC"))
+    includes(picture_attachment: :blob, achieved_image_attachment: :blob)
+      .order(Arel.sql("achieved_at IS NOT NULL ASC"))
       .order(achieved_at: :desc, created_at: :desc)
   }
 

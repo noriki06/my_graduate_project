@@ -19,10 +19,10 @@
 
       <%= form_with model: @want, url: achieve_want_path(@want), method: :patch do |f| %>
 
-        <div class="mt-4">
+        <div class="mt-4 overflow-hidden">
           <%= f.label :achieved_at, "達成日（任意）", class: "text-sm font-bold text-[#6B7280]" %>
           <%= f.date_field :achieved_at,
-                class: "mt-2 w-full rounded-xl border border-[#111827]/20 bg-white px-3 py-2 text-base" %>
+                class: "mt-2 w-full max-w-full rounded-xl border border-[#111827]/20 bg-white px-3 py-2 text-base" %>
           <p class="mt-1 text-xs font-bold text-[#9CA3AF]">未入力なら「今日」で記録されます</p>
         </div>
 

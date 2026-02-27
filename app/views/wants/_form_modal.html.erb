@@ -58,10 +58,10 @@
       </div>
 
       <%# 日付で設定 %>
-      <div>
+      <div class="overflow-hidden">
         <label class="block text-sm font-bold text-[#6B7280]">日付で設定</label>
         <%= f.date_field :target_date,
-              class: "mt-2 w-full rounded-xl border border-[#111827]/20 px-4 py-3
+              class: "mt-2 w-full max-w-full rounded-xl border border-[#111827]/20 px-3 py-3
                       text-base font-bold text-[#111827]
                       focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
         <p class="mt-1 text-xs text-[#9CA3AF]">過去の日付は設定できません</p>

@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   # LINE Webhook
   post "line_webhook", to: "line_webhooks#callback"
 
+  # プロフィール編集
+  resource :profile, only: [ :edit, :update ]
+
   # 生年月日登録（オンボーディング）
   resource :birthday, only: [ :edit, :update ]
 
