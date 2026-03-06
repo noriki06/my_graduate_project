@@ -46,7 +46,7 @@ class User < ApplicationRecord
   NOTIFICATION_FREQUENCIES = %w[daily weekly].freeze
   validates :notification_frequency, inclusion: { in: NOTIFICATION_FREQUENCIES }
   validates :notification_hour, inclusion: { in: 0..23 }
-  validates :notification_day_of_week, inclusion: { in: 0..6 }
+  validates :notification_day_of_week, inclusion: { in: 0..6 }, allow_nil: true
   validates :target_age, numericality: { only_integer: true, greater_than_or_equal_to: 50, less_than_or_equal_to: 150 }
 
   DEFAULT_TARGET_AGE = 84
