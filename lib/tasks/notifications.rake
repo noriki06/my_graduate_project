@@ -18,7 +18,7 @@ namespace :notifications do
 
     users = User
       .where(notification_enabled: true)
-      .where.not(line_user_id: [nil, ""])
+      .where.not(line_user_id: [ nil, "" ])
       .where(notification_hour: current_hour)
 
     Rails.logger.info("[Notification] 対象候補: #{users.count} 件 (#{now})")
