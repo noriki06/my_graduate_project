@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_not_demo, only: [:update]
+  before_action :check_not_demo, only: [ :update ]
 
   def edit; end
 
