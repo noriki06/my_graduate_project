@@ -5,6 +5,9 @@
 @source "./app/helpers/**/*.rb";
 @source "./app/javascript/**/*.js";
 
+/* LINE グリーン系（#06C755）を safelist に追加 */
+@source inline("bg-[#06C755] border-[#06C755] text-[#06C755] border-[#06C755]/40 bg-[#06C755]/8");
+
 @layer components {
   .lg-panel {
     @apply border-[3px] border-slate-900 bg-white rounded-3xl

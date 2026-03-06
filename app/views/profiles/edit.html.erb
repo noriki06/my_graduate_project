@@ -61,6 +61,30 @@
           <p class="mt-1 text-xs text-[#9CA3AF]">ライフゲージの計算に使用します</p>
         </div>
 
+        <%# 目標寿命 %>
+        <div>
+          <%= f.label :target_age, class: "block text-sm font-bold text-[#6B7280]" do %>
+            目標寿命（歳）
+          <% end %>
+
+          <%# 参考値 %>
+          <div class="mt-2 flex gap-4 text-sm">
+            <span class="text-[#6B7280]">🇯🇵 平均寿命 <strong class="text-[#111827]">84歳</strong></span>
+            <span class="text-[#6B7280]">🏃 健康寿命 <strong class="text-[#1FA971]">74歳</strong></span>
+          </div>
+
+          <div class="mt-3 flex items-center gap-2">
+            <%= f.number_field :target_age,
+                  id: "input-target-age",
+                  min: 50, max: 150,
+                  class: "w-28 rounded-xl border border-[#111827]/20 px-4 py-3
+                          text-base font-bold text-[#111827] text-center
+                          focus:outline-none focus:ring-2 focus:ring-[#111827]/20 transition duration-150" %>
+            <span class="text-sm font-bold text-[#6B7280]">歳</span>
+          </div>
+          <p class="mt-1 text-xs text-[#9CA3AF]">残り時間・ライフゲージの計算に使用します（50〜150歳）</p>
+        </div>
+
       </div>
 
       <div class="mt-6 flex gap-3">

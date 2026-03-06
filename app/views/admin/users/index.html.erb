@@ -1,0 +1,53 @@
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-extrabold text-[#111827]">ユーザー管理</h1>
+    <span class="text-sm text-gray-500">合計 <%= User.count %> 件</span>
+  </div>
+
+  <div class="bg-white rounded-2xl border-2 border-[#111827] shadow-[4px_4px_0_#111827] overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-[#111827] text-white">
+        <tr>
+          <th class="px-4 py-3 text-left font-bold">ID</th>
+          <th class="px-4 py-3 text-left font-bold">名前</th>
+          <th class="px-4 py-3 text-left font-bold">メール</th>
+          <th class="px-4 py-3 text-left font-bold">投稿数</th>
+          <th class="px-4 py-3 text-left font-bold">登録日</th>
+          <th class="px-4 py-3 text-left font-bold">属性</th>
+          <th class="px-4 py-3 text-left font-bold">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-400 text-xs"><%= user.id %></td>
+            <td class="px-4 py-3 font-semibold text-[#111827]"><%= user.name %></td>
+            <td class="px-4 py-3 text-gray-600"><%= user.email %></td>
+            <td class="px-4 py-3 text-center"><%= user.wants.count %></td>
+            <td class="px-4 py-3 text-gray-400 text-xs"><%= user.created_at.strftime("%Y/%m/%d") %></td>
+            <td class="px-4 py-3">
+              <% if user.admin? %>
+                <span class="inline-block bg-[#111827] text-white text-xs font-bold px-2 py-0.5 rounded-full">管理者</span>
+              <% end %>
+              <% if user.demo? %>
+                <span class="inline-block bg-[#FFE57A] text-[#111827] text-xs font-bold px-2 py-0.5 rounded-full border border-[#111827]">デモ</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3">
+              <% unless user == current_user || user.admin? %>
+                <%= button_to "削除", admin_user_path(user),
+                      method: :delete,
+                      data: { turbo_confirm: "「#{user.name}」を削除しますか？\nこの操作は取り消せません。" },
+                      class: "rounded-lg border border-red-300 bg-white px-3 py-1 text-xs font-bold text-red-500 hover:bg-red-50 transition" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6">
+    <%= paginate @users %>
+  </div>
+</div>

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NYV8P55JQX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NYV8P55JQX');
+    </script>
     <title><%= content_for(:title) || "ライフゲージ | 人生の現在地を可視化するアプリ" %></title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -86,8 +95,8 @@
           <% end %>
 
           <%# 中: チップナビ（モバイルでは2行目・全幅、sm以上で1行目・flex-1）%>
-          <nav class="order-last w-full pt-2 pb-3 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:overflow-hidden sm:py-3" aria-label="グローバルナビゲーション">
-            <div class="flex flex-nowrap justify-center sm:justify-start items-center gap-3 overflow-x-auto scrollbar-none">
+          <nav class="order-last w-full pt-2 pb-3 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:py-3" aria-label="グローバルナビゲーション">
+            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-2">
               <% nav_items.each do |item| %>
                 <% if item[:active] %>
                   <span class="inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold
@@ -101,6 +110,23 @@
                                 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
                 <% end %>
               <% end %>
+
+              <%# ── 管理者リンク ── %>
+              <% if current_user.admin? %>
+                <%= link_to "🛡️ 管理", admin_root_path,
+                      class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
+                              bg-[#111827] border-transparent text-white shadow-sm hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
+                              focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
+              <% end %>
+
+              <%# ── ログアウト（視覚的に区別できる赤系スタイル）── %>
+              <%= button_to "🚪 ログアウト",
+                    destroy_user_session_path,
+                    method: :delete,
+                    form_class: "inline-flex",
+                    class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
+                            bg-white border-red-300 text-red-500 shadow-sm hover:bg-red-50 hover:border-red-400 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1" %>
             </div>
           </nav>
 

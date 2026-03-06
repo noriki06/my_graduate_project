@@ -324,4 +324,8 @@ Devise.setup do |config|
     ENV.fetch("GITHUB_CLIENT_ID", "dummy"),
     ENV.fetch("GITHUB_CLIENT_SECRET", "dummy"),
     scope: "user:email"
+
+  config.omniauth :line,
+    ENV.fetch("LINE_LOGIN_CHANNEL_ID", "dummy"),
+    ENV.fetch("LINE_LOGIN_CHANNEL_SECRET", "dummy")
 end

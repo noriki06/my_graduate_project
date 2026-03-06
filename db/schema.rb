@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_27_010121) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_06_094007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,6 +105,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_27_010121) do
     t.integer "notification_day_of_week", default: 1, null: false
     t.string "line_user_id"
     t.string "line_link_token"
+    t.integer "target_age", default: 84, null: false
+    t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["line_link_token"], name: "index_users_on_line_link_token", unique: true
     t.index ["line_user_id"], name: "index_users_on_line_user_id", unique: true

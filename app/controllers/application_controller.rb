@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
     resource.birthday.present? ? wants_path : edit_birthday_path
   end
 
+  def check_not_demo
+    return unless current_user&.demo?
+    redirect_back fallback_location: wants_path,
+                  alert: "デモユーザーはこの操作ができません。新規登録してお試しください。"
+  end
+
   private
 
   def set_locale

@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [ :google_oauth2, :github ]
+         :omniauthable, omniauth_providers: [ :google_oauth2, :github, :line ]
 
   def self.from_omniauth(auth)
     provider = auth.provider
@@ -32,6 +32,12 @@ class User < ApplicationRecord
     # ④ SNSアカウントを紐付け
     user.identities.create!(provider: provider, uid: uid)
 
+    # ⑤ LINEログイン時はline_user_idも自動セット（通知連携のため）
+    #    LINE Login と LINE Messaging API は同一 provider 配下なら userId が共通
+    if provider == "line" && user.line_user_id.blank?
+      user.update!(line_user_id: uid)
+    end
+
     user
   end
 
@@ -41,8 +47,10 @@ class User < ApplicationRecord
   validates :notification_frequency, inclusion: { in: NOTIFICATION_FREQUENCIES }
   validates :notification_hour, inclusion: { in: 0..23 }
   validates :notification_day_of_week, inclusion: { in: 0..6 }
+  validates :target_age, numericality: { only_integer: true, greater_than_or_equal_to: 50, less_than_or_equal_to: 150 }
 
-  AVERAGE_LIFE_SPAN_YEARS = 84
+  DEFAULT_TARGET_AGE = 84
+  DEMO_EMAIL = "demo@lifegauge.com"
   DAYS_IN_YEAR = 365.2425
 
   validate :birthday_cannot_be_in_future, if: -> { birthday.present? }
@@ -62,7 +70,7 @@ class User < ApplicationRecord
   end
 
   def total_life_days
-    (AVERAGE_LIFE_SPAN_YEARS * DAYS_IN_YEAR).to_i
+    (target_age * DAYS_IN_YEAR).to_i
   end
 
   def wants_count
@@ -86,7 +94,7 @@ class User < ApplicationRecord
 
   def life_end_date
     return nil if birthday.nil?
-    birthday + AVERAGE_LIFE_SPAN_YEARS.years
+    birthday + target_age.years
   end
 
   def remaining_life_days
@@ -98,6 +106,10 @@ class User < ApplicationRecord
     return 0 if birthday.nil?
     end_at = life_end_date.end_of_day.in_time_zone
     [ (end_at - Time.current).to_i, 0 ].max
+  end
+
+  def demo?
+    email == DEMO_EMAIL
   end
 
   def line_linked?

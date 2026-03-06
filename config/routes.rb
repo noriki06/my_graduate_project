@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   root "pages#top"
   get "pages/top"
 
+  # デモログイン
+  post "demo_login", to: "demo_sessions#create", as: :demo_login
+
   # 公開Want一覧・詳細ページ
   get    "public_wants",          to: "wants#public_index",         as: :public_wants
   get    "public_wishlist",       to: "wants#public_wishlist_index", as: :public_wishlist
@@ -64,4 +67,11 @@ Rails.application.routes.draw do
   # 利用規約・プライバシーポリシー
   get "terms",   to: "pages#terms",   as: :terms
   get "privacy", to: "pages#privacy", as: :privacy
+
+  # 管理者
+  namespace :admin do
+    root "users#index"
+    resources :users, only: [ :index, :destroy ]
+    resources :wants, only: [ :index, :destroy ]
+  end
 end

@@ -1,0 +1,56 @@
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-extrabold text-[#111827]">投稿管理</h1>
+    <span class="text-sm text-gray-500">合計 <%= Want.count %> 件</span>
+  </div>
+
+  <div class="bg-white rounded-2xl border-2 border-[#111827] shadow-[4px_4px_0_#111827] overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-[#111827] text-white">
+        <tr>
+          <th class="px-4 py-3 text-left font-bold">ID</th>
+          <th class="px-4 py-3 text-left font-bold">タイトル</th>
+          <th class="px-4 py-3 text-left font-bold">投稿者</th>
+          <th class="px-4 py-3 text-left font-bold">公開</th>
+          <th class="px-4 py-3 text-left font-bold">達成</th>
+          <th class="px-4 py-3 text-left font-bold">投稿日</th>
+          <th class="px-4 py-3 text-left font-bold">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @wants.each do |want| %>
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-400 text-xs"><%= want.id %></td>
+            <td class="px-4 py-3 font-semibold text-[#111827] max-w-xs truncate"><%= want.title %></td>
+            <td class="px-4 py-3 text-gray-600"><%= want.user.name %></td>
+            <td class="px-4 py-3">
+              <% if want.published? %>
+                <span class="text-xs font-bold text-green-600">公開</span>
+              <% else %>
+                <span class="text-xs text-gray-400">非公開</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3">
+              <% if want.achieved_at.present? %>
+                <span class="text-xs font-bold text-[#1FA971]">達成</span>
+              <% else %>
+                <span class="text-xs text-gray-400">未達成</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-gray-400 text-xs"><%= want.created_at.strftime("%Y/%m/%d") %></td>
+            <td class="px-4 py-3">
+              <%= button_to "削除", admin_want_path(want),
+                    method: :delete,
+                    data: { turbo_confirm: "「#{want.title}」を削除しますか？\nこの操作は取り消せません。" },
+                    class: "rounded-lg border border-red-300 bg-white px-3 py-1 text-xs font-bold text-red-500 hover:bg-red-50 transition" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6">
+    <%= paginate @wants %>
+  </div>
+</div>
