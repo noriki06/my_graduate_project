@@ -30,11 +30,13 @@
 <% else %>
   <%# 未提案 %>
   <% if defined?(no_wants) && no_wants %>
-    <div class="pt-4 border-t border-[#111827]/10 text-center py-4">
-      <p class="text-sm font-bold text-[#6B7280]">
-        「AI通知に含める」がオンのやりたいこと（未達成）がありません。
-      </p>
-      <p class="mt-2 text-xs font-bold text-[#6B7280]">明日も小さな一歩を。</p>
+    <%# やりたいことが1件もない %>
+    <div class="pt-4 border-t border-[#111827]/10 py-4 text-center">
+      <p class="text-2xl mb-3">🌱</p>
+      <p class="text-sm font-extrabold text-[#111827]">まずはやりたいことを登録しよう！</p>
+      <p class="mt-1 text-xs text-[#6B7280]">やりたいことを追加すると、AIが毎日5分でできる行動を提案します。</p>
+      <%= link_to "やりたいことを追加する", new_want_path,
+            class: "mt-4 inline-flex items-center justify-center rounded-full border-2 border-[#111827] bg-[#111827] px-6 py-3 text-sm font-extrabold text-white shadow-[4px_4px_0_#6B7280] transition-all duration-150 hover:opacity-90 hover:-translate-y-0.5" %>
     </div>
   <% else %>
     <%= form_with url: ai_suggestion_path, method: :post, data: { turbo_frame: "ai-suggestion" } do |f| %>

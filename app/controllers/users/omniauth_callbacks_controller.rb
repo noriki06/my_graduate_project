@@ -7,6 +7,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_auth("GitHub")
   end
 
+  def line
+    handle_auth("LINE")
+  end
+
   def failure
     redirect_to root_path, alert: "ログインをキャンセルしました"
   end

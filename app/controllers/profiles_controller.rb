@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_not_demo, only: [ :update ]
 
   def edit; end
 
@@ -14,6 +15,6 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.require(:user).permit(:name, :email, :birthday)
+    params.require(:user).permit(:name, :email, :birthday, :target_age)
   end
 end

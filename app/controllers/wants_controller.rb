@@ -1,6 +1,7 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_want, only: %i[show edit update destroy achieve_form achieve toggle_publish]
+  before_action :check_not_demo, only: %i[create update destroy achieve toggle_publish]
 
   def index
     @life_progress_rate = current_user.life_progress_rate || 0
