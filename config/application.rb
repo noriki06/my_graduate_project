@@ -11,6 +11,7 @@ module MyGraduateProject
     config.time_zone = "Tokyo"
     config.active_record.default_timezone = :local
     config.autoload_lib(ignore: %w[assets tasks])
+    config.active_storage.variant_processor = :vips
 
     # ✅ 追加：CSP（inline style を許可して棒グラフの width が反映されるようにする）
     config.content_security_policy do |policy|
