@@ -49,7 +49,9 @@ class WantsController < ApplicationController
   # 公開Want一覧：達成済み（ログイン必須）
   def public_index
     @wants = Want.public_achieved_list
-                 .includes(:user, :likes, :comments, achieved_image_attachment: :blob)
+                 .includes(:user, :likes, :comments,
+                            achieved_image_attachment: :blob,
+                            picture_attachment: :blob)
                  .page(params[:page]).per(10)
   end
 
