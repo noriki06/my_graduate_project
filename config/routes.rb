@@ -57,6 +57,9 @@ Rails.application.routes.draw do
   # health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # GAS cronから呼ばれる通知トリガー
+  post "cron/notifications", to: "cron#send_notifications"
+
   # PWA
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
