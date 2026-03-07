@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-const MAX_PX  = 1200  // 長辺の最大ピクセル数
-const QUALITY = 0.82  // JPEG 品質
+const MAX_PX  = 1000  // 長辺の最大ピクセル数
+const QUALITY = 0.75  // JPEG 品質
 
 export default class extends Controller {
   static targets = ["input", "placeholder", "wrapper", "image"]

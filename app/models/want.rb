@@ -7,6 +7,8 @@ class Want < ApplicationRecord
   has_many :daily_action_suggestions, dependent: :destroy
 
   validates :title, presence: true
+  validate :picture_size
+  validate :achieved_image_size
 
   TIME_BUCKET_SPAN = 10
   before_validation :set_time_bucket, if: :should_set_time_bucket?
@@ -101,5 +103,19 @@ class Want < ApplicationRecord
       end
 
     (time || now).end_of_day
+  end
+
+  def picture_size
+    return unless picture.attached?
+    return if picture.blob.byte_size <= 3.megabytes
+
+    errors.add(:picture, "は3MB以下にしてください")
+  end
+
+  def achieved_image_size
+    return unless achieved_image.attached?
+    return if achieved_image.blob.byte_size <= 3.megabytes
+
+    errors.add(:achieved_image, "は3MB以下にしてください")
   end
 end
