@@ -10,7 +10,7 @@ class WantsController < ApplicationController
 
     @total_wants_count    = current_user.wants_count
     @achieved_wants_count = current_user.achieved_count
-    @achieve_rate         = @total_wants_count.zero? ? 0 : (@achieved_wants_count.to_f / @total_wants_count * 100).round
+    @achieve_rate         = current_user.achievement_rate
 
     all_wants = current_user.wants.for_list
 
@@ -81,12 +81,10 @@ class WantsController < ApplicationController
 
   def create
     @want = current_user.wants.new(want_params)
+    @want.target_age_input = params[:target_age].to_s
     @target_age = params[:target_age]
 
-    apply_target_age!(@want)
-
-    if @want.errors.none? && @want.save
-      current_user.wants.where.not(id: @want.id).update_all(notify_enabled: false) if @want.notify_enabled?
+    if @want.save
       redirect_to wants_path, notice: "登録しました"
     else
       render :new, status: :unprocessable_entity
@@ -100,12 +98,10 @@ class WantsController < ApplicationController
 
   def update
     @want.assign_attributes(want_params)
+    @want.target_age_input = params[:target_age].to_s
     @target_age = params[:target_age]
 
-    apply_target_age!(@want)
-
-    if @want.errors.none? && @want.save
-      current_user.wants.where.not(id: @want.id).update_all(notify_enabled: false) if @want.notify_enabled?
+    if @want.save
       redirect_to wants_path, notice: "更新しました"
     else
       render :edit, status: :unprocessable_entity
@@ -140,12 +136,8 @@ class WantsController < ApplicationController
 
   # 公開/非公開切り替え
   def toggle_publish
-    if @want.user == current_user
-      @want.update(published: !@want.published?)
-      redirect_to wants_path, notice: @want.published? ? "公開しました" : "非公開にしました"
-    else
-      redirect_to wants_path, alert: "権限がありません"
-    end
+    @want.update(published: !@want.published?)
+    redirect_to wants_path, notice: @want.published? ? "公開しました" : "非公開にしました"
   end
 
   private
@@ -160,36 +152,5 @@ class WantsController < ApplicationController
 
   def achieve_params
     params.require(:want).permit(:achievement_note, :achieved_at, :achieved_image)
-  end
-
-  # 年齢 or 日付のどちらかが入力されていれば target_date をセット
-  # 年齢が入力されていれば優先、なければ日付、どちらも空なら目標なし（nil）
-  def apply_target_age!(want)
-    age_str = params[:target_age].presence
-
-    if age_str.present?
-      unless age_str.match?(/\A\d+\z/)
-        want.errors.add(:base, "年齢は半角数字で入力してください")
-        return
-      end
-      age = age_str.to_i
-      unless age.between?(1, 120)
-        want.errors.add(:base, "年齢は 1〜120 の範囲で入力してください")
-        return
-      end
-      if current_user.birthday.blank?
-        want.errors.add(:base, "プロフィールに誕生日を設定してください（年齢から目標日を計算します）")
-        return
-      end
-      want.target_date = current_user.birthday.to_date + age.years
-
-    elsif want.target_date.present?
-      if want.target_date < Date.current
-        want.errors.add(:base, "目標日に過去の日付は設定できません")
-      end
-
-    else
-      want.target_date = nil
-    end
   end
 end
