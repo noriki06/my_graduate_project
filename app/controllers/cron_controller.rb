@@ -43,9 +43,9 @@ class CronController < ApplicationController
 
       want = if suggestion&.want && wants.exists?(id: suggestion.want_id)
                suggestion.want
-             else
+      else
                wants.sample
-             end
+      end
 
       if want.nil?
         skipped += 1
