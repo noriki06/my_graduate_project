@@ -6,12 +6,16 @@ class Want < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :daily_action_suggestions, dependent: :destroy
 
+  attr_accessor :target_age_input
+
   validates :title, presence: true
   validate :picture_size
   validate :achieved_image_size
 
   TIME_BUCKET_SPAN = 10
+  before_validation :apply_target_age_input, if: -> { !target_age_input.nil? }
   before_validation :set_time_bucket, if: :should_set_time_bucket?
+  after_save :ensure_single_notify_enabled, if: :notify_enabled?
 
   scope :for_list, -> {
     includes(picture_attachment: :blob, achieved_image_attachment: :blob)
@@ -73,7 +77,72 @@ class Want < ApplicationRecord
     end
   end
 
+  # AI提案対象のWantを選定するロジック（urgency + recency スコアリング）
+  def self.select_for_suggestion(user)
+    wants = user.wants.where(notify_enabled: true, achieved_at: nil)
+                      .includes(:daily_action_suggestions)
+
+    if wants.empty?
+      wants = user.wants.where(achieved_at: nil).includes(:daily_action_suggestions)
+      return nil if wants.empty?
+      return wants.sample
+    end
+
+    wants.sort_by { |w| [ -(urgency_score(w) + recency_score(w)), w.created_at ] }.first
+  end
+
   private
+
+  def self.urgency_score(want)
+    return 0 unless want.target_date
+
+    days = (want.target_date - Date.current).to_i
+    return 100 if days <= 7
+    return 50  if days <= 30
+    10
+  end
+  private_class_method :urgency_score
+
+  def self.recency_score(want)
+    last = want.daily_action_suggestions.maximum(:suggested_on)
+    return 50 unless last
+
+    [ (Date.current - last).to_i * 5, 50 ].min
+  end
+  private_class_method :recency_score
+
+  def apply_target_age_input
+    age_str = target_age_input.to_s.strip
+
+    if age_str.present?
+      unless age_str.match?(/\A\d+\z/)
+        errors.add(:base, "年齢は半角数字で入力してください")
+        return
+      end
+      age = age_str.to_i
+      unless age.between?(1, 120)
+        errors.add(:base, "年齢は 1〜120 の範囲で入力してください")
+        return
+      end
+      if user.blank? || user.birthday.blank?
+        errors.add(:base, "プロフィールに誕生日を設定してください（年齢から目標日を計算します）")
+        return
+      end
+      self.target_date = user.birthday.to_date + age.years
+
+    elsif target_date.present?
+      if target_date < Date.current
+        errors.add(:base, "目標日に過去の日付は設定できません")
+      end
+
+    else
+      self.target_date = nil
+    end
+  end
+
+  def ensure_single_notify_enabled
+    user.wants.where.not(id: id).update_all(notify_enabled: false)
+  end
 
   def set_time_bucket
     return if target_date.blank?
