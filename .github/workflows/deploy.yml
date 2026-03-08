@@ -31,7 +31,16 @@ jobs:
             sudo docker build \
               --build-arg RAILS_MASTER_KEY="$MASTER_KEY" \
               -t lifegauge:latest \
-              .
+              . &
+            BUILD_PID=$!
+            while kill -0 $BUILD_PID 2>/dev/null; do
+              echo "Building... $(date)"
+              sleep 20
+            done
+            wait $BUILD_PID
+            BUILD_EXIT=$?
+            [ $BUILD_EXIT -ne 0 ] && echo "Build failed: $BUILD_EXIT" && exit $BUILD_EXIT
+            echo "ビルド完了"
 
             echo "=== コンテナを再起動 ==="
             sudo docker stop lifegauge || true
