@@ -22,7 +22,8 @@ jobs:
 
             echo "=== 最新コードを取得 ==="
             cd /home/ec2-user/app
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             echo "=== Docker イメージをビルド ==="
             sudo docker build \
