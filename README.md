@@ -166,7 +166,7 @@
 ---
 
 ## 画面遷移図
-Figma：https://www.figma.com/design/2fyDZHj7s4qzsYMRrNJ5Sa/%E7%84%A1%E9%A1%8C?node-id=0-1&t=JrMMmqAsygso3mNI-1
+Figma：https://www.figma.com/board/58qvE7uqHWCdcZvpaRJ2B5/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%82%B8-%E4%B8%BB%E8%A6%81%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%EF%BC%88%E6%9C%80%E7%B5%82%E6%95%B4%E7%90%86%EF%BC%89?node-id=0-1&t=ZDzvCuMfVxMXTqyp-1
 
 ---
 

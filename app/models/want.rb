@@ -31,7 +31,7 @@ class Want < ApplicationRecord
   # 達成済み公開Want
   scope :public_achieved_list, -> {
     where(published: true).where.not(achieved_at: nil)
-      .order(achieved_at: :desc)
+      .order(created_at: :desc)
   }
 
   # 未達成公開Want（ウィッシュリスト）
