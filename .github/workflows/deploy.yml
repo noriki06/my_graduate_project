@@ -27,7 +27,7 @@ jobs:
 
             echo "=== Docker イメージをビルド ==="
             sudo docker build \
-              --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} \
+              --build-arg RAILS_MASTER_KEY="${{ secrets.RAILS_MASTER_KEY }}" \
               -t lifegauge:latest \
               .
 
@@ -41,8 +41,12 @@ jobs:
               --restart unless-stopped \
               lifegauge:latest
 
+            echo "=== マイグレーション実行 ==="
+            sleep 5
+            sudo docker exec lifegauge bundle exec rails db:migrate
+
             echo "=== 古いイメージを削除 ==="
             sudo docker image prune -f
 
             echo "=== デプロイ完了 ==="
-            sudo docker ps | grep lifegauge
+            sudo docker ps | grep lifegauge || true
