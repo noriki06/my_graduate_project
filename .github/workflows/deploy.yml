@@ -26,8 +26,9 @@ jobs:
             git reset --hard origin/main
 
             echo "=== Docker イメージをビルド ==="
+            MASTER_KEY=$(grep '^RAILS_MASTER_KEY=' /home/ec2-user/app.env | cut -d= -f2-)
             sudo docker build \
-              --build-arg RAILS_MASTER_KEY="${{ secrets.RAILS_MASTER_KEY }}" \
+              --build-arg RAILS_MASTER_KEY="$MASTER_KEY" \
               -t lifegauge:latest \
               .
 
