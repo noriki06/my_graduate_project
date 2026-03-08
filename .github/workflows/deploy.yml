@@ -1,0 +1,47 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [] # CI が通ってからデプロイしたい場合は ["test"] に変更
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          timeout: 20m
+          script: |
+            set -e
+
+            echo "=== 最新コードを取得 ==="
+            cd /home/ec2-user/app
+            git pull origin main
+
+            echo "=== Docker イメージをビルド ==="
+            sudo docker build \
+              --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} \
+              -t lifegauge:latest \
+              .
+
+            echo "=== コンテナを再起動 ==="
+            sudo docker stop lifegauge || true
+            sudo docker rm lifegauge || true
+            sudo docker run -d \
+              --name lifegauge \
+              --env-file /home/ec2-user/app.env \
+              -p 3000:3000 \
+              --restart unless-stopped \
+              lifegauge:latest
+
+            echo "=== 古いイメージを削除 ==="
+            sudo docker image prune -f
+
+            echo "=== デプロイ完了 ==="
+            sudo docker ps | grep lifegauge
