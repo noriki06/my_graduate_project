@@ -36,6 +36,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      packages: read
 
     steps:
       - name: Deploy to EC2
@@ -46,15 +48,14 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           timeout: 5m
           command_timeout: 5m
-          envs: GITHUB_TOKEN
           script: |
             set -e
 
             echo "=== ghcr.io にログイン ==="
-            echo "$GITHUB_TOKEN" | sudo docker login ghcr.io -u noriki06 --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             echo "=== 最新イメージをプル ==="
-            sudo docker pull ghcr.io/noriki06/lifegauge:latest
+            sudo docker pull ghcr.io/${{ github.repository_owner }}/lifegauge:latest
 
             echo "=== コンテナを再起動 ==="
             sudo docker stop lifegauge || true
@@ -64,7 +65,7 @@ jobs:
               --env-file /home/ec2-user/app.env \
               -p 3000:3000 \
               --restart unless-stopped \
-              ghcr.io/noriki06/lifegauge:latest
+              ghcr.io/${{ github.repository_owner }}/lifegauge:latest
 
             echo "=== マイグレーション実行 ==="
             sleep 5
@@ -75,5 +76,3 @@ jobs:
 
             echo "=== デプロイ完了 ==="
             sudo docker ps | grep lifegauge || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
