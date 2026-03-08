@@ -12,14 +12,15 @@ class WantsController < ApplicationController
     @achieved_wants_count = current_user.achieved_count
     @achieve_rate         = current_user.achievement_rate
 
-    all_wants = current_user.wants.for_list
+    base = current_user.wants.includes(picture_attachment: :blob, achieved_image_attachment: :blob)
 
-    # サブタブで表示対象を切り替え
+    # サブタブで表示対象を切り替え（タブごとに最適な順序）
     wants =
       if @current_tab == "achieved"
-        all_wants.select(&:achieved?)
+        base.where.not(achieved_at: nil).order(achieved_at: :desc)
       else
-        all_wants.reject(&:achieved?)
+        base.where(achieved_at: nil)
+            .order(Arel.sql("target_date IS NULL ASC"), target_date: :asc)
       end
 
     grouped = wants.group_by(&:time_bucket)
