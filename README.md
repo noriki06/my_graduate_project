@@ -41,10 +41,15 @@
 ## サービスの利用イメージ
 1. ユーザー登録を行い、生年月日を登録する  
 2. 人生の進捗率（ライフゲージ）が表示され、自分の人生の現在地を確認できる  
+[![Image from Gyazo](https://i.gyazo.com/05398df0b42fff67007cbc0e83987823.png)](https://gyazo.com/05398df0b42fff67007cbc0e83987823)
 3. 人生でやりたいこと（Want）を登録する  
+[![Image from Gyazo](https://i.gyazo.com/f7f8544b956ad58a8a0390c2061cb16b.png)](https://gyazo.com/f7f8544b956ad58a8a0390c2061cb16b)
 4. AIが「今日5分でできる行動」を提案し、行動のきっかけを作る  
+[![Image from Gyazo](https://i.gyazo.com/300cc0d954ce53c9897c29e78a23f596.png)](https://gyazo.com/300cc0d954ce53c9897c29e78a23f596)
 5. Wantを達成したら記録する  
+[![Image from Gyazo](https://i.gyazo.com/434fcf7b460d952dfe4d0d0acc3e08d0.png)](https://gyazo.com/434fcf7b460d952dfe4d0d0acc3e08d0)
 6. やりたいことや達成したことを他のユーザーと共有することができる  
+[![Image from Gyazo](https://i.gyazo.com/8c0e67035952d8e5de988feca3feacfb.png)](https://gyazo.com/8c0e67035952d8e5de988feca3feacfb)
 7. 共感した投稿には"いいね"、"コメント"をすることができる  
 
 ---
