@@ -117,14 +117,19 @@
   - CRUD機能や認証機能を迅速に実装できる
 
 ### データベース
-- **PostgreSQL（Neon）**  
-  - サーバーレスのPostgreSQLサービス  
-  - Renderの無料DB終了に伴い採用  
+- **PostgreSQL（Neon）**
+  - サーバーレスのPostgreSQLサービス
   - 将来的なスケーラビリティを考慮
 
-### デプロイ
-- **Render**
+### インフラ / デプロイ
+- **AWS EC2**
   - Railsアプリのホスティング
+  - Dockerコンテナとして動作
+- **Docker / GitHub Container Registry（ghcr.io）**
+  - アプリをDockerイメージとしてビルド・管理
+  - ghcr.ioにイメージをプッシュし、EC2でpullして起動
+- **GitHub Actions**
+  - mainブランチへのpushをトリガーに自動ビルド・デプロイ（CI/CD）
 
 ### フロントエンド
 - **Tailwind CSS**
