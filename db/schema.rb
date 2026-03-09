@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_07_083241) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_08_121538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -102,7 +102,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_07_083241) do
     t.boolean "notification_enabled", default: true, null: false
     t.string "notification_frequency", default: "daily", null: false
     t.integer "notification_hour", default: 9, null: false
-    t.integer "notification_day_of_week", default: 1, null: false
+    t.integer "notification_day_of_week", default: 1
     t.string "line_user_id"
     t.string "line_link_token"
     t.integer "target_age", default: 84, null: false

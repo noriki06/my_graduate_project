@@ -34,6 +34,14 @@
             達成目標日：
             <% if want.target_date.present? %>
               <%= want.target_date.strftime("%Y/%m/%d") %>
+              <% remaining = (want.target_date - Date.current).to_i %>
+              <% if remaining > 0 %>
+                <span class="ml-1 text-xs text-[#6B7280]">（残り <%= remaining_ymd_text(remaining) %>）</span>
+              <% elsif remaining == 0 %>
+                <span class="ml-1 text-xs text-red-400">（今日が期限）</span>
+              <% else %>
+                <span class="ml-1 text-xs text-red-400">（期限超過）</span>
+              <% end %>
             <% else %>
               未定
             <% end %>

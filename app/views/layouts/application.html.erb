@@ -53,7 +53,7 @@
     <% end %>
 
     <% if user_signed_in? %>
-      <%# ===== 主ナビ定義（3項目 + active ラムダ） ===== %>
+      <%# ===== ナビ定義 ===== %>
       <% nav_items = [
         {
           label:  "🏠 トップ",
@@ -82,64 +82,61 @@
         },
       ] %>
 
-      <%# ===== ヘッダー: 主ナビ行 ＋ コンテキスト別サブナビ行 ===== %>
+      <%# ===== ヘッダー ===== %>
       <header class="sticky top-0 z-50 bg-[#FBF6E9]/90 backdrop-blur border-b border-[#111827]/10">
 
-        <%# ── 主ナビ行 ── %>
-        <%# モバイル: 行1=ロゴ+CTAボタン / 行2=ナビチップ、sm以上: 1行まとめ %>
-        <div class="mx-auto max-w-[720px] px-4 flex flex-wrap items-center justify-center gap-x-3">
+        <%# ── メイン行: ロゴ / CTA + ハンバーガー ── %>
+        <div class="mx-auto max-w-[720px] px-4 flex items-center justify-between h-14">
 
           <%# 左: ロゴ %>
-          <%= link_to pages_top_path,
-                class: "shrink-0 py-3 text-lg font-extrabold text-[#111827] cursor-pointer rounded
-                        focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" do %>
-            ライフゲージ
-          <% end %>
+          <%= link_to "ライフゲージ", pages_top_path,
+                class: "text-lg font-extrabold text-[#111827] cursor-pointer rounded
+                        focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-2" %>
 
-          <%# 中: チップナビ（モバイルでは2行目・全幅、sm以上で1行目・flex-1）%>
-          <nav class="order-last w-full pt-2 pb-3 sm:order-none sm:w-auto sm:flex-1 sm:min-w-0 sm:py-3" aria-label="グローバルナビゲーション">
-            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-2">
-              <% nav_items.each do |item| %>
-                <% if item[:active] %>
-                  <span class="inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold
-                               bg-[#111827] text-white border-transparent">
-                    <%= item[:label] %>
-                  </span>
-                <% else %>
+          <%# 右: CTAボタン + ハンバーガー %>
+          <div class="flex items-center gap-2">
+            <%= link_to new_want_path,
+                  class: "inline-flex items-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-bold text-white cursor-pointer
+                          bg-[#111827] border border-transparent shadow-sm hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 transition duration-150
+                          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
+              やりたいことを追加
+            <% end %>
+
+            <%# ハンバーガー（details/summary でJS不要） %>
+            <details class="relative">
+              <summary class="list-none inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#111827]/25 bg-white shadow-sm
+                             hover:bg-[#F3F4F6] hover:shadow-md transition duration-150 cursor-pointer
+                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1"
+                       aria-label="メニュー">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </summary>
+
+              <nav class="absolute right-0 top-full mt-1 w-52 bg-[#FBF6E9] border border-[#111827]/10 rounded-xl shadow-lg py-2 z-50"
+                   aria-label="メニュー">
+                <% nav_items.each do |item| %>
                   <%= link_to item[:label], item[:url],
-                        class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
-                                bg-white border-[#111827]/25 shadow-sm hover:bg-[#F3F4F6] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
-                                focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
+                        class: "flex items-center px-4 py-2 text-sm font-bold transition duration-150
+                                #{item[:active] ? 'bg-[#111827] text-white' : 'text-[#111827] hover:bg-[#111827]/10'}" %>
                 <% end %>
-              <% end %>
 
-              <%# ── 管理者リンク ── %>
-              <% if current_user.admin? %>
-                <%= link_to "🛡️ 管理", admin_root_path,
-                      class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
-                              bg-[#111827] border-transparent text-white shadow-sm hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
-                              focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" %>
-              <% end %>
+                <% if current_user.admin? %>
+                  <%= link_to "🛡️ 管理", admin_root_path,
+                        class: "flex items-center px-4 py-2 text-sm font-bold text-white bg-[#111827] hover:opacity-90 transition duration-150" %>
+                <% end %>
 
-              <%# ── ログアウト（視覚的に区別できる赤系スタイル）── %>
-              <%= button_to "🚪 ログアウト",
-                    destroy_user_session_path,
-                    method: :delete,
-                    form_class: "inline-flex",
-                    class: "inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold transition duration-150 cursor-pointer
-                            bg-white border-red-300 text-red-500 shadow-sm hover:bg-red-50 hover:border-red-400 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none
-                            focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1" %>
-            </div>
-          </nav>
-
-          <%# 右: CTA（モバイルでロゴの右端に配置）%>
-          <%= link_to new_want_path,
-                class: "shrink-0 mt-2 inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-bold text-white cursor-pointer
-                        bg-[#111827] border-transparent shadow-sm hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition duration-150
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111827] focus-visible:ring-offset-1" do %>
-            やりたいことを追加
-          <% end %>
-
+                <div class="mt-1 pt-1 border-t border-[#111827]/10">
+                  <%= button_to "🚪 ログアウト",
+                        destroy_user_session_path,
+                        method: :delete,
+                        form_class: "w-full",
+                        class: "w-full flex items-center px-4 py-2 text-sm font-bold text-red-500
+                                hover:bg-red-50 transition duration-150 cursor-pointer" %>
+                </div>
+              </nav>
+            </details>
+          </div>
         </div>
 
         <%# ── サブナビ行（ページ別・content_for :subnav で注入）── %>
