@@ -109,64 +109,21 @@
 
 ---
 
-## 使用した技術スタック
+## 使用技術
 
-### フレームワーク
-- **Ruby on Rails（7系）**  
-  - MVC構造によりWebアプリケーションを効率的に開発できるため採用  
-  - CRUD機能や認証機能を迅速に実装できる
-
-### データベース
-- **PostgreSQL（Neon）**
-  - サーバーレスのPostgreSQLサービス
-  - 将来的なスケーラビリティを考慮
-
-### インフラ / デプロイ
-- **AWS EC2**
-  - Railsアプリのホスティング
-  - Dockerコンテナとして動作
-- **Docker / GitHub Container Registry（ghcr.io）**
-  - アプリをDockerイメージとしてビルド・管理
-  - ghcr.ioにイメージをプッシュし、EC2でpullして起動
-- **GitHub Actions**
-  - mainブランチへのpushをトリガーに自動ビルド・デプロイ（CI/CD）
-
-### フロントエンド
-- **Tailwind CSS**
-  - シンプルで柔軟なUI構築が可能
-  - ライフゲージ（進捗率）の視覚表現に使用
-
-## 主な使用Gem / 技術
-
-### 認証
-- **devise**  
-  ユーザー登録 / ログイン / ログアウト機能
-
-- **OmniAuth**
-  - Googleログインなどのソーシャルログインを実装
-
-### UI / 表示
-- **tailwindcss-rails**  
-  Tailwind CSSをRailsで使用
-
-- **kaminari**  
-  一覧画面のページネーション
-
-### テスト / 品質
-- **rspec-rails**  
-  モデル・システムテスト
-
-- **rubocop**  
-  コード規約の統一
-
-## 外部API / 外部サービス
-
-### LINE Messaging API
-- LINE通知機能の実装  
-- やりたいことのAIによる「今日5分でできる行動」の通知
-
-### OpenAI API
-- AIによる「今日5分でできる行動」の提案
+| カテゴリ | 技術 |
+|---|---|
+| サーバーサイド | Ruby on Rails 7.2 |
+| フロントエンド | Ruby on Rails（ERB）・JavaScript |
+| CSSフレームワーク | Tailwind CSS |
+| データベース | PostgreSQL（AWS RDS） |
+| ファイルサーバー | Cloudinary |
+| インフラ | AWS EC2 |
+| コンテナ | Docker / GitHub Container Registry（ghcr.io） |
+| CI/CD | GitHub Actions |
+| Web API | OpenAI API・LINE Messaging API |
+| 認証 | Devise・OmniAuth（Google / GitHub / LINE） |
+| バージョン管理 | Git / GitHub |
 
 ---
 
