@@ -58,18 +58,21 @@ namespace :notifications do
         next
       end
 
-      action_text =
-        if suggestion&.suggested_action.present?
-          suggestion.suggested_action
-        else
-          "このwantに向けて今日1歩踏み出してみよう！"
-        end
+      unless suggestion&.suggested_action.present?
+        generated = AiSuggestionService.call(want, user)
+        suggestion = user.daily_action_suggestions.create!(
+          want: want,
+          suggested_action: generated,
+          suggested_on: Date.current
+        )
+      end
 
       message = <<~MSG.strip
-        📌 今日の5分アクション
+        ⚡ 今日の5分行動
 
         「#{want.title}」
-        → #{action_text}
+
+        #{suggestion.suggested_action}
 
         ライフゲージより
       MSG
