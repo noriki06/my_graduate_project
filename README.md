@@ -114,12 +114,12 @@
 | カテゴリ | 技術 |
 |---|---|
 | サーバーサイド | Ruby on Rails 7.2 |
-| フロントエンド | Ruby on Rails（ERB）・JavaScript |
+| フロントエンド | Ruby on Rails（ERB） |
 | CSSフレームワーク | Tailwind CSS |
 | データベース | PostgreSQL（AWS RDS） |
 | ファイルサーバー | Cloudinary |
 | インフラ | AWS EC2 |
-| コンテナ | Docker / GitHub Container Registry（ghcr.io） |
+| コンテナ | Docker |
 | CI/CD | GitHub Actions |
 | Web API | OpenAI API・LINE Messaging API |
 | 認証 | Devise・OmniAuth（Google / GitHub / LINE） |
