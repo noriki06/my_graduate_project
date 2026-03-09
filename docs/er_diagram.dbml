@@ -1,0 +1,114 @@
+// LifeGauge ER Diagram
+// https://dbdiagram.io でインポートして使用できます
+
+Table users {
+  id bigint [pk, increment]
+  email varchar [unique, not null]
+  encrypted_password varchar [not null]
+  reset_password_token varchar [unique]
+  reset_password_sent_at datetime
+  remember_created_at datetime
+  name varchar
+  birthday date
+  target_age integer [default: 84, note: "目標寿命 (歳)"]
+  provider varchar [note: "OAuthプロバイダー"]
+  uid varchar [note: "OAuthユーザーID"]
+  line_user_id varchar [unique, note: "LINE User ID"]
+  line_link_token varchar [unique, note: "LINE連携トークン"]
+  notification_enabled boolean [default: true]
+  notification_frequency varchar [default: "daily", note: "daily or weekly"]
+  notification_hour integer [default: 9, note: "通知時刻 (0-23)"]
+  notification_day_of_week integer [default: 1, note: "通知曜日 (0-6)"]
+  admin boolean [default: false]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    email [unique]
+    (provider, uid) [unique]
+    line_user_id [unique]
+    line_link_token [unique]
+    reset_password_token [unique]
+  }
+}
+
+Table wants {
+  id bigint [pk, increment]
+  title varchar [not null, note: "やりたいことのタイトル"]
+  memo text [note: "詳細メモ"]
+  target_date date [note: "目標達成日"]
+  time_bucket varchar [note: "年齢帯 (例: 25-34)"]
+  published boolean [default: false, note: "公開フラグ"]
+  notify_enabled boolean [default: false, note: "通知フラグ"]
+  achieved_at datetime [note: "達成日時"]
+  achievement_note text [note: "達成時のメモ"]
+  user_id bigint [not null, ref: > users.id]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    user_id
+    published
+    (published, achieved_at)
+  }
+}
+
+Table comments {
+  id bigint [pk, increment]
+  content text [not null]
+  want_id bigint [not null, ref: > wants.id]
+  user_id bigint [not null, ref: > users.id]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    want_id
+    user_id
+  }
+}
+
+Table likes {
+  id bigint [pk, increment]
+  want_id bigint [not null, ref: > wants.id]
+  user_id bigint [not null, ref: > users.id]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    (want_id, user_id) [unique, note: "1ユーザー1いいねのみ"]
+    user_id
+  }
+}
+
+Table identities {
+  id bigint [pk, increment]
+  provider varchar [not null, note: "google_oauth2 / github / line / twitter"]
+  uid varchar [not null, note: "プロバイダーのユーザーID"]
+  user_id bigint [not null, ref: > users.id]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    (provider, uid) [unique]
+    (user_id, provider) [unique]
+    user_id
+  }
+}
+
+Table daily_action_suggestions {
+  id bigint [pk, increment]
+  suggested_action text [not null, note: "AIが生成した5分アクション"]
+  suggested_on date [not null, note: "提案日"]
+  completed boolean [default: false, note: "完了フラグ"]
+  completed_at datetime [note: "完了日時"]
+  user_id bigint [not null, ref: > users.id]
+  want_id bigint [not null, ref: > wants.id]
+  created_at datetime [not null]
+  updated_at datetime [not null]
+
+  indexes {
+    (user_id, suggested_on)
+    user_id
+    want_id
+  }
+}

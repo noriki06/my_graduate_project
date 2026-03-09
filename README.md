@@ -176,4 +176,4 @@ Figma：https://www.figma.com/board/58qvE7uqHWCdcZvpaRJ2B5/%E3%83%A9%E3%82%A4%E3
 ---
 
 ## ER図
-ER図URL:[![Image from Gyazo](https://i.gyazo.com/b932559890a8740ebdb0d69f88148281.png)](https://gyazo.com/b932559890a8740ebdb0d69f88148281)
+ER図URL:[![Image from Gyazo](https://i.gyazo.com/03c1113bc96e817173775fb249535afa.png)](https://gyazo.com/03c1113bc96e817173775fb249535afa)
