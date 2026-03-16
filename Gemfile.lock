@@ -262,7 +262,7 @@ GEM
     omniauth-twitter2 (1.0.0)
       omniauth
       omniauth-oauth2 (~> 1.0)
-    openai (0.51.0)
+    openai (0.55.0)
       base64
       cgi
       connection_pool
