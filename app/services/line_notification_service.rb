@@ -38,7 +38,7 @@ class LineNotificationService
     response = http.request(request)
 
     # 200 OK 以外のレスポンスはエラーとしてログに記録する
-    #（例外は発生させず、呼び出し元で rescue している）
+    # （例外は発生させず、呼び出し元で rescue している）
     unless response.is_a?(Net::HTTPSuccess)
       Rails.logger.error("[LineNotificationService] 送信失敗: #{response.code} #{response.body}")
     end
